@@ -1,0 +1,177 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background-color: #0a0f1a;
+  color: #e2e8f0;
+  line-height: 1.6;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #475569;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* Selection */
+::selection {
+  background: rgba(59, 130, 246, 0.3);
+}
+
+/* Custom utility classes */
+@layer components {
+  .btn-primary {
+    @apply px-6 py-3 bg-blue-500 hover:bg-blue-400 text-white font-medium rounded-lg transition-colors;
+  }
+  
+  .btn-secondary {
+    @apply px-6 py-3 border border-slate-600 hover:border-slate-500 text-slate-300 hover:text-white rounded-lg transition-colors;
+  }
+  
+  .card {
+    @apply bg-slate-800 rounded-xl border border-slate-700 overflow-hidden;
+  }
+  
+  .card-hover {
+    @apply card hover:border-slate-600 transition-colors;
+  }
+  
+  .section-padding {
+    @apply py-16 md:py-24;
+  }
+  
+  .container-narrow {
+    @apply max-w-4xl mx-auto px-4 sm:px-6;
+  }
+  
+  .container-wide {
+    @apply max-w-7xl mx-auto px-4 sm:px-6;
+  }
+  
+  .gradient-text {
+    @apply bg-gradient-to-r from-blue-400 to-cyan-400 bg-clip-text text-transparent;
+  }
+  
+  .gradient-border {
+    @apply border border-transparent bg-gradient-to-r from-blue-500/20 to-cyan-500/20;
+  }
+}
+
+/* Typography enhancements */
+.font-serif {
+  font-family: 'Instrument Serif', Georgia, serif;
+}
+
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Focus styles for accessibility */
+:focus-visible {
+  outline: 2px solid #3b82f6;
+  outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+}
+
+/* ReactFlow customizations */
+.react-flow__node {
+  font-family: inherit;
+}
+
+.react-flow__edge-path {
+  stroke-width: 2;
+}
+
+.react-flow__edge.animated path {
+  stroke-dasharray: 5;
+  animation: dashdraw 0.5s linear infinite;
+}
+
+@keyframes dashdraw {
+  from { stroke-dashoffset: 10; }
+}
+
+/* ProcessMap node styles */
+.process-node {
+  @apply rounded-lg shadow-lg border-2 transition-all duration-200;
+}
+
+.process-node:hover {
+  @apply shadow-xl scale-105;
+}
+
+/* Pain point indicator */
+.pain-indicator {
+  @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-red-500/20 text-red-300 border border-red-500/30;
+}
+
+/* Checklist styling */
+.checklist-item {
+  @apply flex items-start gap-3 p-3 rounded-lg transition-colors;
+}
+
+.checklist-item:hover {
+  @apply bg-slate-700/50;
+}
+
+/* Progress bar animation */
+.progress-fill {
+  transition: width 0.5s ease-in-out;
+}
+
+/* Complexity bar */
+.complexity-fill {
+  @apply h-full transition-all duration-500;
+}
+
+/* Process card hover */
+.process-card {
+  @apply transition-all duration-200;
+}
+
+.process-card:hover {
+  @apply -translate-y-1 shadow-lg;
+}

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
-import { Menu, X, Scale, ChevronDown } from 'lucide-react'
+import { Menu, X, Scale, ChevronDown, Settings } from 'lucide-react'
 
 const navigation = [
   { name: 'About', href: '/about' },
@@ -49,8 +49,21 @@ export default function Header() {
             ))}
           </div>
 
-          {/* CTA Button */}
-          <div className="hidden lg:flex items-center gap-4">
+          {/* CTA Button & Settings */}
+          <div className="hidden lg:flex items-center gap-2">
+            <NavLink
+              to="/settings"
+              className={({ isActive }) =>
+                `p-2 rounded-lg transition-colors ${
+                  isActive
+                    ? 'text-blue-400 bg-blue-500/10'
+                    : 'text-slate-400 hover:text-white hover:bg-slate-800'
+                }`
+              }
+              title="Settings"
+            >
+              <Settings className="w-5 h-5" />
+            </NavLink>
             <Link
               to="/coalition"
               className="px-4 py-2 bg-blue-500 hover:bg-blue-400 text-white text-sm font-medium rounded-lg transition-colors"
@@ -89,6 +102,19 @@ export default function Header() {
                   {item.name}
                 </NavLink>
               ))}
+              <NavLink
+                to="/settings"
+                onClick={() => setMobileMenuOpen(false)}
+                className={({ isActive }) =>
+                  `px-4 py-3 text-sm font-medium rounded-lg transition-colors flex items-center gap-2 ${
+                    isActive
+                      ? 'text-blue-400 bg-blue-500/10'
+                      : 'text-slate-300 hover:text-white hover:bg-slate-800'
+                  }`
+                }
+              >
+                <Settings className="w-4 h-4" /> Settings
+              </NavLink>
               <Link
                 to="/coalition"
                 onClick={() => setMobileMenuOpen(false)}

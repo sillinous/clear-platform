@@ -1,23 +1,47 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   FileText, Upload, ArrowRight, RefreshCw, Copy, Check, Download,
   Sparkles, AlertCircle, ChevronDown, Settings, Loader2, Zap,
-  BookOpen, Scale, GraduationCap, Users, Brain, MessageSquare
+  BookOpen, Scale, GraduationCap, Users, Brain, MessageSquare,
+  Key, ExternalLink
 } from 'lucide-react';
+import useUserSettings from '../store/useUserSettings';
 
 // PlainSpeak - LLM-Powered Legal Document Translation
 const PlainSpeakPage = () => {
+  const {
+    anthropicApiKey,
+    apiKeyStatus,
+    preferredReadingLevel,
+    incrementTranslations,
+    hasValidApiKey
+  } = useUserSettings();
+
   const [inputText, setInputText] = useState('');
   const [translatedText, setTranslatedText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [readingLevel, setReadingLevel] = useState('general');
+  const [readingLevel, setReadingLevel] = useState(preferredReadingLevel || 'general');
   const [copied, setCopied] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
-  const [apiMode, setApiMode] = useState('demo'); // 'demo' | 'live'
-  const [apiKey, setApiKey] = useState('');
+  const [apiMode, setApiMode] = useState(anthropicApiKey ? 'live' : 'demo');
   const [stats, setStats] = useState(null);
+
+  // Update reading level when preference changes
+  useEffect(() => {
+    if (preferredReadingLevel) {
+      setReadingLevel(preferredReadingLevel);
+    }
+  }, [preferredReadingLevel]);
+
+  // Auto-switch to live mode when user has valid API key
+  useEffect(() => {
+    if (anthropicApiKey && apiKeyStatus === 'valid') {
+      setApiMode('live');
+    }
+  }, [anthropicApiKey, apiKeyStatus]);
 
   const readingLevels = [
     { id: 'simple', label: '5th Grade', description: 'Very simple language, short sentences', icon: <BookOpen className="w-4 h-4" /> },
@@ -70,7 +94,7 @@ const PlainSpeakPage = () => {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        ...(apiKey && { 'X-API-Key': apiKey })
+        ...(anthropicApiKey && { 'X-API-Key': anthropicApiKey })
       },
       body: JSON.stringify({
         text,
@@ -218,6 +242,11 @@ const PlainSpeakPage = () => {
       
       setTranslatedText(formatted);
       setStats(result);
+      
+      // Track successful translation
+      if (apiMode === 'live') {
+        incrementTranslations();
+      }
     } catch (err) {
       setError(err.message);
     } finally {
@@ -287,9 +316,9 @@ const PlainSpeakPage = () => {
                 className="overflow-hidden"
               >
                 <div className="mt-4 p-4 bg-slate-800 rounded-lg border border-slate-700">
-                  <div className="flex flex-col md:flex-row gap-4">
+                  <div className="flex flex-col md:flex-row gap-4 items-start">
                     <div className="flex-1">
-                      <label className="block text-sm font-medium text-slate-300 mb-2">Mode</label>
+                      <label className="block text-sm font-medium text-slate-300 mb-2">Translation Mode</label>
                       <div className="flex gap-2">
                         <button
                           onClick={() => setApiMode('demo')}
@@ -303,37 +332,68 @@ const PlainSpeakPage = () => {
                         </button>
                         <button
                           onClick={() => setApiMode('live')}
+                          disabled={!anthropicApiKey && apiKeyStatus !== 'valid'}
                           className={`px-4 py-2 rounded-lg text-sm ${
                             apiMode === 'live' 
                               ? 'bg-purple-500/20 text-purple-400 border border-purple-500/30' 
                               : 'bg-slate-700 text-slate-300'
-                          }`}
+                          } disabled:opacity-50 disabled:cursor-not-allowed`}
                         >
                           Live AI
                         </button>
                       </div>
                     </div>
-                    {apiMode === 'live' && (
-                      <div className="flex-1">
-                        <label className="block text-sm font-medium text-slate-300 mb-2">API Key (Optional)</label>
-                        <input
-                          type="password"
-                          value={apiKey}
-                          onChange={(e) => setApiKey(e.target.value)}
-                          placeholder="Uses server key if blank"
-                          className="w-full px-4 py-2 bg-slate-700 border border-slate-600 rounded-lg text-white placeholder-slate-400"
-                        />
+                    
+                    {/* API Key Status */}
+                    <div className="flex-1">
+                      <label className="block text-sm font-medium text-slate-300 mb-2">Your API Key</label>
+                      <div className="flex items-center gap-3">
+                        {anthropicApiKey ? (
+                          <div className="flex items-center gap-2">
+                            {apiKeyStatus === 'valid' ? (
+                              <span className="flex items-center gap-1.5 px-3 py-1.5 bg-green-500/20 text-green-400 rounded-lg text-sm">
+                                <Check className="w-4 h-4" /> Key Active
+                              </span>
+                            ) : apiKeyStatus === 'no_credits' ? (
+                              <span className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-500/20 text-amber-400 rounded-lg text-sm">
+                                <AlertCircle className="w-4 h-4" /> No Credits
+                              </span>
+                            ) : (
+                              <span className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-600 text-slate-300 rounded-lg text-sm">
+                                <Key className="w-4 h-4" /> Key Set
+                              </span>
+                            )}
+                          </div>
+                        ) : (
+                          <span className="text-sm text-slate-400">No key configured</span>
+                        )}
+                        <Link
+                          to="/settings"
+                          className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 rounded-lg text-sm"
+                        >
+                          <Key className="w-4 h-4" />
+                          {anthropicApiKey ? 'Manage Key' : 'Add API Key'}
+                        </Link>
                       </div>
-                    )}
+                    </div>
                   </div>
+                  
                   {apiMode === 'demo' && (
                     <p className="mt-3 text-sm text-slate-400">
-                      Demo mode uses pre-generated translations. Switch to Live AI for real Claude-powered translations.
+                      Demo mode uses pattern-based translations. 
+                      {!anthropicApiKey && (
+                        <> <Link to="/settings" className="text-blue-400 hover:text-blue-300">Add your API key</Link> to unlock Live AI mode.</>
+                      )}
                     </p>
                   )}
-                  {apiMode === 'live' && (
-                    <p className="mt-3 text-sm text-slate-400">
-                      Live AI mode uses Claude to translate documents. Server API key is configured—leave the field blank to use it.
+                  {apiMode === 'live' && apiKeyStatus === 'valid' && (
+                    <p className="mt-3 text-sm text-green-400/80">
+                      ✓ Live AI mode active — using your personal API key for Claude-powered translations.
+                    </p>
+                  )}
+                  {apiMode === 'live' && apiKeyStatus === 'no_credits' && (
+                    <p className="mt-3 text-sm text-amber-400/80">
+                      ⚠️ Your API key has no credits. <a href="https://console.anthropic.com/settings/billing" target="_blank" rel="noopener noreferrer" className="underline">Add credits</a> to use Live AI.
                     </p>
                   )}
                 </div>

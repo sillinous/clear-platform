@@ -14,6 +14,7 @@ import ProcessMapPage from './pages/ProcessMapPage'
 import PlainSpeakPage from './pages/PlainSpeakPage'
 import PilotKitPage from './pages/PilotKitPage'
 import CoalitionLaunchPage from './pages/CoalitionLaunchPage'
+import SettingsPage from './pages/SettingsPage'
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
         <Route path="coalition/launch" element={<CoalitionLaunchPage />} />
         <Route path="pilot" element={<PilotKitPage />} />
         <Route path="post-labor" element={<PostLaborPage />} />
+        <Route path="settings" element={<SettingsPage />} />
       </Route>
     </Routes>
   )

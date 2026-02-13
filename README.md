@@ -231,3 +231,4 @@ MIT License - see LICENSE file for details.
 ---
 
 *Making law accessible. Preparing for the post-labor transition. Building economic agency for all.*
+# Trigger rebuild Fri Feb 13 00:23:59 UTC 2026

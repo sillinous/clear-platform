@@ -97,10 +97,11 @@ Respond ONLY with valid JSON, no markdown or other formatting.`;
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('Anthropic API error:', errorText);
+      console.error('Anthropic API error:', response.status, errorText);
       return new Response(JSON.stringify({ 
         error: 'Translation API error', 
-        details: response.status === 401 ? 'Invalid API key' : 'API request failed'
+        details: response.status === 401 ? 'Invalid API key' : `API error ${response.status}`,
+        message: errorText.substring(0, 200)
       }), {
         status: response.status,
         headers: { 'Content-Type': 'application/json' }

@@ -1,0 +1,103 @@
+{
+  "name": "CLEAR - Coalition for Legal & Administrative Reform",
+  "short_name": "CLEAR",
+  "description": "Navigate government processes with clarity. Tools to simplify bureaucracy.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait-primary",
+  "scope": "/",
+  "icons": [
+    {
+      "src": "/icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "categories": ["government", "utilities", "productivity"],
+  "screenshots": [
+    {
+      "src": "/screenshots/home.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "CLEAR Home - Navigate Government with Clarity"
+    },
+    {
+      "src": "/screenshots/processmap.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "ProcessMap - Visual Process Navigation"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "PlainSpeak AI",
+      "short_name": "PlainSpeak",
+      "description": "Translate legal documents to plain language",
+      "url": "/tools/plainspeak-ai",
+      "icons": [{ "src": "/icons/plainspeak-96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "ProcessMap",
+      "short_name": "ProcessMap",
+      "description": "Visual guides for government processes",
+      "url": "/tools/processmap",
+      "icons": [{ "src": "/icons/processmap-96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Complexity Calculator",
+      "short_name": "Calculator",
+      "description": "Measure process complexity",
+      "url": "/calculator",
+      "icons": [{ "src": "/icons/calculator-96.png", "sizes": "96x96" }]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
+}

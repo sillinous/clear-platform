@@ -1,40 +1,60 @@
 import { Link } from 'react-router-dom'
 import { 
   FileText, Map, Bell, Calculator, Compass, Search,
-  ArrowRight, ExternalLink, Code, Shield, Zap
+  ArrowRight, ExternalLink, Code, Shield, Zap, Send, Upload
 } from 'lucide-react'
 import { Card, Badge, SectionHeader } from '../components/UI'
 
 const tools = [
   {
-    id: 'plainspeak',
-    name: 'PlainSpeak',
-    tagline: 'Legal Document Translator',
-    description: 'Paste any legal document, contract, or government form and get a clear explanation at your chosen reading level.',
-    status: 'Live',
-    icon: FileText,
-    link: '/tools/plainspeak',
-    features: ['Multiple reading levels', 'Action item extraction', 'Warning highlights', 'Document analysis'],
-  },
-  {
     id: 'plainspeak-ai',
     name: 'PlainSpeak AI',
-    tagline: 'LLM-Powered Translation',
-    description: 'Advanced AI translation with deeper analysis, key point extraction, and warning identification.',
+    tagline: 'LLM-Powered Document Translation',
+    description: 'Upload PDF/DOCX or paste text. AI translates, classifies document type, and calculates risk scores with specific concerns.',
     status: 'Live',
     icon: Zap,
     link: '/tools/plainspeak-ai',
-    features: ['AI-powered analysis', 'Key points extraction', 'Watch-out alerts', 'Complexity scoring'],
+    features: ['PDF/DOCX upload', 'Auto-classification', 'Risk scoring', 'Translation history'],
   },
   {
     id: 'processmap',
     name: 'ProcessMap',
     tagline: 'Government Process Navigator',
-    description: 'Interactive step-by-step guides for common government interactions with visual flowcharts, time estimates, and checklists.',
+    description: 'Interactive step-by-step guides for 15+ common government processes with visual flowcharts, time estimates, and document checklists.',
     status: 'Live',
     icon: Map,
     link: '/tools/processmap',
-    features: ['Visual flowcharts', 'Progress tracking', 'Pain point warnings', 'Document checklists'],
+    features: ['15+ processes', 'Visual flowcharts', 'Document checklists', 'Time/cost estimates'],
+  },
+  {
+    id: 'calculator',
+    name: 'Complexity Calculator',
+    tagline: 'Measure Any Process',
+    description: 'Calculate the CLEAR Complexity Index for any government process using our 8-dimension methodology. Compare against benchmarks.',
+    status: 'Live',
+    icon: Calculator,
+    link: '/calculator',
+    features: ['8-dimension scoring', 'Weighted index', 'Benchmark comparison', 'Export reports'],
+  },
+  {
+    id: 'submit',
+    name: 'Submit a Process',
+    tagline: 'Crowdsource Complexity Data',
+    description: 'Contribute your experience navigating a government process. Help us build the most comprehensive complexity database in America.',
+    status: 'Live',
+    icon: Send,
+    link: '/submit',
+    features: ['4-step wizard', 'Pain point capture', 'Suggestions welcome', 'Community-driven'],
+  },
+  {
+    id: 'plainspeak',
+    name: 'PlainSpeak Demo',
+    tagline: 'Pattern-Based Translation',
+    description: 'Original PlainSpeak tool using pattern matching. No AI required—works offline.',
+    status: 'Live',
+    icon: FileText,
+    link: '/tools/plainspeak',
+    features: ['No API needed', 'Offline capable', 'Multiple reading levels', 'Action extraction'],
   },
   {
     id: 'regwatch',
@@ -45,16 +65,6 @@ const tools = [
     icon: Bell,
     link: '#',
     features: ['Topic alerts', 'Plain summaries', 'Impact assessment', 'Deadline tracking'],
-  },
-  {
-    id: 'agencycalc',
-    name: 'Agency Calculator',
-    tagline: 'Economic Agency Assessment',
-    description: 'Assess your personal economic agency across six dimensions with personalized improvement recommendations.',
-    status: 'Coming Soon',
-    icon: Calculator,
-    link: '#',
-    features: ['Six-dimension assessment', 'Score visualization', 'Benchmarking', 'Improvement paths'],
   },
   {
     id: 'navigator',

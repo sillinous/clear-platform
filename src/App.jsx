@@ -15,6 +15,9 @@ import PlainSpeakPage from './pages/PlainSpeakPage'
 import PilotKitPage from './pages/PilotKitPage'
 import CoalitionLaunchPage from './pages/CoalitionLaunchPage'
 import SettingsPage from './pages/SettingsPage'
+// Phase 2 additions
+import ComplexityCalculator from './pages/ComplexityCalculator'
+import ProcessSubmissionForm from './pages/ProcessSubmissionForm'
 
 function App() {
   return (
@@ -28,6 +31,8 @@ function App() {
         <Route path="tools/plainspeak-ai" element={<PlainSpeakPage />} />
         <Route path="tools/processmap" element={<ProcessMapPage />} />
         <Route path="tools/processmap/:processId" element={<ProcessMapPage />} />
+        <Route path="calculator" element={<ComplexityCalculator />} />
+        <Route path="submit" element={<ProcessSubmissionForm />} />
         <Route path="legislation" element={<LegislationPage />} />
         <Route path="education" element={<EducationPage />} />
         <Route path="coalition" element={<CoalitionPage />} />

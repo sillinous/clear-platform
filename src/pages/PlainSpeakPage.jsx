@@ -1,23 +1,37 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   FileText, Upload, ArrowRight, RefreshCw, Copy, Check, Download,
   Sparkles, AlertCircle, ChevronDown, Settings, Loader2, Zap,
   BookOpen, Scale, GraduationCap, Users, Brain, MessageSquare,
-  Key, ExternalLink
+  Key, ExternalLink, FileUp, X, Clock, Shield, AlertTriangle,
+  History, Trash2, Search, ChevronRight, Info
 } from 'lucide-react';
 import useUserSettings from '../store/useUserSettings';
+import useTranslationHistory, { 
+  classifyDocument, 
+  calculateRiskScore, 
+  DOCUMENT_TYPES,
+  RISK_LEVELS 
+} from '../store/useTranslationHistory';
+import { parseFile, validateFile, getFileTypeInfo } from '../utils/fileParser';
 
-// PlainSpeak - LLM-Powered Legal Document Translation
 const PlainSpeakPage = () => {
   const {
     anthropicApiKey,
     apiKeyStatus,
     preferredReadingLevel,
-    incrementTranslations,
-    hasValidApiKey
+    incrementTranslations
   } = useUserSettings();
+
+  const {
+    history,
+    addTranslation,
+    deleteTranslation,
+    clearHistory,
+    getStats
+  } = useTranslationHistory();
 
   const [inputText, setInputText] = useState('');
   const [translatedText, setTranslatedText] = useState('');
@@ -28,576 +42,255 @@ const PlainSpeakPage = () => {
   const [showSettings, setShowSettings] = useState(false);
   const [apiMode, setApiMode] = useState(anthropicApiKey ? 'live' : 'demo');
   const [stats, setStats] = useState(null);
-
-  // Update reading level when preference changes
-  useEffect(() => {
-    if (preferredReadingLevel) {
-      setReadingLevel(preferredReadingLevel);
-    }
-  }, [preferredReadingLevel]);
-
-  // Auto-switch to live mode when user has valid API key
-  useEffect(() => {
-    if (anthropicApiKey && apiKeyStatus === 'valid') {
-      setApiMode('live');
-    }
-  }, [anthropicApiKey, apiKeyStatus]);
+  const [uploadedFile, setUploadedFile] = useState(null);
+  const [isParsingFile, setIsParsingFile] = useState(false);
+  const [documentType, setDocumentType] = useState(null);
+  const [riskScore, setRiskScore] = useState(null);
+  const [showHistory, setShowHistory] = useState(false);
+  const [isDragging, setIsDragging] = useState(false);
+  
+  const fileInputRef = useRef(null);
 
   const readingLevels = [
-    { id: 'simple', label: '5th Grade', description: 'Very simple language, short sentences', icon: <BookOpen className="w-4 h-4" /> },
-    { id: 'general', label: 'General Public', description: 'Clear language for everyday readers', icon: <Users className="w-4 h-4" /> },
-    { id: 'professional', label: 'Professional', description: 'Business-appropriate plain language', icon: <GraduationCap className="w-4 h-4" /> },
-    { id: 'legal-lite', label: 'Legal Lite', description: 'Simplified but legally accurate', icon: <Scale className="w-4 h-4" /> }
+    { id: 'simple', label: '5th Grade', description: 'Very simple language', icon: <BookOpen className="w-4 h-4" /> },
+    { id: 'general', label: 'General Public', description: 'Clear everyday language', icon: <Users className="w-4 h-4" /> },
+    { id: 'professional', label: 'Professional', description: 'Business appropriate', icon: <GraduationCap className="w-4 h-4" /> },
+    { id: 'legal-lite', label: 'Legal Lite', description: 'Simplified but accurate', icon: <Scale className="w-4 h-4" /> }
   ];
 
   const sampleDocuments = [
-    {
-      title: 'Privacy Policy Excerpt',
-      text: `Notwithstanding any provisions herein to the contrary, the Company reserves the right, in its sole and absolute discretion, to collect, process, store, and disseminate any and all information, including but not limited to personally identifiable information, behavioral data, and metadata, for purposes including but not limited to service improvement, targeted advertising, and third-party data sharing, subject to applicable laws and regulations, which may vary by jurisdiction and are subject to change without notice.`
-    },
-    {
-      title: 'Lease Agreement Clause',
-      text: `The Lessee shall be liable for and shall indemnify, defend, and hold harmless the Lessor from and against any and all claims, actions, damages, liability, and expense, including but not limited to reasonable attorneys' fees, in connection with loss of life, personal injury, or damage to property arising from or out of any occurrence in, upon, or at the Premises, or the occupancy or use by the Lessee of the Premises or any part thereof.`
-    },
-    {
-      title: 'Terms of Service',
-      text: `By accessing or utilizing the Services provided herein, You (hereinafter "User") hereby acknowledge, affirm, and covenant that You have read, understood, and agree to be bound by these Terms and Conditions in their entirety, including any modifications, amendments, or supplements thereto that may be posted from time to time, without limitation or qualification, and that such agreement shall be binding upon User, User's heirs, successors, and assigns.`
-    },
-    {
-      title: 'Insurance Waiver',
-      text: `The undersigned hereby releases, waives, discharges, and covenants not to sue the Organization, its directors, officers, employees, and agents from any and all liability, claims, demands, actions, and causes of action whatsoever, arising out of or related to any loss, damage, or injury, including death, that may be sustained by the undersigned, or to any property belonging to the undersigned, while participating in such activity, while in, on, or upon the premises where the activity is being conducted, or while traveling to or from said premises.`
-    }
+    { title: 'Privacy Policy', text: 'Notwithstanding any provisions herein to the contrary, the Company reserves the right, in its sole and absolute discretion, to collect, process, store, and disseminate any and all information, including but not limited to personally identifiable information, behavioral data, and metadata, for purposes including but not limited to service improvement, targeted advertising, and third-party data sharing.' },
+    { title: 'Lease Agreement', text: 'The Lessee shall be liable for and shall indemnify, defend, and hold harmless the Lessor from and against any and all claims, actions, damages, liability, and expense, including but not limited to reasonable attorneys fees, in connection with loss of life, personal injury, or damage to property arising from or out of any occurrence in, upon, or at the Premises.' },
+    { title: 'Terms of Service', text: 'By accessing or utilizing the Services provided herein, You hereby acknowledge, affirm, and covenant that You have read, understood, and agree to be bound by these Terms in their entirety, including binding arbitration and waiver of class action rights.' },
+    { title: 'Liability Waiver', text: 'The undersigned hereby releases, waives, discharges, and covenants not to sue the Organization from any and all liability, claims, demands arising out of or related to any loss, damage, or injury, including death, regardless of whether caused by negligence.' }
   ];
 
-  // Demo translations for when API is not configured
-  const demoTranslations = {
-    'simple': {
-      prefix: "Here's what this means in simple words:\n\n",
-      style: "Use very short sentences. Use common words a 5th grader would know."
-    },
-    'general': {
-      prefix: "Here's what this means:\n\n",
-      style: "Use clear, everyday language that most adults can understand."
-    },
-    'professional': {
-      prefix: "Plain Language Summary:\n\n",
-      style: "Use clear business language while maintaining professionalism."
-    },
-    'legal-lite': {
-      prefix: "Simplified Legal Summary:\n\n",
-      style: "Simplify the language while preserving legal accuracy and key terms."
+  useEffect(() => {
+    if (preferredReadingLevel) setReadingLevel(preferredReadingLevel);
+  }, [preferredReadingLevel]);
+
+  useEffect(() => {
+    if (anthropicApiKey && apiKeyStatus === 'valid') setApiMode('live');
+  }, [anthropicApiKey, apiKeyStatus]);
+
+  useEffect(() => {
+    if (inputText.length > 100) {
+      const type = classifyDocument(inputText);
+      setDocumentType(type);
+      setRiskScore(calculateRiskScore(inputText, type));
+    } else {
+      setDocumentType(null);
+      setRiskScore(null);
     }
+  }, [inputText]);
+
+  const handleFileSelect = async (file) => {
+    const validation = validateFile(file);
+    if (!validation.valid) { setError(validation.errors.join(' ')); return; }
+    setIsParsingFile(true); setError(null); setUploadedFile(file);
+    try {
+      const result = await parseFile(file);
+      setInputText(result.text);
+    } catch (err) { setError(err.message); setUploadedFile(null); }
+    setIsParsingFile(false);
   };
+
+  const handleDrop = useCallback((e) => { e.preventDefault(); setIsDragging(false); if (e.dataTransfer.files[0]) handleFileSelect(e.dataTransfer.files[0]); }, []);
+  const handleDragOver = useCallback((e) => { e.preventDefault(); setIsDragging(true); }, []);
+  const handleDragLeave = useCallback((e) => { e.preventDefault(); setIsDragging(false); }, []);
+
+  const clearFile = () => { setUploadedFile(null); setInputText(''); setTranslatedText(''); setDocumentType(null); setRiskScore(null); };
 
   const translateWithLLM = async (text, level) => {
     const response = await fetch('/api/translate', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        ...(anthropicApiKey && { 'X-API-Key': anthropicApiKey })
-      },
-      body: JSON.stringify({
-        text,
-        level
-      })
+      headers: { 'Content-Type': 'application/json', ...(anthropicApiKey && { 'X-API-Key': anthropicApiKey }) },
+      body: JSON.stringify({ text, level })
     });
-
-    if (!response.ok) {
-      const errorData = await response.json().catch(() => ({}));
-      throw new Error(errorData.error || 'Translation failed. Please check your API configuration.');
-    }
-
-    return await response.json();
+    if (!response.ok) throw new Error((await response.json().catch(() => ({}))).error || 'Translation failed');
+    return response.json();
   };
 
-  const generateDemoTranslation = (text, level) => {
-    // Simulate processing time
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        const levelConfig = demoTranslations[level];
-        
-        // Generate a simulated translation based on the input
-        const wordCount = text.split(' ').length;
-        const sentenceCount = text.split(/[.!?]+/).length;
-        const avgWordsPerSentence = Math.round(wordCount / sentenceCount);
-        
-        let translation = '';
-        
-        if (text.toLowerCase().includes('privacy') || text.toLowerCase().includes('data')) {
-          translation = level === 'simple' 
-            ? "This company can collect your information. They can use it in many ways. They might share it with other companies. The rules might change, and they don't have to tell you first."
-            : level === 'general'
-            ? "The company reserves broad rights to collect and use your personal information, including sharing it with third parties for advertising purposes. These terms can change at any time, so it's worth checking back periodically."
-            : level === 'professional'
-            ? "This clause grants the organization extensive data collection and processing rights, including third-party sharing for marketing purposes. Users should note the unilateral amendment provision and jurisdiction-dependent applicability."
-            : "The Company retains discretionary authority over personal data collection, processing, and third-party dissemination for service and advertising purposes, subject to variable jurisdictional requirements and unilateral modification rights.";
-        } else if (text.toLowerCase().includes('lease') || text.toLowerCase().includes('lessee')) {
-          translation = level === 'simple'
-            ? "If something bad happens at the apartment (someone gets hurt or property is damaged), you have to pay for it. You also have to protect the landlord from any lawsuits."
-            : level === 'general'
-            ? "As a tenant, you're responsible for any injuries or property damage that occurs on the premises. If someone sues the landlord because of something that happened in your rental, you'll need to cover those costs, including legal fees."
-            : level === 'professional'
-            ? "This indemnification clause places liability for premises-related incidents on the tenant, including legal defense costs. Standard in commercial leases, but worth noting for residential contexts."
-            : "Tenant assumes full liability for premises-related claims including personal injury and property damage, with indemnification obligations extending to legal defense costs.";
-        } else if (text.toLowerCase().includes('terms') || text.toLowerCase().includes('service')) {
-          translation = level === 'simple'
-            ? "By using this, you agree to all the rules. The rules can change anytime. If the rules change, you still have to follow them."
-            : level === 'general'
-            ? "Using this service means you've agreed to these terms—all of them. The company can update these terms whenever they want, and continued use means you accept any changes."
-            : level === 'professional'
-            ? "Service utilization constitutes acceptance of current and future terms. Note the binding arbitration clause and automatic acceptance of amendments through continued use."
-            : "User access constitutes comprehensive acceptance of terms including future modifications, with binding effect extending to successors and assigns.";
-        } else if (text.toLowerCase().includes('release') || text.toLowerCase().includes('waiver')) {
-          translation = level === 'simple'
-            ? "You promise not to sue if you get hurt. This includes getting hurt at the place, during the activity, or even while traveling there. You can't blame the organization for anything bad that happens."
-            : level === 'general'
-            ? "By signing this, you give up your right to sue if you're injured during the activity—even if it's their fault. This covers injuries at the location, during participation, and while traveling to/from the event."
-            : level === 'professional'
-            ? "This is a comprehensive liability waiver covering all claims arising from participation, including negligence by the organization. Note that such waivers may not be enforceable in all jurisdictions or for gross negligence."
-            : "Signatory releases all claims against organization including personal injury, property damage, and wrongful death, waiving rights to legal action regardless of fault or negligence.";
-        } else {
-          translation = level === 'simple'
-            ? "This text has a lot of complicated words and long sentences. It makes promises and rules that might be hard to understand. The main idea is that someone has to do something or give up some rights."
-            : level === 'general'
-            ? "This is a formal legal document that outlines specific obligations and rights. The complex language is designed to be legally precise, but the core message involves duties, liabilities, or agreements between parties."
-            : level === 'professional'
-            ? "This document contains standard legal provisions establishing party obligations and liabilities. Key terms should be reviewed carefully, particularly any indemnification, limitation of liability, or modification clauses."
-            : "Standard legal language establishing contractual obligations between parties, with typical provisions for liability, indemnification, and dispute resolution.";
-        }
-        
-        const result = {
-          translation: levelConfig.prefix + translation,
-          keyPoints: [
-            "Review any sections about your obligations carefully",
-            "Note any provisions that limit your rights",
-            "Check for automatic renewal or modification terms",
-            "Consider seeking legal advice for significant agreements"
-          ],
-          watchOut: [
-            "Broad liability waivers",
-            "Unilateral modification rights",
-            "Binding arbitration clauses",
-            "Automatic consent provisions"
-          ],
-          originalComplexity: Math.min(10, Math.round(avgWordsPerSentence / 3) + 4),
-          translatedComplexity: level === 'simple' ? 2 : level === 'general' ? 3 : level === 'professional' ? 4 : 5,
-          wordCount: {
-            original: wordCount,
-            translated: translation.split(' ').length
-          }
-        };
-        
-        resolve(result);
-      }, 1500);
-    });
+  const generateDemoTranslation = async (text, level) => {
+    await new Promise(r => setTimeout(r, 1500));
+    const lowerText = text.toLowerCase();
+    let translation = level === 'simple' ? 'This document has rules about what you can and cannot do. Read carefully.' : 'This document establishes obligations and liabilities. Review carefully.';
+    if (lowerText.includes('privacy')) translation = level === 'simple' ? 'They can collect and share your data with others.' : 'Broad rights to collect and share personal data with third parties.';
+    if (lowerText.includes('lease')) translation = level === 'simple' ? 'If something bad happens, you pay for it.' : 'Tenant assumes liability for premises-related incidents.';
+    return { translation, keyPoints: ['Review your obligations', 'Note liability limitations'], watchOut: ['Liability waivers', 'Arbitration clauses'], originalComplexity: 8, translatedComplexity: level === 'simple' ? 2 : 4 };
   };
 
   const handleTranslate = async () => {
     if (!inputText.trim()) return;
-    
-    setIsLoading(true);
-    setError(null);
-    setStats(null);
-    
+    setIsLoading(true); setError(null); setStats(null);
     try {
-      let result;
-      
-      if (apiMode === 'live') {
-        result = await translateWithLLM(inputText, readingLevel);
-      } else {
-        result = await generateDemoTranslation(inputText, readingLevel);
-      }
-      
-      // Format the output
-      let formatted = '';
-      
-      if (result.translation) {
-        formatted = result.translation + '\n\n';
-      }
-      
-      if (result.keyPoints && result.keyPoints.length > 0) {
-        formatted += '**Key Points:**\n';
-        result.keyPoints.forEach(point => {
-          formatted += `• ${point}\n`;
-        });
-      }
-      
-      if (result.watchOut && result.watchOut.length > 0) {
-        formatted += '\n**Watch Out For:**\n';
-        result.watchOut.forEach(item => {
-          formatted += `⚠️ ${item}\n`;
-        });
-      }
-      
-      if (result.actionItems && result.actionItems.length > 0) {
-        formatted += '\n**Action Items:**\n';
-        result.actionItems.forEach(item => {
-          formatted += `→ ${item}\n`;
-        });
-      }
-      
-      if (result.originalComplexity && result.translatedComplexity) {
-        formatted += `\n📊 Complexity: ${result.originalComplexity}/10 → ${result.translatedComplexity}/10`;
-      }
-      
-      setTranslatedText(formatted);
-      setStats(result);
-      
-      // Track successful translation
-      if (apiMode === 'live') {
-        incrementTranslations();
-      }
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setIsLoading(false);
-    }
+      const result = apiMode === 'live' ? await translateWithLLM(inputText, readingLevel) : await generateDemoTranslation(inputText, readingLevel);
+      let formatted = result.translation + '\n\n**Key Points:**\n' + result.keyPoints.map(p => '• ' + p).join('\n') + '\n\n**Watch Out:**\n' + result.watchOut.map(w => '⚠️ ' + w).join('\n');
+      setTranslatedText(formatted); setStats(result);
+      addTranslation({ originalText: inputText.substring(0, 500), translatedText: formatted.substring(0, 500), readingLevel, documentType, riskScore, fileName: uploadedFile?.name, mode: apiMode });
+      if (apiMode === 'live') incrementTranslations();
+    } catch (err) { setError(err.message); }
+    setIsLoading(false);
   };
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(translatedText);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+  const handleCopy = () => { navigator.clipboard.writeText(translatedText); setCopied(true); setTimeout(() => setCopied(false), 2000); };
+  const loadFromHistory = (entry) => { setInputText(entry.originalText); setTranslatedText(entry.translatedText); setReadingLevel(entry.readingLevel); setShowHistory(false); };
 
-  const handleDownload = () => {
-    const blob = new Blob([translatedText], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'plainspeak-translation.txt';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  };
+  const getRiskColor = (level) => ({ low: 'text-green-400 bg-green-500/20', moderate: 'text-yellow-400 bg-yellow-500/20', high: 'text-orange-400 bg-orange-500/20', critical: 'text-red-400 bg-red-500/20' }[level] || 'text-slate-400 bg-slate-500/20');
 
-  const loadSample = (sample) => {
-    setInputText(sample.text);
-    setTranslatedText('');
-    setStats(null);
-  };
+  const historyStats = getStats();
 
   return (
     <div className="min-h-screen bg-slate-900">
-      {/* Hero */}
-      <section className="bg-gradient-to-br from-slate-800 to-slate-900 py-12">
+      <section className="bg-gradient-to-br from-purple-900/50 to-slate-900 py-12">
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center gap-3 mb-4">
             <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center">
-              <MessageSquare className="w-7 h-7 text-white" />
+              <Zap className="w-7 h-7 text-white" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold text-white">PlainSpeak</h1>
-              <p className="text-slate-400">AI-powered legal language translation</p>
+              <h1 className="text-3xl font-bold text-white">PlainSpeak AI</h1>
+              <p className="text-slate-400">Upload PDF/DOCX • Auto-classify • Risk scoring • Translation history</p>
             </div>
           </div>
-          <p className="text-lg text-slate-300 max-w-2xl">
-            Transform confusing legal jargon into clear, understandable language. 
-            Powered by AI, designed for everyone.
-          </p>
-          
-          {/* Settings Toggle */}
-          <button
-            onClick={() => setShowSettings(!showSettings)}
-            className="mt-4 flex items-center gap-2 text-sm text-slate-400 hover:text-white"
-          >
-            <Settings className="w-4 h-4" />
-            {showSettings ? 'Hide Settings' : 'API Settings'}
-            <ChevronDown className={`w-4 h-4 transition-transform ${showSettings ? 'rotate-180' : ''}`} />
-          </button>
+          <div className="flex flex-wrap gap-3 mt-6">
+            <button onClick={() => setShowHistory(!showHistory)} className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-sm text-slate-300">
+              <History className="w-4 h-4" /> History ({historyStats.total})
+            </button>
+            <button onClick={() => setShowSettings(!showSettings)} className="flex items-center gap-2 px-4 py-2 bg-slate-800 hover:bg-slate-700 rounded-lg text-sm text-slate-300">
+              <Settings className="w-4 h-4" /> Settings
+            </button>
+            {anthropicApiKey && apiKeyStatus === 'valid' && <span className="flex items-center gap-1.5 px-3 py-1.5 bg-green-500/20 text-green-400 rounded-lg text-sm"><Check className="w-4 h-4" /> AI Active</span>}
+          </div>
           
           <AnimatePresence>
             {showSettings && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: 'auto', opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                className="overflow-hidden"
-              >
-                <div className="mt-4 p-4 bg-slate-800 rounded-lg border border-slate-700">
-                  <div className="flex flex-col md:flex-row gap-4 items-start">
-                    <div className="flex-1">
-                      <label className="block text-sm font-medium text-slate-300 mb-2">Translation Mode</label>
-                      <div className="flex gap-2">
-                        <button
-                          onClick={() => setApiMode('demo')}
-                          className={`px-4 py-2 rounded-lg text-sm ${
-                            apiMode === 'demo' 
-                              ? 'bg-purple-500/20 text-purple-400 border border-purple-500/30' 
-                              : 'bg-slate-700 text-slate-300'
-                          }`}
-                        >
-                          Demo Mode
-                        </button>
-                        <button
-                          onClick={() => setApiMode('live')}
-                          disabled={!anthropicApiKey && apiKeyStatus !== 'valid'}
-                          className={`px-4 py-2 rounded-lg text-sm ${
-                            apiMode === 'live' 
-                              ? 'bg-purple-500/20 text-purple-400 border border-purple-500/30' 
-                              : 'bg-slate-700 text-slate-300'
-                          } disabled:opacity-50 disabled:cursor-not-allowed`}
-                        >
-                          Live AI
-                        </button>
-                      </div>
-                    </div>
-                    
-                    {/* API Key Status */}
-                    <div className="flex-1">
-                      <label className="block text-sm font-medium text-slate-300 mb-2">Your API Key</label>
-                      <div className="flex items-center gap-3">
-                        {anthropicApiKey ? (
-                          <div className="flex items-center gap-2">
-                            {apiKeyStatus === 'valid' ? (
-                              <span className="flex items-center gap-1.5 px-3 py-1.5 bg-green-500/20 text-green-400 rounded-lg text-sm">
-                                <Check className="w-4 h-4" /> Key Active
-                              </span>
-                            ) : apiKeyStatus === 'no_credits' ? (
-                              <span className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-500/20 text-amber-400 rounded-lg text-sm">
-                                <AlertCircle className="w-4 h-4" /> No Credits
-                              </span>
-                            ) : (
-                              <span className="flex items-center gap-1.5 px-3 py-1.5 bg-slate-600 text-slate-300 rounded-lg text-sm">
-                                <Key className="w-4 h-4" /> Key Set
-                              </span>
-                            )}
-                          </div>
-                        ) : (
-                          <span className="text-sm text-slate-400">No key configured</span>
-                        )}
-                        <Link
-                          to="/settings"
-                          className="flex items-center gap-1.5 px-3 py-1.5 bg-blue-500/20 hover:bg-blue-500/30 text-blue-400 rounded-lg text-sm"
-                        >
-                          <Key className="w-4 h-4" />
-                          {anthropicApiKey ? 'Manage Key' : 'Add API Key'}
-                        </Link>
-                      </div>
+              <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
+                <div className="mt-4 p-4 bg-slate-800 rounded-lg border border-slate-700 flex flex-wrap gap-4">
+                  <div>
+                    <label className="block text-sm text-slate-300 mb-2">Mode</label>
+                    <div className="flex gap-2">
+                      <button onClick={() => setApiMode('demo')} className={`px-4 py-2 rounded-lg text-sm ${apiMode === 'demo' ? 'bg-purple-500/20 text-purple-400' : 'bg-slate-700 text-slate-300'}`}>Demo</button>
+                      <button onClick={() => setApiMode('live')} disabled={!anthropicApiKey} className={`px-4 py-2 rounded-lg text-sm ${apiMode === 'live' ? 'bg-purple-500/20 text-purple-400' : 'bg-slate-700 text-slate-300'} disabled:opacity-50`}>Live AI</button>
                     </div>
                   </div>
-                  
-                  {apiMode === 'demo' && (
-                    <p className="mt-3 text-sm text-slate-400">
-                      Demo mode uses pattern-based translations. 
-                      {!anthropicApiKey && (
-                        <> <Link to="/settings" className="text-blue-400 hover:text-blue-300">Add your API key</Link> to unlock Live AI mode.</>
-                      )}
-                    </p>
-                  )}
-                  {apiMode === 'live' && apiKeyStatus === 'valid' && (
-                    <p className="mt-3 text-sm text-green-400/80">
-                      ✓ Live AI mode active — using your personal API key for Claude-powered translations.
-                    </p>
-                  )}
-                  {apiMode === 'live' && apiKeyStatus === 'no_credits' && (
-                    <p className="mt-3 text-sm text-amber-400/80">
-                      ⚠️ Your API key has no credits. <a href="https://console.anthropic.com/settings/billing" target="_blank" rel="noopener noreferrer" className="underline">Add credits</a> to use Live AI.
-                    </p>
-                  )}
+                  <Link to="/settings" className="flex items-center gap-2 px-4 py-2 bg-blue-500/20 text-blue-400 rounded-lg text-sm self-end"><Key className="w-4 h-4" />{anthropicApiKey ? 'Manage Key' : 'Add API Key'}</Link>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
+          
+          <AnimatePresence>
+            {showHistory && history.length > 0 && (
+              <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} exit={{ height: 0, opacity: 0 }} className="overflow-hidden">
+                <div className="mt-4 p-4 bg-slate-800 rounded-lg border border-slate-700 space-y-2 max-h-64 overflow-y-auto">
+                  {history.slice(0, 10).map(entry => (
+                    <div key={entry.id} onClick={() => loadFromHistory(entry)} className="flex items-center gap-3 p-3 bg-slate-900 rounded-lg hover:bg-slate-800 cursor-pointer">
+                      <span className="text-xl">{DOCUMENT_TYPES[entry.documentType]?.icon || '📄'}</span>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm text-white truncate">{entry.originalText?.substring(0, 50)}...</p>
+                        <p className="text-xs text-slate-400">{new Date(entry.timestamp).toLocaleDateString()}</p>
+                      </div>
+                      {entry.riskScore && <span className={`px-2 py-1 rounded text-xs ${getRiskColor(entry.riskScore.level)}`}>{entry.riskScore.score}/10</span>}
+                    </div>
+                  ))}
                 </div>
               </motion.div>
             )}
           </AnimatePresence>
         </div>
       </section>
-      
+
       <div className="max-w-7xl mx-auto px-4 py-8">
-        {/* Reading Level Selector */}
+        {(documentType || riskScore) && (
+          <div className="mb-6 flex flex-wrap gap-4">
+            {documentType && <div className="flex items-center gap-2 px-4 py-2 bg-slate-800 rounded-lg"><span className="text-xl">{DOCUMENT_TYPES[documentType]?.icon}</span><span className="text-white">{DOCUMENT_TYPES[documentType]?.name}</span></div>}
+            {riskScore && <div className={`flex items-center gap-2 px-4 py-2 rounded-lg ${getRiskColor(riskScore.level)}`}><Shield className="w-5 h-5" /><span className="font-bold">{riskScore.score}/10 - {RISK_LEVELS[riskScore.level]?.label}</span></div>}
+          </div>
+        )}
+
         <div className="mb-6">
-          <label className="block text-sm font-medium text-slate-300 mb-3">Target Reading Level</label>
+          <label className="block text-sm text-slate-300 mb-3">Target Reading Level</label>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             {readingLevels.map(level => (
-              <button
-                key={level.id}
-                onClick={() => setReadingLevel(level.id)}
-                className={`p-4 rounded-lg border text-left transition-colors ${
-                  readingLevel === level.id
-                    ? 'bg-purple-500/20 border-purple-500/50 text-white'
-                    : 'bg-slate-800 border-slate-700 text-slate-300 hover:border-slate-600'
-                }`}
-              >
-                <div className="flex items-center gap-2 mb-1">
-                  {level.icon}
-                  <span className="font-medium">{level.label}</span>
-                </div>
+              <button key={level.id} onClick={() => setReadingLevel(level.id)} className={`p-3 rounded-lg border text-left ${readingLevel === level.id ? 'bg-purple-500/20 border-purple-500/50 text-white' : 'bg-slate-800 border-slate-700 text-slate-300'}`}>
+                <div className="flex items-center gap-2 mb-1">{level.icon}<span className="font-medium">{level.label}</span></div>
                 <p className="text-xs text-slate-400">{level.description}</p>
               </button>
             ))}
           </div>
         </div>
-        
-        {/* Sample Documents */}
-        <div className="mb-6">
-          <label className="block text-sm font-medium text-slate-300 mb-3">Quick Start with Sample</label>
-          <div className="flex flex-wrap gap-2">
-            {sampleDocuments.map((sample, i) => (
-              <button
-                key={i}
-                onClick={() => loadSample(sample)}
-                className="px-3 py-1.5 bg-slate-800 border border-slate-700 rounded-lg text-sm text-slate-300 hover:border-purple-500/50 hover:text-purple-400 transition-colors"
-              >
-                {sample.title}
-              </button>
-            ))}
+
+        <div className="grid lg:grid-cols-2 gap-6">
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <label className="text-sm text-slate-300">Original Document</label>
+              {uploadedFile && <button onClick={clearFile} className="text-sm text-slate-400 hover:text-white flex items-center gap-1"><X className="w-4 h-4" />Clear</button>}
+            </div>
+            
+            <div onDrop={handleDrop} onDragOver={handleDragOver} onDragLeave={handleDragLeave} className={`border-2 border-dashed rounded-xl p-6 text-center ${isDragging ? 'border-purple-500 bg-purple-500/10' : 'border-slate-700'}`}>
+              {isParsingFile ? <div className="flex flex-col items-center gap-3"><Loader2 className="w-8 h-8 text-purple-400 animate-spin" /><p className="text-slate-300">Parsing...</p></div>
+              : uploadedFile ? <div className="flex items-center justify-center gap-3"><span className="text-2xl">{getFileTypeInfo(uploadedFile.name).icon}</span><span className="text-white">{uploadedFile.name}</span></div>
+              : <>
+                <FileUp className="w-8 h-8 text-slate-500 mx-auto mb-3" />
+                <p className="text-slate-300 mb-2">Drop PDF or DOCX here</p>
+                <button onClick={() => fileInputRef.current?.click()} className="px-4 py-2 bg-purple-500/20 text-purple-400 rounded-lg">Browse Files</button>
+                <input ref={fileInputRef} type="file" accept=".pdf,.docx,.txt" onChange={e => e.target.files[0] && handleFileSelect(e.target.files[0])} className="hidden" />
+              </>}
+            </div>
+            
+            <textarea value={inputText} onChange={e => setInputText(e.target.value)} placeholder="Or paste legal text here..." className="w-full h-64 px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-white placeholder-slate-500 resize-none focus:outline-none focus:border-purple-500" />
+            
+            <div className="flex flex-wrap gap-2">
+              {sampleDocuments.map(doc => <button key={doc.title} onClick={() => setInputText(doc.text)} className="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 rounded-lg text-sm text-slate-300">{doc.title}</button>)}
+            </div>
+            
+            {error && <div className="p-4 bg-red-500/10 border border-red-500/30 rounded-lg flex items-start gap-3"><AlertCircle className="w-5 h-5 text-red-400" /><p className="text-red-200">{error}</p></div>}
+            
+            <button onClick={handleTranslate} disabled={!inputText.trim() || isLoading} className="w-full py-4 bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-400 hover:to-pink-400 disabled:opacity-50 rounded-xl font-semibold text-white flex items-center justify-center gap-2">
+              {isLoading ? <><Loader2 className="w-5 h-5 animate-spin" />Translating...</> : <><Sparkles className="w-5 h-5" />Translate</>}
+            </button>
           </div>
-        </div>
-        
-        {/* Main Translation Interface */}
-        <div className="grid md:grid-cols-2 gap-6">
-          {/* Input */}
-          <div className="bg-slate-800 rounded-xl border border-slate-700 overflow-hidden">
-            <div className="px-4 py-3 border-b border-slate-700 flex items-center justify-between">
-              <h3 className="font-medium text-white flex items-center gap-2">
-                <FileText className="w-4 h-4 text-slate-400" />
-                Original Text
-              </h3>
-              <span className="text-xs text-slate-400">
-                {inputText.split(' ').filter(w => w).length} words
-              </span>
+
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <label className="text-sm text-slate-300">Plain Language Translation</label>
+              {translatedText && <button onClick={handleCopy} className="flex items-center gap-1 px-3 py-1.5 bg-slate-800 rounded-lg text-sm text-slate-300">{copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}{copied ? 'Copied!' : 'Copy'}</button>}
             </div>
-            <textarea
-              value={inputText}
-              onChange={(e) => setInputText(e.target.value)}
-              placeholder="Paste your legal document, contract clause, terms of service, or any complex text here..."
-              className="w-full h-80 p-4 bg-transparent text-slate-200 placeholder-slate-500 resize-none focus:outline-none"
-            />
-            <div className="px-4 py-3 border-t border-slate-700 flex items-center justify-between">
-              <button
-                onClick={() => setInputText('')}
-                className="text-sm text-slate-400 hover:text-white"
-              >
-                Clear
-              </button>
-              <button
-                onClick={handleTranslate}
-                disabled={!inputText.trim() || isLoading}
-                className="flex items-center gap-2 px-4 py-2 bg-purple-500 hover:bg-purple-600 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg font-medium text-white transition-colors"
-              >
-                {isLoading ? (
-                  <>
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                    Translating...
-                  </>
-                ) : (
-                  <>
-                    <Sparkles className="w-4 h-4" />
-                    Translate
-                  </>
-                )}
-              </button>
-            </div>
-          </div>
-          
-          {/* Output */}
-          <div className="bg-slate-800 rounded-xl border border-slate-700 overflow-hidden">
-            <div className="px-4 py-3 border-b border-slate-700 flex items-center justify-between">
-              <h3 className="font-medium text-white flex items-center gap-2">
-                <Brain className="w-4 h-4 text-purple-400" />
-                Plain Language
-              </h3>
-              {translatedText && (
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={handleCopy}
-                    className="p-1.5 hover:bg-slate-700 rounded text-slate-400 hover:text-white"
-                    title="Copy"
-                  >
-                    {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
-                  </button>
-                  <button
-                    onClick={handleDownload}
-                    className="p-1.5 hover:bg-slate-700 rounded text-slate-400 hover:text-white"
-                    title="Download"
-                  >
-                    <Download className="w-4 h-4" />
-                  </button>
-                </div>
-              )}
-            </div>
-            <div className="h-80 p-4 overflow-y-auto">
-              {error ? (
-                <div className="flex items-start gap-3 p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
-                  <AlertCircle className="w-5 h-5 text-red-400 shrink-0 mt-0.5" />
+            
+            {riskScore && translatedText && (
+              <div className={`p-4 rounded-lg ${getRiskColor(riskScore.level)}`}>
+                <div className="flex items-start gap-3">
+                  <Shield className="w-5 h-5" />
                   <div>
-                    <p className="font-medium text-red-400">Translation Error</p>
-                    <p className="text-sm text-red-200 mt-1">{error}</p>
+                    <p className="font-medium mb-1">Risk Assessment: {riskScore.score}/10</p>
+                    <p className="text-sm opacity-90">{riskScore.summary}</p>
+                    {riskScore.risks?.slice(0, 5).map((r, i) => <div key={i} className="flex items-center gap-2 text-sm mt-1"><span className={`w-2 h-2 rounded-full ${r.severity === 'high' ? 'bg-red-400' : 'bg-amber-400'}`} />{r.description}</div>)}
                   </div>
                 </div>
-              ) : translatedText ? (
-                <div className="prose prose-invert prose-sm max-w-none">
-                  {translatedText.split('\n').map((line, i) => {
-                    if (line.startsWith('**') && line.endsWith('**')) {
-                      return <h4 key={i} className="text-white font-semibold mt-4 mb-2">{line.replace(/\*\*/g, '')}</h4>;
-                    }
-                    if (line.startsWith('•')) {
-                      return <p key={i} className="text-slate-300 ml-2">{line}</p>;
-                    }
-                    if (line.startsWith('⚠️')) {
-                      return <p key={i} className="text-amber-300 ml-2">{line}</p>;
-                    }
-                    if (line.startsWith('📊')) {
-                      return <p key={i} className="text-purple-300 mt-4 font-mono text-sm">{line}</p>;
-                    }
-                    return line ? <p key={i} className="text-slate-200">{line}</p> : <br key={i} />;
-                  })}
-                </div>
-              ) : (
-                <div className="h-full flex items-center justify-center text-slate-500">
-                  <div className="text-center">
-                    <Sparkles className="w-12 h-12 mx-auto mb-3 opacity-50" />
-                    <p>Translation will appear here</p>
-                    <p className="text-sm mt-1">Paste text and click Translate</p>
-                  </div>
-                </div>
-              )}
-            </div>
-            {stats && (
-              <div className="px-4 py-3 border-t border-slate-700 flex items-center gap-4 text-xs text-slate-400">
-                <span>Original: {stats.wordCount.original} words</span>
-                <span>→</span>
-                <span>Translated: {stats.wordCount.translated} words</span>
-                <span className="ml-auto flex items-center gap-1">
-                  <Zap className="w-3 h-3" />
-                  {apiMode === 'demo' ? 'Demo Mode' : 'Claude API'}
-                </span>
               </div>
             )}
-          </div>
-        </div>
-        
-        {/* How It Works */}
-        <div className="mt-12 bg-slate-800/50 rounded-xl p-8 border border-slate-700">
-          <h2 className="text-xl font-bold text-white mb-6">How PlainSpeak Works</h2>
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="text-center">
-              <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center mx-auto mb-4">
-                <FileText className="w-6 h-6 text-purple-400" />
-              </div>
-              <h3 className="font-medium text-white mb-2">1. Paste Legal Text</h3>
-              <p className="text-sm text-slate-400">
-                Contracts, terms of service, legal notices, government forms—any complex document
-              </p>
+            
+            <div className="h-[400px] px-4 py-3 bg-slate-800 border border-slate-700 rounded-xl text-white overflow-y-auto whitespace-pre-wrap">
+              {translatedText || <span className="text-slate-500">Translation appears here...</span>}
             </div>
-            <div className="text-center">
-              <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center mx-auto mb-4">
-                <Brain className="w-6 h-6 text-purple-400" />
+            
+            {stats && (
+              <div className="grid grid-cols-2 gap-4">
+                <div className="p-4 bg-slate-800 rounded-lg">
+                  <p className="text-xs text-slate-400 mb-1">Complexity</p>
+                  <div className="flex items-center gap-2">
+                    <span className="text-2xl font-bold text-red-400">{stats.originalComplexity}</span>
+                    <ArrowRight className="w-4 h-4 text-slate-500" />
+                    <span className="text-2xl font-bold text-green-400">{stats.translatedComplexity}</span>
+                  </div>
+                </div>
+                <div className="p-4 bg-slate-800 rounded-lg">
+                  <p className="text-xs text-slate-400 mb-1">Mode</p>
+                  <p className="text-lg font-semibold text-white flex items-center gap-2">{apiMode === 'live' ? <><Zap className="w-5 h-5 text-purple-400" />Claude AI</> : <><Brain className="w-5 h-5 text-slate-400" />Demo</>}</p>
+                </div>
               </div>
-              <h3 className="font-medium text-white mb-2">2. AI Analysis</h3>
-              <p className="text-sm text-slate-400">
-                Our AI breaks down complex language while preserving legal meaning
-              </p>
-            </div>
-            <div className="text-center">
-              <div className="w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center mx-auto mb-4">
-                <MessageSquare className="w-6 h-6 text-purple-400" />
-              </div>
-              <h3 className="font-medium text-white mb-2">3. Get Plain Language</h3>
-              <p className="text-sm text-slate-400">
-                Receive clear explanations with key points and warnings highlighted
-              </p>
-            </div>
+            )}
           </div>
         </div>
       </div>

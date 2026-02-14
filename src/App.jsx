@@ -23,6 +23,7 @@ import AuthPage from './pages/AuthPage'
 import ProfilePage from './pages/ProfilePage'
 import ExtensionPage from './pages/ExtensionPage'
 import AdminDashboard from './pages/AdminDashboard'
+import ProcessFinderPage from './pages/ProcessFinderPage'
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
         <Route path="tools/plainspeak-ai" element={<PlainSpeakPage />} />
         <Route path="tools/processmap" element={<ProcessMapPage />} />
         <Route path="tools/processmap/:processId" element={<ProcessMapPage />} />
+        <Route path="finder" element={<ProcessFinderPage />} />
         <Route path="calculator" element={<ComplexityCalculator />} />
         <Route path="submit" element={<ProcessSubmissionForm />} />
         <Route path="extension" element={<ExtensionPage />} />

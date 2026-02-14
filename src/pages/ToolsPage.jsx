@@ -1,11 +1,21 @@
 import { Link } from 'react-router-dom'
 import { 
   FileText, Map, Bell, Calculator, Compass, Search,
-  ArrowRight, ExternalLink, Code, Shield, Zap, Send, Upload, Chrome, Download
+  ArrowRight, ExternalLink, Code, Shield, Zap, Send, Upload, Chrome, Download, Sparkles
 } from 'lucide-react'
 import { Card, Badge, SectionHeader } from '../components/UI'
 
 const tools = [
+  {
+    id: 'finder',
+    name: 'Process Finder',
+    tagline: 'AI-Powered Recommendations',
+    description: 'Describe your situation and get a personalized sequence of government processes you need to complete, in the right order.',
+    status: 'New',
+    icon: Sparkles,
+    link: '/finder',
+    features: ['Natural language', 'Ordered sequence', 'Time estimates', 'State-specific'],
+  },
   {
     id: 'plainspeak-ai',
     name: 'PlainSpeak AI',

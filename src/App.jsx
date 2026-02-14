@@ -18,6 +18,9 @@ import SettingsPage from './pages/SettingsPage'
 // Phase 2 additions
 import ComplexityCalculator from './pages/ComplexityCalculator'
 import ProcessSubmissionForm from './pages/ProcessSubmissionForm'
+// Phase 3 - User accounts
+import AuthPage from './pages/AuthPage'
+import ProfilePage from './pages/ProfilePage'
 
 function App() {
   return (
@@ -40,7 +43,11 @@ function App() {
         <Route path="pilot" element={<PilotKitPage />} />
         <Route path="post-labor" element={<PostLaborPage />} />
         <Route path="settings" element={<SettingsPage />} />
+        <Route path="profile" element={<ProfilePage />} />
       </Route>
+      {/* Auth routes without layout */}
+      <Route path="login" element={<AuthPage />} />
+      <Route path="signup" element={<AuthPage />} />
     </Routes>
   )
 }

@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { 
   FileText, Map, Bell, Calculator, Compass, Search,
-  ArrowRight, ExternalLink, Code, Shield, Zap, Send, Upload
+  ArrowRight, ExternalLink, Code, Shield, Zap, Send, Upload, Chrome, Download
 } from 'lucide-react'
 import { Card, Badge, SectionHeader } from '../components/UI'
 
@@ -35,6 +35,16 @@ const tools = [
     icon: Calculator,
     link: '/calculator',
     features: ['8-dimension scoring', 'Weighted index', 'Benchmark comparison', 'Export reports'],
+  },
+  {
+    id: 'extension',
+    name: 'Browser Extension',
+    tagline: 'PlainSpeak Everywhere',
+    description: 'Translate legal text on any webpage with one click. Right-click selected text for instant translation with risk scoring.',
+    status: 'Live',
+    icon: Chrome,
+    link: '/extension',
+    features: ['Any webpage', 'Right-click translate', 'Risk scoring', 'Chrome/Edge/Firefox'],
   },
   {
     id: 'submit',

@@ -21,6 +21,8 @@ import ProcessSubmissionForm from './pages/ProcessSubmissionForm'
 // Phase 3 - User accounts
 import AuthPage from './pages/AuthPage'
 import ProfilePage from './pages/ProfilePage'
+import ExtensionPage from './pages/ExtensionPage'
+import AdminDashboard from './pages/AdminDashboard'
 
 function App() {
   return (
@@ -36,6 +38,8 @@ function App() {
         <Route path="tools/processmap/:processId" element={<ProcessMapPage />} />
         <Route path="calculator" element={<ComplexityCalculator />} />
         <Route path="submit" element={<ProcessSubmissionForm />} />
+        <Route path="extension" element={<ExtensionPage />} />
+        <Route path="admin" element={<AdminDashboard />} />
         <Route path="legislation" element={<LegislationPage />} />
         <Route path="education" element={<EducationPage />} />
         <Route path="coalition" element={<CoalitionPage />} />

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { 
   FileText, Map, Bell, Calculator, Compass, Search,
   ArrowRight, ExternalLink, Code, Shield, Zap, Send, Upload, Chrome, Download, Sparkles,
-  ListChecks, MapPin, MessageCircle
+  ListChecks, MapPin, MessageCircle, BarChart3
 } from 'lucide-react'
 import { Card, Badge, SectionHeader } from '../components/UI'
 
@@ -86,6 +86,26 @@ const tools = [
     icon: Chrome,
     link: '/extension',
     features: ['Any webpage', 'Right-click translate', 'Risk scoring', 'Chrome/Edge/Firefox'],
+  },
+  {
+    id: 'insights',
+    name: 'Platform Insights',
+    tagline: 'Analytics Dashboard',
+    description: 'View platform analytics including translation stats, risk distributions, popular processes, and usage trends.',
+    status: 'Live',
+    icon: BarChart3,
+    link: '/insights',
+    features: ['Usage stats', 'Risk distribution', 'Weekly trends', 'State breakdown'],
+  },
+  {
+    id: 'api',
+    name: 'API Documentation',
+    tagline: 'Developer Integration',
+    description: 'Integrate CLEAR tools into your own applications. Full REST API with translation, submission, and feedback endpoints.',
+    status: 'Live',
+    icon: Code,
+    link: '/api',
+    features: ['REST API', 'Code examples', 'Rate limits', 'Quick start guide'],
   },
   {
     id: 'submit',

@@ -1,5 +1,6 @@
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
+import { getBrowserLanguage } from '../utils/i18n';
 
 // User Settings Store - manages API keys and preferences
 // Keys are stored in localStorage (client-side only, never sent to server logs)
@@ -16,6 +17,7 @@ const useUserSettings = create(
       preferredReadingLevel: 'general',
       autoSaveProgress: true,
       theme: 'dark',
+      language: getBrowserLanguage(),
       
       // Usage tracking (local only)
       translationsCount: 0,
@@ -42,6 +44,8 @@ const useUserSettings = create(
       setPreferredReadingLevel: (level) => set({ preferredReadingLevel: level }),
       
       setAutoSaveProgress: (enabled) => set({ autoSaveProgress: enabled }),
+      
+      setLanguage: (lang) => set({ language: lang }),
       
       incrementTranslations: () => set((state) => ({
         translationsCount: state.translationsCount + 1,

@@ -27,6 +27,9 @@ import ProcessFinderPage from './pages/ProcessFinderPage'
 import ProgressTrackerPage from './pages/ProgressTrackerPage'
 import StateRequirementsPage from './pages/StateRequirementsPage'
 import CommunityPage from './pages/CommunityPage'
+import AccessibilityPage from './pages/AccessibilityPage'
+import InsightsPage from './pages/InsightsPage'
+import ApiDocsPage from './pages/ApiDocsPage'
 
 function App() {
   return (
@@ -44,6 +47,9 @@ function App() {
         <Route path="tracker" element={<ProgressTrackerPage />} />
         <Route path="states" element={<StateRequirementsPage />} />
         <Route path="community" element={<CommunityPage />} />
+        <Route path="accessibility" element={<AccessibilityPage />} />
+        <Route path="insights" element={<InsightsPage />} />
+        <Route path="api" element={<ApiDocsPage />} />
         <Route path="calculator" element={<ComplexityCalculator />} />
         <Route path="submit" element={<ProcessSubmissionForm />} />
         <Route path="extension" element={<ExtensionPage />} />

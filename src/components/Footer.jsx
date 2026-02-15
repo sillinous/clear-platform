@@ -1,24 +1,24 @@
 import { Link } from 'react-router-dom'
-import { Scale, Github, Twitter, Mail, ExternalLink } from 'lucide-react'
+import { Scale, Github, Twitter, Mail, ExternalLink, Accessibility } from 'lucide-react'
 
 const footerLinks = {
   platform: [
     { name: 'About CLEAR', href: '/about' },
-    { name: 'Research', href: '/research' },
     { name: 'Tools', href: '/tools' },
-    { name: 'Legislation', href: '/legislation' },
+    { name: 'Community', href: '/community' },
+    { name: 'State Requirements', href: '/states' },
   ],
   resources: [
-    { name: 'Education', href: '/education' },
-    { name: 'Post-Labor Economics', href: '/post-labor' },
-    { name: 'Join Coalition', href: '/coalition' },
-    { name: 'PlainSpeak Tool', href: '/tools/plainspeak' },
+    { name: 'Process Finder', href: '/finder' },
+    { name: 'Progress Tracker', href: '/tracker' },
+    { name: 'Browser Extension', href: '/extension' },
+    { name: 'Submit Process', href: '/submit' },
   ],
-  external: [
-    { name: 'David Shapiro\'s PLE', href: 'https://daveshap.substack.com', external: true },
-    { name: 'Complexity Index Data', href: '#', external: true },
-    { name: 'Model Legislation', href: '/legislation', external: false },
-    { name: 'API Documentation', href: '#', external: true },
+  about: [
+    { name: 'Research', href: '/research' },
+    { name: 'Coalition', href: '/coalition' },
+    { name: 'Post-Labor Economics', href: '/post-labor' },
+    { name: 'Accessibility', href: '/accessibility' },
   ],
 }
 
@@ -71,7 +71,7 @@ export default function Footer() {
 
           {/* Resources Links */}
           <div>
-            <h3 className="text-sm font-semibold text-white mb-4">Resources</h3>
+            <h3 className="text-sm font-semibold text-white mb-4">Tools</h3>
             <ul className="space-y-2">
               {footerLinks.resources.map((link) => (
                 <li key={link.name}>
@@ -86,30 +86,18 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* External Links */}
+          {/* About Links */}
           <div>
-            <h3 className="text-sm font-semibold text-white mb-4">External</h3>
+            <h3 className="text-sm font-semibold text-white mb-4">About</h3>
             <ul className="space-y-2">
-              {footerLinks.external.map((link) => (
+              {footerLinks.about.map((link) => (
                 <li key={link.name}>
-                  {link.external ? (
-                    <a
-                      href={link.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-sm text-slate-400 hover:text-white transition-colors inline-flex items-center gap-1"
-                    >
-                      {link.name}
-                      <ExternalLink className="w-3 h-3" />
-                    </a>
-                  ) : (
-                    <Link
-                      to={link.href}
-                      className="text-sm text-slate-400 hover:text-white transition-colors"
-                    >
-                      {link.name}
-                    </Link>
-                  )}
+                  <Link
+                    to={link.href}
+                    className="text-sm text-slate-400 hover:text-white transition-colors"
+                  >
+                    {link.name}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -118,9 +106,14 @@ export default function Footer() {
 
         {/* Bottom */}
         <div className="mt-12 pt-8 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-slate-500">
-            © {new Date().getFullYear()} CLEAR Coalition. Open source under MIT License.
-          </p>
+          <div className="flex items-center gap-4">
+            <p className="text-sm text-slate-500">
+              © {new Date().getFullYear()} CLEAR Coalition. Open source under MIT License.
+            </p>
+            <Link to="/accessibility" className="text-slate-500 hover:text-white transition-colors">
+              <Accessibility className="w-4 h-4" />
+            </Link>
+          </div>
           <p className="text-sm text-slate-500">
             Post-Labor Economics framework by{' '}
             <a

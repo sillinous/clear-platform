@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import { Menu, X, Scale, ChevronDown, Settings, User, LogIn } from 'lucide-react'
 import { useAuth } from '../contexts/AuthContext'
+import LanguageSelector from './LanguageSelector'
 
 const navigation = [
   { name: 'Tools', href: '/tools' },
@@ -52,6 +53,8 @@ export default function Header() {
 
           {/* CTA Button & Settings */}
           <div className="hidden lg:flex items-center gap-2">
+            <LanguageSelector compact />
+            
             <NavLink
               to="/settings"
               className={({ isActive }) =>

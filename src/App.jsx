@@ -24,6 +24,9 @@ import ProfilePage from './pages/ProfilePage'
 import ExtensionPage from './pages/ExtensionPage'
 import AdminDashboard from './pages/AdminDashboard'
 import ProcessFinderPage from './pages/ProcessFinderPage'
+import ProgressTrackerPage from './pages/ProgressTrackerPage'
+import StateRequirementsPage from './pages/StateRequirementsPage'
+import CommunityPage from './pages/CommunityPage'
 
 function App() {
   return (
@@ -38,6 +41,9 @@ function App() {
         <Route path="tools/processmap" element={<ProcessMapPage />} />
         <Route path="tools/processmap/:processId" element={<ProcessMapPage />} />
         <Route path="finder" element={<ProcessFinderPage />} />
+        <Route path="tracker" element={<ProgressTrackerPage />} />
+        <Route path="states" element={<StateRequirementsPage />} />
+        <Route path="community" element={<CommunityPage />} />
         <Route path="calculator" element={<ComplexityCalculator />} />
         <Route path="submit" element={<ProcessSubmissionForm />} />
         <Route path="extension" element={<ExtensionPage />} />

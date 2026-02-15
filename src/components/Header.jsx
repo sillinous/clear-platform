@@ -4,12 +4,11 @@ import { Menu, X, Scale, ChevronDown, Settings, User, LogIn } from 'lucide-react
 import { useAuth } from '../contexts/AuthContext'
 
 const navigation = [
-  { name: 'About', href: '/about' },
-  { name: 'Research', href: '/research' },
   { name: 'Tools', href: '/tools' },
-  { name: 'Legislation', href: '/legislation' },
-  { name: 'Education', href: '/education' },
-  { name: 'Post-Labor', href: '/post-labor' },
+  { name: 'Community', href: '/community' },
+  { name: 'States', href: '/states' },
+  { name: 'Tracker', href: '/tracker' },
+  { name: 'Research', href: '/research' },
   { name: 'Coalition', href: '/coalition' },
 ]
 

@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom'
 import { 
   FileText, Map, Bell, Calculator, Compass, Search,
-  ArrowRight, ExternalLink, Code, Shield, Zap, Send, Upload, Chrome, Download, Sparkles
+  ArrowRight, ExternalLink, Code, Shield, Zap, Send, Upload, Chrome, Download, Sparkles,
+  ListChecks, MapPin, MessageCircle
 } from 'lucide-react'
 import { Card, Badge, SectionHeader } from '../components/UI'
 
@@ -15,6 +16,36 @@ const tools = [
     icon: Sparkles,
     link: '/finder',
     features: ['Natural language', 'Ordered sequence', 'Time estimates', 'State-specific'],
+  },
+  {
+    id: 'tracker',
+    name: 'Progress Tracker',
+    tagline: 'Track Your Process Completion',
+    description: 'Track multiple government processes, mark steps complete, add notes, and visualize your progress.',
+    status: 'New',
+    icon: ListChecks,
+    link: '/tracker',
+    features: ['Step tracking', 'Progress visualization', 'Notes', 'Multiple processes'],
+  },
+  {
+    id: 'states',
+    name: 'State Requirements',
+    tagline: 'Requirements by State',
+    description: 'Compare process requirements across states. See costs, timelines, and requirements for your specific location.',
+    status: 'New',
+    icon: MapPin,
+    link: '/states',
+    features: ['5 states', 'Cost comparison', 'Online availability', 'Requirements list'],
+  },
+  {
+    id: 'community',
+    name: 'Community',
+    tagline: 'Share & Learn',
+    description: 'Connect with others navigating government processes. Share tips, ask questions, and learn from experiences.',
+    status: 'New',
+    icon: MessageCircle,
+    link: '/community',
+    features: ['Discussion forum', 'Upvoting', 'Categories', 'State-specific'],
   },
   {
     id: 'plainspeak-ai',

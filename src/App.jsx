@@ -30,6 +30,12 @@ import CommunityPage from './pages/CommunityPage'
 import AccessibilityPage from './pages/AccessibilityPage'
 import InsightsPage from './pages/InsightsPage'
 import ApiDocsPage from './pages/ApiDocsPage'
+// Phase 11-15 - Advanced Features
+import GovApisPage from './pages/GovApisPage'
+import SmartRecommendationsPage from './pages/SmartRecommendationsPage'
+import RegionalTemplatesPage from './pages/RegionalTemplatesPage'
+import PartnerDashboardPage from './pages/PartnerDashboardPage'
+import DeveloperPortalPage from './pages/DeveloperPortalPage'
 
 function App() {
   return (
@@ -50,6 +56,11 @@ function App() {
         <Route path="accessibility" element={<AccessibilityPage />} />
         <Route path="insights" element={<InsightsPage />} />
         <Route path="api" element={<ApiDocsPage />} />
+        <Route path="gov-apis" element={<GovApisPage />} />
+        <Route path="smart" element={<SmartRecommendationsPage />} />
+        <Route path="deploy" element={<RegionalTemplatesPage />} />
+        <Route path="partners" element={<PartnerDashboardPage />} />
+        <Route path="developers" element={<DeveloperPortalPage />} />
         <Route path="calculator" element={<ComplexityCalculator />} />
         <Route path="submit" element={<ProcessSubmissionForm />} />
         <Route path="extension" element={<ExtensionPage />} />

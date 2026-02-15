@@ -36,6 +36,12 @@ import SmartRecommendationsPage from './pages/SmartRecommendationsPage'
 import RegionalTemplatesPage from './pages/RegionalTemplatesPage'
 import PartnerDashboardPage from './pages/PartnerDashboardPage'
 import DeveloperPortalPage from './pages/DeveloperPortalPage'
+// Phase 16-20 - User Experience
+import DocumentGeneratorPage from './pages/DocumentGeneratorPage'
+import NotificationsPage from './pages/NotificationsPage'
+import AchievementsPage from './pages/AchievementsPage'
+import KnowledgeBasePage from './pages/KnowledgeBasePage'
+import IntegrationsPage from './pages/IntegrationsPage'
 
 function App() {
   return (
@@ -61,6 +67,11 @@ function App() {
         <Route path="deploy" element={<RegionalTemplatesPage />} />
         <Route path="partners" element={<PartnerDashboardPage />} />
         <Route path="developers" element={<DeveloperPortalPage />} />
+        <Route path="forms" element={<DocumentGeneratorPage />} />
+        <Route path="notifications" element={<NotificationsPage />} />
+        <Route path="achievements" element={<AchievementsPage />} />
+        <Route path="help" element={<KnowledgeBasePage />} />
+        <Route path="integrations" element={<IntegrationsPage />} />
         <Route path="calculator" element={<ComplexityCalculator />} />
         <Route path="submit" element={<ProcessSubmissionForm />} />
         <Route path="extension" element={<ExtensionPage />} />

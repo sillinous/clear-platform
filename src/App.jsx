@@ -185,30 +185,439 @@ function ProcessMap() {
 }
 
 // ── KNOWLEDGE ─────────────────────────────────────────────────────────────────
-function Knowledge() {
-  const articles = [
-    { t:'How to Apply for SNAP Benefits', v:4200, c:'Benefits' },
-    { t:'Starting a Business: Step-by-Step', v:3800, c:'Business' },
-    { t:'Understanding Social Security Benefits', v:3100, c:'Benefits' },
-    { t:'How to Get a Green Card', v:2900, c:'Immigration' },
-    { t:'Applying for Unemployment Insurance', v:2700, c:'Benefits' },
-    { t:'VA Healthcare Enrollment Guide', v:2400, c:'Veterans' },
-  ]
+const KB_ARTICLES = [
+  // Benefits
+  { id:1, t:'How to Apply for SNAP Benefits', c:'Benefits', icon:'🍎', time:'6 min', v:4200, rating:4.8, reviews:312, diff:'Easy', updated:'Feb 2026',
+    summary:'Step-by-step guide to applying for SNAP food assistance, including eligibility requirements, documentation needed, and what to expect after you apply.',
+    steps:['Check eligibility — gross income must be at or below 130% of the federal poverty level','Gather required documents: government-issued ID, proof of income (pay stubs, tax returns), proof of residency (utility bill or lease), and Social Security numbers for all household members','Apply online at benefits.gov or your state DHS portal, or visit your local SNAP office in person','Complete a phone or in-person interview with a caseworker — typically scheduled within 7-10 days of application','Receive your EBT card by mail within 30 days if approved. Benefits are loaded monthly.'],
+    tips:['You can apply even if you are employed — many working families qualify','Benefits are backdated to your application date, not your approval date','If you are in a crisis, ask about expedited processing — you may receive benefits within 7 days','Renew your benefits 30 days before your certification period ends to avoid a gap'],
+    faq:[{q:'What if I am denied?',a:'You have the right to request a fair hearing within 90 days of the denial notice. Contact your state DHS for the appeals process.'},
+         {q:'Can undocumented immigrants apply?',a:'Undocumented immigrants are not eligible for SNAP, but U.S. citizen children in mixed-status households can apply on their own behalf.'},
+         {q:'How much will I receive?',a:'The maximum benefit for a family of 4 is $975/month (2024). Your actual amount depends on income and household size.'}],
+    related:[2,5,6], tags:['food assistance','EBT','nutrition','low income'] },
+
+  { id:2, t:'Understanding Medicaid vs. Medicare', c:'Benefits', icon:'🏥', time:'8 min', v:3600, rating:4.7, reviews:228, diff:'Medium', updated:'Jan 2026',
+    summary:'A clear breakdown of the differences between Medicaid and Medicare, who qualifies for each, and how to enroll.',
+    steps:['Determine which program applies to you — Medicare is age/disability based, Medicaid is income based','For Medicare: you are automatically enrolled at 65 if receiving Social Security. Otherwise, sign up at ssa.gov during your Initial Enrollment Period (7 months around your 65th birthday)','For Medicaid: apply through your state health department or at healthcare.gov during open enrollment','If you qualify for both (dual eligible), you receive coordinated coverage from both programs','Review your coverage annually during open enrollment (Oct 15 – Dec 7 for Medicare)'],
+    tips:['Missing your Medicare enrollment window results in permanent late enrollment penalties','Many states have expanded Medicaid under the ACA — check your state\'s income limits','You can enroll in Medicaid year-round, unlike ACA marketplace plans'],
+    faq:[{q:'What is the income limit for Medicaid?',a:'In most expansion states, the limit is 138% of the federal poverty level (~$20,120/yr for a single adult in 2024).'},
+         {q:'Does Medicare cover dental?',a:'Traditional Medicare does not cover most dental. Consider a Medicare Advantage plan that includes dental, or a standalone dental plan.'}],
+    related:[1,5,3], tags:['health insurance','medical','enrollment'] },
+
+  { id:3, t:'Applying for Unemployment Insurance', c:'Benefits', icon:'💼', time:'5 min', v:2700, rating:4.6, reviews:189, diff:'Easy', updated:'Feb 2026',
+    summary:'How to file for unemployment benefits, weekly certification requirements, and what to do if your claim is denied.',
+    steps:['File your initial claim as soon as you become unemployed — benefits are not paid for weeks before you apply','Apply online at your state\'s unemployment portal (Illinois: ides.illinois.gov)','Provide your employment history for the past 18 months, reason for separation, and banking information for direct deposit','Receive a determination letter within 2-4 weeks confirming eligibility and weekly benefit amount','Certify weekly by answering questions about your job search activities and any earnings'],
+    tips:['You must be actively seeking work each week — keep records of at least 3 job contacts per week','Report all part-time or freelance income — working while on unemployment is allowed but reduces your benefit','If you were laid off due to a company closure or mass layoff, you may qualify for additional Trade Adjustment Assistance'],
+    faq:[{q:'How long can I receive benefits?',a:'Most states provide 26 weeks. Extended benefits may be available during high unemployment periods.'},
+         {q:'What if my employer disputes my claim?',a:'Both you and your employer can present evidence. You have the right to appeal any determination within the deadline stated in your letter.'}],
+    related:[1,2,8], tags:['unemployment','job loss','weekly certification'] },
+
+  { id:4, t:'How to Get SSI (Supplemental Security Income)', c:'Benefits', icon:'🛡️', time:'9 min', v:2100, rating:4.5, reviews:143, diff:'Hard', updated:'Dec 2025',
+    summary:'Complete guide to SSI eligibility, the application process, medical documentation requirements, and common reasons for denial.',
+    steps:['Confirm basic eligibility: must be 65+, blind, or have a qualifying disability; income and resources must be below SSA limits','Gather medical evidence: doctor records, test results, treatment history, and contact information for all healthcare providers','Apply online at ssa.gov, by phone at 1-800-772-1213, or in person at your local Social Security office','Complete the Adult Disability Report detailing your conditions and how they affect your ability to work','Attend any consultative exams scheduled by SSA — these are often required and free to you','Wait for a decision — initial decisions take 3-6 months on average'],
+    tips:['Apply as early as possible — if approved, benefits are only paid from the application date, not onset of disability','Keep copies of everything you submit','Consider hiring a disability advocate or attorney — they work on contingency and cost nothing upfront','If denied, appeal immediately. Over 50% of appeals are successful at the hearing level.'],
+    faq:[{q:'What is the 2024 SSI payment amount?',a:'The maximum federal SSI benefit is $943/month for an individual and $1,415 for a couple. Your state may add a supplement.'},
+         {q:'Can I work while receiving SSI?',a:'Yes, through SSA\'s Ticket to Work program and work incentives. Earned income reduces but does not eliminate your benefit.'}],
+    related:[2,3,6], tags:['disability','SSI','Social Security','income'] },
+
+  { id:5, t:'TANF: Temporary Assistance for Needy Families', c:'Benefits', icon:'👨‍👩‍👧', time:'7 min', v:1800, rating:4.4, reviews:97, diff:'Medium', updated:'Nov 2025',
+    summary:'How TANF works, eligibility requirements, what it covers, and time limits you need to know.',
+    steps:['Contact your state or county TANF office to start your application','Provide proof of identity, residency, income, and the ages of children in your household','Complete a work activity requirement — most states require participation in job training, education, or employment activities','Receive an eligibility determination within 30 days','Benefits are provided on an EBT card and can be used for basic necessities'],
+    tips:['TANF has a 60-month federal lifetime limit — use benefits strategically','Many states offer diversion payments as a one-time alternative to ongoing TANF enrollment','Childcare and transportation assistance are often available alongside TANF'],
+    faq:[{q:'Who qualifies for TANF?',a:'Families with children under 18 (or under 19 if in school) with limited income and resources. Parents or caregivers must meet work requirements.'}],
+    related:[1,6,2], tags:['cash assistance','families','children','welfare'] },
+
+  // Business
+  { id:6, t:'Starting an LLC: Complete State-by-State Guide', c:'Business', icon:'🏢', time:'10 min', v:3800, rating:4.9, reviews:445, diff:'Medium', updated:'Feb 2026',
+    summary:'Everything you need to form an LLC in any state — name requirements, filing fees, registered agent rules, and ongoing compliance.',
+    steps:['Choose a unique business name that includes "LLC" or "Limited Liability Company" — search your state\'s business name database','Select a registered agent (a person or service with a physical address in your state to receive legal documents)','File Articles of Organization with your state\'s Secretary of State — fees range from $50 (Kentucky) to $500 (Massachusetts)','Get an EIN (Employer Identification Number) free at irs.gov — takes 5 minutes online','Open a dedicated business bank account to maintain liability protection','Create an Operating Agreement — not always legally required, but essential for multi-member LLCs','Register for state and local taxes as applicable (sales tax, payroll tax, etc.)'],
+    tips:['File online whenever possible — it\'s faster and cheaper than by mail','Single-member LLCs are taxed as sole proprietorships by default — consider electing S-Corp status once revenue exceeds ~$80K','Maintain a clear separation between personal and business finances at all times','Calendar your annual report deadline — most states charge late fees of $50-$200'],
+    faq:[{q:'How much does it cost to form an LLC?',a:'State filing fees range from $50-$500. Annual report fees are typically $25-$250. Factor in ~$100-300/yr for a registered agent service if you use one.'},
+         {q:'Do I need a lawyer to form an LLC?',a:'No. Most people file successfully on their own. An attorney is worth consulting for complex multi-member LLCs or businesses with significant assets.'},
+         {q:'Illinois specific: What are the deadlines?',a:'Illinois LLC Annual Report is due before the first day of the LLC\'s anniversary month each year. Fee: $75.'}],
+    related:[7,8,9], tags:['LLC','small business','formation','self-employment'] },
+
+  { id:7, t:'Getting Your EIN: IRS Employer Identification Number', c:'Business', icon:'🔢', time:'3 min', v:2900, rating:4.9, reviews:378, diff:'Easy', updated:'Jan 2026',
+    summary:'How to get your EIN from the IRS in minutes — completely free, no waiting, no middlemen.',
+    steps:['Go to irs.gov/businesses/small-businesses-self-employed/apply-for-an-employer-identification-number-ein-online','Click "Apply Online Now" — the online system is available Mon-Fri 7am-10pm ET','Select your entity type (sole proprietor, LLC, corporation, partnership, etc.)','Answer questions about your business structure and ownership','Receive your EIN immediately on screen — print or save the confirmation','Use your EIN for bank accounts, tax filing, hiring employees, and business licenses'],
+    tips:['The IRS EIN application is always free — never pay a third-party service to get one','You can only apply for one EIN per responsible party per day online','If you already have an EIN but lost it, call the IRS Business & Specialty Tax Line: 800-829-4933'],
+    faq:[{q:'Do sole proprietors need an EIN?',a:'Not always, but it\'s recommended to avoid using your SSN on business documents. Required if you have employees or file certain tax forms.'},
+         {q:'Can I get an EIN without a Social Security number?',a:'Yes. Foreign nationals and ITIN holders can apply by mail using Form SS-4.'}],
+    related:[6,8,10], tags:['EIN','IRS','tax ID','employer'] },
+
+  { id:8, t:'Business Licenses & Permits: What You Actually Need', c:'Business', icon:'📋', time:'8 min', v:2200, rating:4.7, reviews:201, diff:'Medium', updated:'Jan 2026',
+    summary:'A practical guide to figuring out exactly which licenses and permits your business needs at the federal, state, and local level.',
+    steps:['Identify your industry — regulated industries (food, healthcare, childcare, construction, finance) have more requirements','Check federal requirements at SBA.gov/business-guide/launch-your-business/apply-licenses-permits','Register with your state — search "[your state] business license" for the Secretary of State portal','Contact your county clerk and city hall for local business licenses (often $25-$150/yr)','Industry-specific permits: food handler\'s permit (health dept), contractor\'s license (state licensing board), professional license (if applicable)','Zoning approval may be needed for a physical location — check with your local planning department'],
+    tips:['Most online-only businesses only need a home occupation permit and state business registration','The SBA\'s License & Permit tool at sba.gov helps identify what you need based on your business type and state','Renew licenses on time — operating without a required license can result in fines or forced closure'],
+    faq:[{q:'What\'s the difference between a business license and a permit?',a:'A business license is a general authorization to operate. A permit is specific to an activity (food prep, building, signage). You may need both.'}],
+    related:[6,7,9], tags:['license','permit','compliance','regulations'] },
+
+  // Immigration
+  { id:9, t:'Green Card: Paths to Permanent Residency', c:'Immigration', icon:'🌎', time:'12 min', v:2900, rating:4.8, reviews:334, diff:'Hard', updated:'Feb 2026',
+    summary:'An overview of the main pathways to a U.S. green card — family, employment, diversity lottery, and humanitarian — with realistic timelines.',
+    steps:['Determine your pathway: family sponsorship, employer sponsorship, diversity visa lottery, refugee/asylee status, or special categories (VAWA, special immigrants)','Family-based: U.S. citizen or LPR sponsor files I-130 (Petition for Alien Relative)','Employment-based: employer files PERM labor certification, then I-140 petition','Check visa bulletin at travel.state.gov monthly — your priority date must be current before you can file for adjustment of status','File I-485 (Application to Register Permanent Residence) when your priority date is current','Attend biometrics appointment and USCIS interview','Receive green card by mail — typically valid for 10 years and renewable'],
+    tips:['Consult an immigration attorney before filing — mistakes can cause years of delay or denials','Keep copies of every document submitted to USCIS','Maintain lawful status throughout the process — unauthorized presence creates bars to admission','Track your case at egov.uscis.gov using your receipt number'],
+    faq:[{q:'How long does a green card take?',a:'Varies enormously by category and country of birth. Immediate relatives of U.S. citizens: 12-24 months. Employment-based from India or China: decades due to backlogs.'},
+         {q:'Can I travel while my green card is pending?',a:'With an Advance Parole (I-131) document approved, yes. Traveling without it may abandon your case.'}],
+    related:[10,11], tags:['green card','permanent residency','USCIS','immigration'] },
+
+  { id:10, t:'DACA: Deferred Action for Childhood Arrivals', c:'Immigration', icon:'🎓', time:'9 min', v:2400, rating:4.8, reviews:267, diff:'Medium', updated:'Feb 2026',
+    summary:'Current DACA status, eligibility requirements, how to apply or renew, and what protections it provides.',
+    steps:['Confirm eligibility: came to U.S. before age 16, have resided continuously since June 15, 2007, were under 31 on June 15, 2012, and have no disqualifying criminal record','Gather evidence of continuous U.S. residence (school records, medical records, utility bills, employment records)','Complete Form I-821D (DACA request) and Form I-765 (Employment Authorization)','Pay the $495 filing fee (fee waivers are not available for DACA)','Submit to the USCIS lockbox facility for your state','Receive work permit and 2-year deferred action if approved'],
+    tips:['DACA does not provide a path to citizenship — consult an attorney about other options','Renew early — USCIS recommends submitting your renewal 150-120 days before expiration','Do not travel outside the U.S. without advance parole — you may not be able to return','Legal aid organizations offer free or reduced-cost DACA assistance'],
+    faq:[{q:'Is DACA still accepting new applications?',a:'As of 2024, federal courts have limited DACA to renewals only for existing recipients. Check uscis.gov for the latest status.'},
+         {q:'Does DACA protect my family members?',a:'No. DACA only protects the individual applicant. Family members need separate legal protections.'}],
+    related:[9,11], tags:['DACA','dreamers','work permit','immigration'] },
+
+  { id:11, t:'Applying for U.S. Citizenship (Naturalization)', c:'Immigration', icon:'🇺🇸', time:'11 min', v:2100, rating:4.9, reviews:289, diff:'Hard', updated:'Jan 2026',
+    summary:'The complete naturalization process from eligibility check through oath ceremony, including the civics test and interview.',
+    steps:['Meet eligibility: be an LPR for 5 years (3 years if married to U.S. citizen), be 18+, demonstrate continuous residence and physical presence','File Form N-400 online at uscis.gov — fee is $760 ($710 online)','Attend biometrics appointment for fingerprints and photo','Receive interview notice — typically 12-18 months after filing','Study for and pass the civics test (100 questions, must answer 6 of 10 correctly) and English test','Attend naturalization ceremony and take the Oath of Allegiance','Apply for a U.S. passport — you\'re now a citizen!'],
+    tips:['USCIS offers free study materials and a practice test at uscis.gov/citizenship','If you have a disability that prevents you from taking the English or civics test, request a medical exception with Form N-648','Your green card must not have been abandoned — brief trips outside the U.S. are okay but extended stays may restart your continuous residence clock'],
+    faq:[{q:'Can I keep my current citizenship?',a:'The U.S. generally allows dual citizenship, but your original country may not. Check that country\'s laws before naturalizing.'},
+         {q:'What is the English test?',a:'You must demonstrate the ability to read, write, and speak basic English. The interviewing officer assesses this throughout your interview.'}],
+    related:[9,10], tags:['citizenship','naturalization','N-400','oath'] },
+
+  // Veterans
+  { id:12, t:'VA Healthcare: How to Enroll and What\'s Covered', c:'Veterans', icon:'🏥', time:'7 min', v:2400, rating:4.8, reviews:198, diff:'Easy', updated:'Feb 2026',
+    summary:'How to enroll in VA healthcare, understand your priority group, and get the most out of your benefits.',
+    steps:['Confirm eligibility: served on active duty (not for training only) and received a discharge other than dishonorable','Apply online at va.gov/health-care/apply, call 877-222-8387, or visit your nearest VA medical center','Provide DD-214 (Certificate of Release or Discharge from Active Duty) — request it at vetrecs.archives.gov if needed','Receive your priority group assignment (1-8 based on service-connected disability, income, and other factors)','Schedule your first appointment — primary care, mental health, and specialty care are all available','Explore additional programs: dental, vision, caregiver support, and community care options'],
+    tips:['Veterans with service-connected disabilities rated 50%+ receive free VA healthcare','The PACT Act (2022) expanded eligibility for veterans exposed to burn pits and toxic substances — re-apply if previously denied','VA telehealth appointments are available for most routine care — use the VA Video Connect app','The Veterans Crisis Line is available 24/7: call 988, press 1'],
+    faq:[{q:'Does VA cover my family members?',a:'VA healthcare covers the veteran, not dependents. Family members may qualify for CHAMPVA if the veteran is 100% permanently disabled or died in service.'},
+         {q:'What if I need care outside the VA?',a:'The Community Care program allows you to see private providers if VA cannot provide timely or local care. Prior authorization may be required.'}],
+    related:[13,14], tags:['VA','veterans','healthcare','military'] },
+
+  { id:13, t:'GI Bill: Using Your Education Benefits', c:'Veterans', icon:'📖', time:'8 min', v:1900, rating:4.7, reviews:156, diff:'Medium', updated:'Jan 2026',
+    summary:'Post-9/11 GI Bill (Ch. 33) and Montgomery GI Bill (Ch. 30) explained — how to apply, transfer to dependents, and maximize your benefits.',
+    steps:['Determine which GI Bill you have: Post-9/11 (most veterans since 2009) or Montgomery (requires monthly contribution during service)','Apply at va.gov/education/apply — receive a Certificate of Eligibility (COE) in the mail','Choose an approved school — search the GI Bill Comparison Tool at va.gov/gi-bill-comparison-tool','Submit your COE to the school\'s veterans certifying official','Enroll in classes — VA pays tuition directly to the school, housing allowance to you, and provides a book stipend','Certify your enrollment each semester through your school'],
+    tips:['Post-9/11 GI Bill pays 100% of in-state public tuition — private schools may have a cap','The housing allowance is based on the military\'s Basic Allowance for Housing (BAH) rate for the school\'s zip code — choose an urban campus for higher BAH','You have 36 months of GI Bill benefits total — plan your courses strategically','Transfer unused benefits to a spouse or child while still on active duty'],
+    faq:[{q:'Can I use GI Bill for online programs?',a:'Yes, but the housing allowance is reduced to half the national average BAH rate for fully online enrollment.'},
+         {q:'What if my school closes?',a:'Veterans may be eligible for restoration of benefits used at a closed school. Contact VA at 888-442-4551.'}],
+    related:[12,14], tags:['GI Bill','education','military','college'] },
+
+  // Housing
+  { id:14, t:'Section 8 Housing Choice Voucher Program', c:'Housing', icon:'🏠', time:'9 min', v:2600, rating:4.6, reviews:221, diff:'Hard', updated:'Jan 2026',
+    summary:'How the Section 8 voucher program works, how to get on a waiting list, tenant rights, and landlord requirements.',
+    steps:['Find your local Public Housing Authority (PHA) at hud.gov/program_offices/public_indian_housing/programs/hcv/phasearch','Apply when the waiting list is open — many PHAs only open lists periodically','Wait on the list — average wait times range from 1 to 10+ years depending on location','When your name is called, attend a briefing and receive your voucher','Find a private landlord willing to accept Section 8 — the unit must pass a HUD inspection','Sign a lease and a Housing Assistance Payment (HAP) contract — HUD pays a portion directly to your landlord','Recertify your income and family composition annually'],
+    tips:['Apply to multiple PHAs simultaneously — each maintains its own list','Some areas have Project-Based vouchers attached to specific units, with shorter wait times','Voucher holders have the same rights as any tenant under state landlord-tenant law','Request a reasonable accommodation if you have a disability'],
+    faq:[{q:'How much do I pay vs. the voucher?',a:'Typically 30% of your adjusted monthly income. If the rent is higher than HUD\'s payment standard, you pay the difference.'},
+         {q:'Can I move with my voucher?',a:'Yes — "portability" allows you to use your voucher in any area with a participating PHA, after meeting initial residency requirements.'}],
+    related:[15], tags:['Section 8','housing','HUD','voucher','rental assistance'] },
+
+  { id:15, t:'HUD Programs: Low-Income Housing Options', c:'Housing', icon:'🏘️', time:'6 min', v:1700, rating:4.5, reviews:134, diff:'Medium', updated:'Dec 2025',
+    summary:'Overview of all major HUD housing assistance programs beyond Section 8, including Public Housing, HOME, LIHTC, and emergency options.',
+    steps:['Public Housing: apply directly at your local PHA — rent is typically 30% of income','LIHTC properties (Low-Income Housing Tax Credit): privately owned apartments with income-restricted rents — search at affordablehousingonline.com','HOME Program: state-administered grants for homebuyer assistance, rental rehab, and new construction — contact your state housing agency','Emergency Housing Vouchers: contact your local Continuum of Care for homelessness-related assistance','HUD-approved housing counselors are available free at 800-569-4287 for personalized guidance'],
+    tips:['Income limits for most programs are 50% or 80% of Area Median Income (AMI)','Document everything with your PHA — get all communications in writing','If you are a domestic violence survivor, VAWA protections apply to HUD programs','Many nonprofits have their own affordable housing lists — check 211.org for local resources'],
+    faq:[{q:'What is the difference between Section 8 and Public Housing?',a:'Public Housing is owned and managed by the PHA. Section 8 uses vouchers in privately owned units. Both are income-based.'}],
+    related:[14], tags:['HUD','public housing','affordable housing','low income'] },
+
+  // Education
+  { id:16, t:'FAFSA: Free Application for Federal Student Aid', c:'Education', icon:'🎓', time:'8 min', v:3300, rating:4.8, reviews:412, diff:'Medium', updated:'Feb 2026',
+    summary:'How to complete the FAFSA, what information you need, and how it determines your financial aid package.',
+    steps:['Create an FSA ID at studentaid.gov — both student and parent (if dependent) need separate IDs','Gather documents: Social Security number, driver\'s license, prior year tax returns, W-2s, bank statements, and investment records','File at studentaid.gov — the 2025-26 FAFSA opens December 1, 2024','Link your IRS account using the IRS Data Retrieval Tool for automatic tax import','List up to 20 schools on your FAFSA — each will receive your information','Review your Student Aid Report (SAR) for accuracy','Compare financial aid award letters from each school'],
+    tips:['File as early as possible — some aid is first-come, first-served, especially state grants','Even if you think you earn too much, file anyway — eligibility formulas are complex and many families are surprised','Undocumented students are not eligible for federal aid but may qualify for state aid — check your state\'s policy','Community college is often fully covered by Pell Grant plus state grants for low-income students'],
+    faq:[{q:'What is the Pell Grant?',a:'A federal grant of up to $7,395/yr (2024-25) for undergraduates with financial need. Unlike loans, grants do not need to be repaid.'},
+         {q:'What is the Expected Family Contribution (EFC)?',a:'Now called Student Aid Index (SAI), this is the number schools use to calculate your aid package. A lower SAI means more aid.'}],
+    related:[17], tags:['FAFSA','financial aid','student aid','college','Pell Grant'] },
+
+  { id:17, t:'Student Loan Repayment: IDR Plans Explained', c:'Education', icon:'💳', time:'10 min', v:2800, rating:4.7, reviews:334, diff:'Medium', updated:'Feb 2026',
+    summary:'Income-Driven Repayment plans, Public Service Loan Forgiveness, and strategies to minimize what you pay.',
+    steps:['Log in to studentaid.gov to see your loan types, balances, and servicer information','Understand your IDR options: SAVE, PAYE, IBR, and ICR plans all cap payments at a percentage of discretionary income','Apply for an IDR plan through your loan servicer — recertify income annually','If working in public service (government, nonprofit), apply for PSLF — after 120 qualifying payments your remaining balance is forgiven','Explore Teacher Loan Forgiveness, Perkins Loan cancellation, or state-specific forgiveness programs','Consider refinancing private loans — federal loans should generally not be refinanced to private'],
+    tips:['The SAVE plan offers the lowest monthly payments for most borrowers — payments as low as $0 for low incomes','Under PSLF, you do not need consecutive payments — just 120 total qualifying payments','Keep employment certification forms filed annually for PSLF — do not wait until you have 120 payments','Avoid default at all costs — rehabilitation is possible but damages credit significantly'],
+    faq:[{q:'What counts as a qualifying PSLF employer?',a:'Government agencies at any level, and 501(c)(3) nonprofits. Private companies, even if they serve the public, generally do not qualify.'},
+         {q:'What happens if I can\'t pay at all?',a:'Apply for deferment or forbearance to temporarily pause payments. Interest may still accrue. IDR plans with $0 payments are often better than forbearance.'}],
+    related:[16], tags:['student loans','IDR','PSLF','forgiveness','repayment'] },
+]
+
+const KB_CATS = ['All','Benefits','Business','Immigration','Veterans','Housing','Education']
+const DIFF_COLOR = {Easy:C.success, Medium:C.warn, Hard:C.danger}
+
+function ArticleView({ article, onBack }) {
+  const [helpful, setHelpful] = useState(null)
+  const [bookmarked, setBookmarked] = useState(false)
+  const related = KB_ARTICLES.filter(a => article.related?.includes(a.id))
+
   return (
     <div className="page">
-      <div className="ph"><div className="pt">Phase 19</div><h1>Knowledge Base</h1><p>800+ guides and FAQs for every government process.</p></div>
-      <div style={{ marginBottom:20 }}><input placeholder="Search 800+ articles..." /></div>
-      <div style={{ display:'grid', gap:12 }}>
-        {articles.map(a=>(
-          <div key={a.t} className="card" style={{ display:'flex', alignItems:'center', gap:16, cursor:'pointer' }}>
-            <div style={{ flex:1 }}>
-              <span className="badge badge-blue" style={{ marginBottom:8 }}>{a.c}</span>
-              <div style={{ fontWeight:600, color:C.heading, fontSize:15, marginBottom:4 }}>{a.t}</div>
-              <div style={{ color:C.muted, fontSize:13 }}>{a.v.toLocaleString()} views</div>
+      <button onClick={onBack} style={{ background:'none', border:'none', color:C.primary, cursor:'pointer', fontSize:14, fontWeight:600, marginBottom:24, display:'flex', alignItems:'center', gap:6 }}>
+        ← Back to Knowledge Base
+      </button>
+      <div style={{ display:'grid', gridTemplateColumns:'1fr 280px', gap:24, alignItems:'start' }}>
+        {/* Main content */}
+        <div>
+          <div className="card" style={{ marginBottom:20 }}>
+            <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:16 }}>
+              <span className={`badge badge-blue`}>{article.c}</span>
+              <span style={{ fontSize:12, color:C.muted }}>{article.time} read</span>
+              <span style={{ fontSize:12, padding:'2px 8px', borderRadius:4, background:`${DIFF_COLOR[article.diff]}22`, color:DIFF_COLOR[article.diff], fontWeight:700 }}>{article.diff}</span>
+              <span style={{ fontSize:12, color:C.muted, marginLeft:'auto' }}>Updated {article.updated}</span>
             </div>
-            <span style={{ color:C.muted }}>▶</span>
+            <div style={{ fontSize:36, marginBottom:12 }}>{article.icon}</div>
+            <h1 style={{ color:C.heading, fontSize:26, fontWeight:800, marginBottom:12, lineHeight:1.3 }}>{article.t}</h1>
+            <p style={{ color:C.muted, fontSize:15, lineHeight:1.7, marginBottom:20 }}>{article.summary}</p>
+            <div style={{ display:'flex', alignItems:'center', gap:16 }}>
+              <div style={{ color:C.warn }}>{'★'.repeat(Math.round(article.rating))}{'☆'.repeat(5-Math.round(article.rating))}</div>
+              <span style={{ color:C.muted, fontSize:13 }}>{article.rating} ({article.reviews} reviews)</span>
+              <span style={{ color:C.muted, fontSize:13 }}>·</span>
+              <span style={{ color:C.muted, fontSize:13 }}>{article.v.toLocaleString()} views</span>
+            </div>
+          </div>
+
+          {/* Steps */}
+          <div className="card" style={{ marginBottom:20 }}>
+            <h2 style={{ color:C.heading, fontSize:18, fontWeight:700, marginBottom:20 }}>Step-by-Step Guide</h2>
+            {article.steps.map((step, i) => (
+              <div key={i} style={{ display:'flex', gap:16, marginBottom:i < article.steps.length-1 ? 20 : 0 }}>
+                <div style={{ width:32, height:32, borderRadius:'50%', background:`${C.primary}22`, border:`2px solid ${C.primary}`, display:'flex', alignItems:'center', justifyContent:'center', fontWeight:800, color:C.primary, fontSize:14, flexShrink:0, marginTop:2 }}>{i+1}</div>
+                <div style={{ flex:1 }}>
+                  <p style={{ color:C.text, fontSize:14, lineHeight:1.7 }}>{step}</p>
+                  {i < article.steps.length-1 && <div style={{ width:2, height:16, background:C.border, marginLeft:7, marginTop:8 }} />}
+                </div>
+              </div>
+            ))}
+          </div>
+
+          {/* Tips */}
+          <div className="card" style={{ marginBottom:20 }}>
+            <h2 style={{ color:C.heading, fontSize:18, fontWeight:700, marginBottom:16 }}>💡 Pro Tips</h2>
+            {article.tips.map((tip, i) => (
+              <div key={i} style={{ display:'flex', gap:12, padding:'10px 0', borderBottom: i < article.tips.length-1 ? `1px solid ${C.border}` : 'none' }}>
+                <span style={{ color:C.accent, fontSize:18, flexShrink:0 }}>→</span>
+                <p style={{ color:C.text, fontSize:14, lineHeight:1.6 }}>{tip}</p>
+              </div>
+            ))}
+          </div>
+
+          {/* FAQ */}
+          <div className="card" style={{ marginBottom:20 }}>
+            <h2 style={{ color:C.heading, fontSize:18, fontWeight:700, marginBottom:16 }}>Frequently Asked Questions</h2>
+            {article.faq.map((item, i) => (
+              <div key={i} style={{ marginBottom: i < article.faq.length-1 ? 20 : 0, paddingBottom: i < article.faq.length-1 ? 20 : 0, borderBottom: i < article.faq.length-1 ? `1px solid ${C.border}` : 'none' }}>
+                <div style={{ fontWeight:700, color:C.heading, fontSize:14, marginBottom:8 }}>Q: {item.q}</div>
+                <div style={{ color:C.muted, fontSize:14, lineHeight:1.6 }}>A: {item.a}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Helpful */}
+          <div className="card">
+            <h3 style={{ color:C.heading, marginBottom:16 }}>Was this article helpful?</h3>
+            <div style={{ display:'flex', gap:12 }}>
+              <button onClick={()=>setHelpful('yes')} className="btn" style={{ background: helpful==='yes' ? `${C.success}22` : C.surface, border:`1px solid ${helpful==='yes'?C.success:C.border}`, color:helpful==='yes'?C.success:C.muted }}>👍 Yes, helpful</button>
+              <button onClick={()=>setHelpful('no')} className="btn" style={{ background: helpful==='no' ? `${C.danger}22` : C.surface, border:`1px solid ${helpful==='no'?C.danger:C.border}`, color:helpful==='no'?C.danger:C.muted }}>👎 Needs improvement</button>
+            </div>
+            {helpful && <p style={{ marginTop:12, fontSize:14, color:C.success }}>Thanks for your feedback! It helps us improve.</p>}
+          </div>
+        </div>
+
+        {/* Sidebar */}
+        <div style={{ position:'sticky', top:20 }}>
+          <div className="card" style={{ marginBottom:16 }}>
+            <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:16 }}>
+              <h3 style={{ color:C.heading, fontSize:15 }}>Quick Actions</h3>
+            </div>
+            <button onClick={()=>setBookmarked(v=>!v)} className="btn" style={{ width:'100%', marginBottom:10, background:bookmarked?`${C.warn}22`:C.surface, border:`1px solid ${bookmarked?C.warn:C.border}`, color:bookmarked?C.warn:C.text }}>
+              {bookmarked?'🔖 Bookmarked':'🔖 Bookmark'} 
+            </button>
+            <button className="btn btn-primary" style={{ width:'100%', marginBottom:10 }}>🤖 Ask CLARA About This</button>
+            <button className="btn btn-outline" style={{ width:'100%' }}>📄 Download PDF Guide</button>
+          </div>
+
+          {/* Tags */}
+          <div className="card" style={{ marginBottom:16 }}>
+            <h3 style={{ color:C.heading, fontSize:15, marginBottom:12 }}>Tags</h3>
+            <div style={{ display:'flex', flexWrap:'wrap', gap:8 }}>
+              {article.tags.map(tag=><span key={tag} style={{ padding:'4px 10px', background:C.surface, borderRadius:20, fontSize:12, color:C.muted, border:`1px solid ${C.border}` }}>#{tag}</span>)}
+            </div>
+          </div>
+
+          {/* Related */}
+          {related.length > 0 && (
+            <div className="card">
+              <h3 style={{ color:C.heading, fontSize:15, marginBottom:14 }}>Related Articles</h3>
+              {related.map(a=>(
+                <div key={a.id} onClick={()=>onBack(a)} style={{ padding:'10px 0', borderBottom:`1px solid ${C.border}`, cursor:'pointer' }}>
+                  <div style={{ fontSize:13, color:C.text, fontWeight:600, marginBottom:4 }}>{a.icon} {a.t}</div>
+                  <span className="badge badge-blue">{a.c}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function Knowledge() {
+  const [search, setSearch] = useState('')
+  const [cat, setCat] = useState('All')
+  const [sort, setSort] = useState('popular')
+  const [diff, setDiff] = useState('All')
+  const [selected, setSelected] = useState(null)
+  const [bookmarks, setBookmarks] = useState([])
+
+  function handleBack(nextArticle) {
+    if (nextArticle && nextArticle.id) setSelected(nextArticle)
+    else setSelected(null)
+  }
+
+  if (selected) return <ArticleView article={selected} onBack={handleBack} />
+
+  const filtered = KB_ARTICLES
+    .filter(a => cat === 'All' || a.c === cat)
+    .filter(a => diff === 'All' || a.diff === diff)
+    .filter(a => {
+      if (!search) return true
+      const q = search.toLowerCase()
+      return a.t.toLowerCase().includes(q) || a.c.toLowerCase().includes(q) || a.tags.some(t=>t.includes(q)) || a.summary.toLowerCase().includes(q)
+    })
+    .sort((a,b) => sort==='popular' ? b.v-a.v : sort==='rating' ? b.rating-a.rating : sort==='newest' ? b.id-a.id : a.t.localeCompare(b.t))
+
+  const featured = KB_ARTICLES.filter(a=>[1,6,9,12,16,17].includes(a.id))
+  const catCounts = KB_CATS.slice(1).map(c=>({ c, n: KB_ARTICLES.filter(a=>a.c===c).length }))
+
+  return (
+    <div className="page">
+      <div className="ph">
+        <div className="pt">Phase 19 — Enhanced</div>
+        <h1>Knowledge Base</h1>
+        <p>In-depth guides, step-by-step walkthroughs, and expert tips for every government process.</p>
+      </div>
+
+      {/* Stats bar */}
+      <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:12, marginBottom:32 }}>
+        {[['📚',KB_ARTICLES.length,'Articles'],['⭐','4.7','Avg Rating'],['👁️','47K+','Monthly Views'],['🔖','12','Categories']].map(([i,v,l])=>(
+          <div key={l} style={{ padding:'14px 16px', background:C.card, borderRadius:12, border:`1px solid ${C.border}`, textAlign:'center' }}>
+            <div style={{ fontSize:20, marginBottom:4 }}>{i}</div>
+            <div style={{ fontSize:22, fontWeight:800, color:C.heading }}>{v}</div>
+            <div style={{ fontSize:12, color:C.muted }}>{l}</div>
           </div>
         ))}
+      </div>
+
+      {/* Search */}
+      <div style={{ position:'relative', marginBottom:24 }}>
+        <span style={{ position:'absolute', left:14, top:'50%', transform:'translateY(-50%)', fontSize:18 }}>🔍</span>
+        <input
+          value={search} onChange={e=>setSearch(e.target.value)}
+          placeholder="Search articles by topic, keyword, or category…"
+          style={{ paddingLeft:44, fontSize:16, padding:'14px 14px 14px 44px' }}
+        />
+        {search && <button onClick={()=>setSearch('')} style={{ position:'absolute', right:14, top:'50%', transform:'translateY(-50%)', background:'none', border:'none', color:C.muted, cursor:'pointer', fontSize:18 }}>✕</button>}
+      </div>
+
+      {/* Filters */}
+      <div style={{ display:'flex', gap:10, marginBottom:24, flexWrap:'wrap', alignItems:'center' }}>
+        <div style={{ display:'flex', gap:6, flex:1, flexWrap:'wrap' }}>
+          {KB_CATS.map(c=>(
+            <button key={c} onClick={()=>setCat(c)} style={{ padding:'6px 14px', borderRadius:20, border:`1px solid ${cat===c?C.primary:C.border}`, background:cat===c?`${C.primary}22`:'transparent', color:cat===c?C.primary:C.muted, cursor:'pointer', fontSize:13, fontWeight:cat===c?700:400 }}>{c}</button>
+          ))}
+        </div>
+        <div style={{ display:'flex', gap:8 }}>
+          <select value={diff} onChange={e=>setDiff(e.target.value)} style={{ width:'auto', padding:'6px 12px', fontSize:13 }}>
+            <option value="All">All Levels</option>
+            <option>Easy</option><option>Medium</option><option>Hard</option>
+          </select>
+          <select value={sort} onChange={e=>setSort(e.target.value)} style={{ width:'auto', padding:'6px 12px', fontSize:13 }}>
+            <option value="popular">Most Popular</option>
+            <option value="rating">Highest Rated</option>
+            <option value="newest">Newest</option>
+            <option value="alpha">A–Z</option>
+          </select>
+        </div>
+      </div>
+
+      {/* Featured section (only when no search/filter active) */}
+      {!search && cat==='All' && diff==='All' && (
+        <div style={{ marginBottom:36 }}>
+          <h2 style={{ color:C.heading, fontSize:18, fontWeight:700, marginBottom:16 }}>⭐ Featured Articles</h2>
+          <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(280px,1fr))', gap:14 }}>
+            {featured.map(a=>(
+              <div key={a.id} onClick={()=>setSelected(a)} style={{ background:C.card, border:`1px solid ${C.border}`, borderRadius:12, padding:18, cursor:'pointer', transition:'border .2s', display:'flex', flexDirection:'column', gap:10 }}>
+                <div style={{ display:'flex', justifyContent:'space-between' }}>
+                  <span className="badge badge-blue">{a.c}</span>
+                  <span style={{ fontSize:12, padding:'2px 7px', borderRadius:4, background:`${DIFF_COLOR[a.diff]}22`, color:DIFF_COLOR[a.diff], fontWeight:700 }}>{a.diff}</span>
+                </div>
+                <div style={{ fontSize:28 }}>{a.icon}</div>
+                <div style={{ fontWeight:700, color:C.heading, fontSize:14, lineHeight:1.4 }}>{a.t}</div>
+                <div style={{ fontSize:12, color:C.muted, lineHeight:1.5 }}>{a.summary.slice(0,90)}…</div>
+                <div style={{ display:'flex', gap:12, fontSize:12, color:C.muted, marginTop:'auto' }}>
+                  <span style={{ color:C.warn }}>{'★'.repeat(Math.round(a.rating))}</span>
+                  <span>{a.rating}</span>
+                  <span>·</span>
+                  <span>{a.time}</span>
+                  <span>·</span>
+                  <span>{a.v.toLocaleString()} views</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* Category browse (no search) */}
+      {!search && cat==='All' && (
+        <div style={{ marginBottom:32 }}>
+          <h2 style={{ color:C.heading, fontSize:18, fontWeight:700, marginBottom:16 }}>Browse by Category</h2>
+          <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(160px,1fr))', gap:12 }}>
+            {catCounts.map(({c,n})=>{
+              const icons = {Benefits:'🍎',Business:'🏢',Immigration:'🌎',Veterans:'🏅',Housing:'🏠',Education:'🎓'}
+              const colors = {Benefits:C.success,Business:C.primary,Immigration:'#8b5cf6',Veterans:'#06b6d4',Housing:C.warn,Education:'#f59e0b'}
+              return (
+                <div key={c} onClick={()=>setCat(c)} style={{ padding:16, background:C.card, border:`1px solid ${cat===c?colors[c]:C.border}`, borderRadius:12, cursor:'pointer', textAlign:'center', transition:'all .2s' }}>
+                  <div style={{ fontSize:28, marginBottom:8 }}>{icons[c]}</div>
+                  <div style={{ fontWeight:700, color:C.heading, fontSize:14 }}>{c}</div>
+                  <div style={{ fontSize:12, color:C.muted }}>{n} articles</div>
+                </div>
+              )
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Results list */}
+      <div>
+        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:14 }}>
+          <h2 style={{ color:C.heading, fontSize:18, fontWeight:700 }}>
+            {search ? `Results for "${search}"` : cat !== 'All' ? cat : 'All Articles'}
+            <span style={{ color:C.muted, fontWeight:400, fontSize:14, marginLeft:10 }}>({filtered.length})</span>
+          </h2>
+        </div>
+
+        {filtered.length === 0 ? (
+          <div className="card" style={{ textAlign:'center', padding:48 }}>
+            <div style={{ fontSize:48, marginBottom:16 }}>🔍</div>
+            <div style={{ fontWeight:700, color:C.heading, fontSize:18, marginBottom:8 }}>No articles found</div>
+            <div style={{ color:C.muted }}>Try a different search term or browse by category</div>
+            <button className="btn btn-primary" style={{ marginTop:16 }} onClick={()=>{setSearch('');setCat('All')}}>Clear Filters</button>
+          </div>
+        ) : (
+          <div style={{ display:'grid', gap:12 }}>
+            {filtered.map(a=>(
+              <div key={a.id} onClick={()=>setSelected(a)} className="card" style={{ display:'flex', alignItems:'center', gap:20, cursor:'pointer', transition:'border .15s' }}>
+                <div style={{ fontSize:32, flexShrink:0 }}>{a.icon}</div>
+                <div style={{ flex:1 }}>
+                  <div style={{ display:'flex', gap:8, marginBottom:8, flexWrap:'wrap' }}>
+                    <span className="badge badge-blue">{a.c}</span>
+                    <span style={{ fontSize:11, padding:'2px 7px', borderRadius:4, background:`${DIFF_COLOR[a.diff]}22`, color:DIFF_COLOR[a.diff], fontWeight:700 }}>{a.diff}</span>
+                    <span style={{ fontSize:12, color:C.muted }}>{a.time}</span>
+                  </div>
+                  <div style={{ fontWeight:700, color:C.heading, fontSize:15, marginBottom:6 }}>{a.t}</div>
+                  <div style={{ fontSize:13, color:C.muted, lineHeight:1.5, marginBottom:8 }}>{a.summary.slice(0,120)}…</div>
+                  <div style={{ display:'flex', gap:12, fontSize:12, color:C.muted }}>
+                    <span style={{ color:C.warn }}>{'★'.repeat(Math.round(a.rating))}</span>
+                    <span>{a.rating} ({a.reviews})</span>
+                    <span>·</span>
+                    <span>{a.v.toLocaleString()} views</span>
+                    <span>·</span>
+                    <span>Updated {a.updated}</span>
+                  </div>
+                </div>
+                <span style={{ color:C.muted, fontSize:20 }}>›</span>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   )

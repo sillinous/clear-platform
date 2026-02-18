@@ -8,31 +8,94 @@ const C = {
 }
 
 const css = `
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
   * { box-sizing:border-box;margin:0;padding:0; }
-  body { background:${C.bg};color:${C.text};font-family:system-ui,sans-serif;min-height:100vh; }
+  body { background:${C.bg};color:${C.text};font-family:'Inter',system-ui,sans-serif;min-height:100vh; }
   a { color:inherit;text-decoration:none; }
-  ::-webkit-scrollbar{width:5px}::-webkit-scrollbar-track{background:${C.surface}}::-webkit-scrollbar-thumb{background:${C.border};border-radius:3px}
-  .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:8px;border:none;cursor:pointer;font-size:14px;font-weight:600;transition:all .2s}
-  .btn-primary{background:${C.primary};color:#fff}.btn-primary:hover{background:#2563eb;transform:translateY(-1px)}
-  .btn-outline{background:transparent;color:${C.primary};border:1px solid ${C.primary}}.btn-outline:hover{background:${C.primary}22}
-  .btn-success{background:${C.success};color:#fff}
-  .card{background:${C.card};border:1px solid ${C.border};border-radius:12px;padding:24px}
-  .badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
-  .badge-blue{background:#1e40af33;color:#60a5fa}.badge-green{background:#064e3b33;color:#34d399}
-  .badge-gold{background:#78350f33;color:#fbbf24}.badge-purple{background:#4c1d9533;color:#a78bfa}
+  ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:${C.border};border-radius:4px}::-webkit-scrollbar-thumb:hover{background:${C.muted}}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:8px;border:none;cursor:pointer;font-size:14px;font-weight:600;transition:all .18s cubic-bezier(.4,0,.2,1)}
+  .btn-primary{background:${C.primary};color:#fff;box-shadow:0 1px 3px rgba(59,130,246,.3)}.btn-primary:hover{background:#2563eb;transform:translateY(-1px);box-shadow:0 4px 12px rgba(59,130,246,.35)}
+  .btn-outline{background:transparent;color:${C.primary};border:1px solid ${C.primary}}.btn-outline:hover{background:${C.primary}18;transform:translateY(-1px)}
+  .btn-ghost{background:transparent;color:${C.muted};border:1px solid ${C.border}}.btn-ghost:hover{background:${C.surface};border-color:${C.muted};color:${C.text}}
+  .btn-success{background:${C.success};color:#fff;box-shadow:0 1px 3px rgba(16,185,129,.3)}.btn-success:hover{background:#059669;transform:translateY(-1px)}
+  .btn-sm{padding:6px 12px;font-size:12px;border-radius:6px}
+  .card{background:${C.card};border:1px solid ${C.border};border-radius:14px;padding:24px;transition:border-color .18s,box-shadow .18s,transform .18s}
+  .card-sm{padding:16px}
+  .card-hover:hover{border-color:${C.primary}44;box-shadow:0 4px 20px rgba(59,130,246,.08);transform:translateY(-1px);cursor:pointer}
+  .badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.01em}
+  .badge-blue{background:#1e40af22;color:#60a5fa}.badge-green{background:#064e3b22;color:#34d399}
+  .badge-gold{background:#78350f22;color:#fbbf24}.badge-purple{background:#4c1d9522;color:#a78bfa}
+  .badge-red{background:#7f1d1d22;color:#f87171}
   .g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
   .g3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
-  input,textarea,select{background:${C.surface};border:1px solid ${C.border};border-radius:8px;color:${C.text};padding:10px 14px;font-size:14px;width:100%;outline:none;transition:border .2s}
-  input:focus,textarea:focus,select:focus{border-color:${C.primary}}
+  input,textarea,select{background:${C.surface};border:1px solid ${C.border};border-radius:10px;color:${C.text};padding:10px 14px;font-size:14px;width:100%;outline:none;transition:border-color .18s,box-shadow .18s;font-family:inherit}
+  input:focus,textarea:focus,select:focus{border-color:${C.primary};box-shadow:0 0 0 3px ${C.primary}18}
   label{display:block;font-size:13px;color:${C.muted};margin-bottom:6px;font-weight:500}
-  .page{max-width:1200px;margin:0 auto;padding:40px 24px}
-  .ph{margin-bottom:36px}.ph h1{font-size:32px;font-weight:800;color:${C.heading};margin-bottom:8px}
-  .ph p{color:${C.muted};font-size:16px}
+  .page{max-width:1200px;margin:0 auto;padding:32px 24px}
+  .ph{margin-bottom:36px}.ph h1{font-size:32px;font-weight:800;color:${C.heading};margin-bottom:8px;letter-spacing:-.02em}
+  .ph p{color:${C.muted};font-size:16px;line-height:1.6}
   .pt{font-size:11px;font-weight:700;letter-spacing:.08em;color:${C.accent};text-transform:uppercase;margin-bottom:6px}
   .tn{background:#0891b222;color:#22d3ee;padding:3px 8px;border-radius:4px;font-size:11px;font-weight:700}
   .toggle{width:44px;height:24px;border-radius:12px;cursor:pointer;position:relative;transition:background .2s;flex-shrink:0}
   .tknob{position:absolute;width:18px;height:18px;border-radius:50%;background:#fff;top:3px;transition:left .2s}
   .row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid ${C.border}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
+  @keyframes slideIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:none}}
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+  @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
+  @keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.18)}100%{transform:scale(1)}}
+  @keyframes confetti-fall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(100px) rotate(360deg);opacity:0}}
+  .fade-up{animation:fadeUp .35s cubic-bezier(.22,.61,.36,1) both}
+  .fade-in{animation:fadeIn .25s ease both}
+  .slide-in{animation:slideIn .3s ease both}
+  .card{background:${C.card};border:1px solid ${C.border};border-radius:12px;padding:24px;transition:border-color .2s,box-shadow .2s}
+  .card-hover:hover{border-color:${C.primary}44;box-shadow:0 4px 24px rgba(59,130,246,.08);cursor:pointer}
+  .progress-bar-track{height:3px;background:${C.border};border-radius:2px;overflow:hidden}
+  .progress-bar-fill{height:100%;border-radius:2px;transition:width .4s ease}
+  .step-done{background:${C.success}!important;border-color:${C.success}!important;color:#fff!important}
+  .step-done-text{color:${C.muted}!important;text-decoration:line-through;text-decoration-color:${C.success}66}
+  .tag-pill{padding:3px 9px;border-radius:20px;font-size:11px;cursor:pointer;transition:all .15s;border:1px solid transparent}
+  .tag-pill:hover{border-color:${C.primary};color:${C.primary}!important}
+  .kbd{display:inline-block;padding:1px 6px;background:${C.surface};border:1px solid ${C.border};border-bottom-width:2px;border-radius:4px;font-size:10px;font-family:monospace;color:${C.muted}}
+  .copy-btn{padding:2px 8px;border-radius:4px;border:1px solid ${C.border};background:transparent;color:${C.muted};cursor:pointer;font-size:10px;transition:all .15s}
+  .copy-btn:hover{border-color:${C.success};color:${C.success}}
+  .toc-link{display:block;padding:6px 10px;border-radius:6px;font-size:12px;color:${C.muted};cursor:pointer;border:none;background:none;width:100%;text-align:left;transition:all .15s}
+  .toc-link:hover,.toc-link.active{background:${C.primary}15;color:${C.primary}}
+  .reading-progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:9999;pointer-events:none}
+  .highlight{background:#fbbf2433;color:#fbbf24;border-radius:2px;padding:0 1px}
+  input::placeholder{color:${C.muted}44}
+  .modal-overlay{position:fixed;inset:0;background:#00000088;backdrop-filter:blur(4px);z-index:1000;display:flex;align-items:center;justify-content:center;animation:fadeIn .2s ease}
+  .modal-content{background:${C.card};border:1px solid ${C.border};border-radius:16px;width:min(640px,95vw);max-height:85vh;overflow:hidden;display:flex;flex-direction:column;animation:fadeUp .25s ease}
+  @keyframes toast-in{from{opacity:0;transform:translateY(20px) scale(.95)}to{opacity:1;transform:none}}
+  @keyframes toast-out{from{opacity:1;transform:none}to{opacity:0;transform:translateY(10px) scale(.95)}}
+  .toast{pointer-events:none;padding:12px 18px;background:${C.card};border:1px solid ${C.border};border-radius:12px;font-size:13px;font-weight:600;color:${C.heading};box-shadow:0 8px 32px #00000060;display:flex;align-items:center;gap:10;animation:toast-in .25s ease;backdrop-filter:blur(12px);min-width:220px;max-width:340px}
+  .filter-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid;transition:all .15s}
+  .stat-card{background:${C.card};border:1px solid ${C.border};border-radius:14px;padding:18px 20px;display:flex;align-items:center;gap:14;transition:all .18s}
+  .stat-card:hover{border-color:${C.primary}44;box-shadow:0 4px 20px rgba(59,130,246,.06)}
+  .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+  .section-title{font-size:15px;font-weight:700;color:${C.heading};display:flex;align-items:center;gap:8px}
+  .see-all-btn{font-size:12px;color:${C.primary};background:none;border:none;cursor:pointer;font-weight:600;padding:4px 8px;border-radius:6px;transition:background .15s}
+  .see-all-btn:hover{background:${C.primary}15}
+  .nav-tooltip{position:absolute;left:100%;top:50%;transform:translateY(-50%);margin-left:10px;background:${C.card};border:1px solid ${C.border};border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;color:${C.heading};white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .15s;box-shadow:0 4px 16px #00000040;z-index:100}
+  .nav-item:hover .nav-tooltip{opacity:1}
+  .topbar{height:52px;background:${C.surface};border-bottom:1px solid ${C.border};display:flex;align-items:center;padding:0 20px;gap:14;position:sticky;top:0;z-index:200;backdrop-filter:blur(12px)}
+  .search-pill{display:flex;align-items:center;gap:8px;background:${C.card};border:1px solid ${C.border};border-radius:8px;padding:7px 14px;cursor:text;transition:all .15s;flex:1;max-width:400px}
+  .search-pill:hover{border-color:${C.primary}44}
+  .search-pill input{background:none;border:none;outline:none;font-size:13px;color:${C.text};flex:1;min-width:0;font-family:inherit}
+  .preview-popup{position:absolute;z-index:300;width:280px;background:${C.card};border:1px solid ${C.border};border-radius:12px;padding:16px;box-shadow:0 8px 32px #00000060;pointer-events:none;animation:fadeUp .18s ease}
+  @media(max-width:900px){
+    .page{padding:16px 14px}
+    .kb-layout{grid-template-columns:1fr!important}
+    .kb-sidebar{display:none!important}
+    .article-2col{grid-template-columns:1fr!important}
+    .article-sidebar{position:static!important;display:none!important}
+    .hide-mobile{display:none!important}
+    .show-mobile{display:flex!important}
+    .mobile-bottom-nav{display:flex!important}
+    .topbar-search{display:none!important}
+  }
+  .mobile-bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:${C.surface};border-top:1px solid ${C.border};z-index:500;padding:8px 0 env(safe-area-inset-bottom)}
 `
 
 const NAVGROUPS = [
@@ -62,88 +125,229 @@ const NAVGROUPS = [
   ]},
 ]
 
+// ── TOAST SYSTEM ────────────────────────────────────────────────────────────
+let _toastId = 0
+const _toastListeners = new Set()
+function showToast(msg, type='success', dur=2800) {
+  const id = ++_toastId
+  _toastListeners.forEach(fn => fn({ id, msg, type, dur }))
+}
+window.showToast = showToast
+
+function ToastContainer() {
+  const [toasts, setToasts] = useState([])
+  useState(() => {
+    const fn = (t) => {
+      setToasts(prev => [...prev, t])
+      setTimeout(() => setToasts(prev => prev.filter(x => x.id !== t.id)), t.dur)
+    }
+    _toastListeners.add(fn)
+  }, [])
+  const icons = { success:'✓', error:'✕', info:'ℹ', warn:'⚠' }
+  const colors = { success:C.success, error:C.danger, info:C.primary, warn:C.warn }
+  return (
+    <div style={{ position:'fixed', bottom:24, right:24, zIndex:9999, display:'flex', flexDirection:'column', gap:10, pointerEvents:'none' }}>
+      {toasts.map(t => (
+        <div key={t.id} className="toast">
+          <span style={{ color:colors[t.type]||C.primary, fontSize:16 }}>{icons[t.type]||'✓'}</span>
+          <span>{t.msg}</span>
+        </div>
+      ))}
+    </div>
+  )
+}
+
 function Layout({ children }) {
   const [open, setOpen] = useState(true)
   const loc = useLocation()
+  const mobileNavItems = [
+    { label:'Home', path:'/', icon:'🏠' },
+    { label:'Map', path:'/processmap', icon:'🗺️' },
+    { label:'Knowledge', path:'/knowledge', icon:'📚' },
+    { label:'AI', path:'/ai-assistant', icon:'🤖' },
+    { label:'Tools', path:'/premium', icon:'👑' },
+  ]
   return (
-    <div style={{ display:'flex', minHeight:'100vh' }}>
-      <aside style={{ width:open?240:52, background:C.surface, borderRight:`1px solid ${C.border}`, display:'flex', flexDirection:'column', transition:'width .2s', overflow:'hidden', position:'sticky', top:0, height:'100vh', flexShrink:0 }}>
-        <div style={{ padding:'14px 10px', borderBottom:`1px solid ${C.border}`, display:'flex', alignItems:'center', gap:10 }}>
-          {open && <Link to="/" style={{ fontWeight:800, fontSize:18, color:C.primary, flex:1 }}>CLEAR</Link>}
-          <button onClick={()=>setOpen(v=>!v)} style={{ background:'none', border:'none', color:C.muted, cursor:'pointer', fontSize:18, padding:2 }}>{open?'◀':'▶'}</button>
+    <div style={{ display:'flex', minHeight:'100vh', flexDirection:'column' }}>
+      <ToastContainer />
+
+      {/* Top bar */}
+      <div className="topbar" style={{ marginLeft: open ? 240 : 52, transition:'margin .2s' }}>
+        <div style={{ fontSize:11, fontWeight:800, color:C.primary, letterSpacing:'.1em', marginRight:8, display:'flex', alignItems:'center', gap:6 }}>
+          <span style={{ background:`${C.primary}22`, padding:'2px 8px', borderRadius:4 }}>CLEAR</span>
         </div>
-        <nav style={{ flex:1, padding:'10px 6px', overflowY:'auto' }}>
-          {NAVGROUPS.map(g=>(
-            <div key={g.label} style={{ marginBottom:16 }}>
-              {open && <div style={{ display:'flex', alignItems:'center', gap:8, padding:'0 6px', marginBottom:4 }}>
-                <span style={{ fontSize:10, fontWeight:700, letterSpacing:'.1em', color:C.muted, textTransform:'uppercase' }}>{g.label}</span>
-                {g.badge && <span className="tn">{g.badge}</span>}
-              </div>}
-              {g.items.map(item=>{
-                const active = loc.pathname===item.path
-                return (
-                  <Link key={item.path} to={item.path} title={item.label}
-                    style={{ display:'flex', alignItems:'center', gap:10, padding:'7px 8px', borderRadius:8, marginBottom:2, color:active?C.primary:C.muted, background:active?`${C.primary}15`:'transparent', transition:'all .15s', fontSize:13, fontWeight:active?600:400, whiteSpace:'nowrap' }}>
-                    <span style={{ fontSize:16, flexShrink:0 }}>{item.icon}</span>
-                    {open && <><span style={{ flex:1 }}>{item.label}</span>{item.tag&&<span className="tn">NEW</span>}</>}
-                  </Link>
-                )
-              })}
+        <div className="search-pill topbar-search" style={{ flex:1, maxWidth:380 }}>
+          <span style={{ fontSize:14, color:C.muted }}>🔍</span>
+          <input placeholder="Search guides… (⌘K)" onFocus={()=>{ if(loc.pathname!=='/knowledge') window.location.href='/knowledge' }} style={{ fontSize:13 }} readOnly />
+          <span className="kbd">⌘K</span>
+        </div>
+        <div style={{ flex:1 }} />
+        <Link to="/knowledge" style={{ padding:'6px 12px', borderRadius:8, background:`${C.primary}15`, color:C.primary, fontSize:12, fontWeight:700, display:'flex', alignItems:'center', gap:6 }}>
+          📚 Knowledge Base
+        </Link>
+        <Link to="/ai-assistant" style={{ padding:'6px 12px', borderRadius:8, background:`${C.success}15`, color:C.success, fontSize:12, fontWeight:700, display:'flex', alignItems:'center', gap:6 }}>
+          🤖 Ask CLARA
+        </Link>
+      </div>
+
+      <div style={{ display:'flex', flex:1, minHeight:0 }}>
+        {/* Sidebar */}
+        <aside style={{ width:open?240:52, background:C.surface, borderRight:`1px solid ${C.border}`, display:'flex', flexDirection:'column', transition:'width .2s', overflow:'hidden', position:'sticky', top:52, height:'calc(100vh - 52px)', flexShrink:0 }} className="hide-mobile">
+          <div style={{ padding:'12px 10px', borderBottom:`1px solid ${C.border}`, display:'flex', alignItems:'center', gap:10 }}>
+            {open && <Link to="/" style={{ fontWeight:900, fontSize:17, color:C.primary, flex:1, letterSpacing:'.02em' }}>CLEAR</Link>}
+            <button onClick={()=>setOpen(v=>!v)} style={{ background:`${C.border}44`, border:'none', color:C.muted, cursor:'pointer', fontSize:13, padding:'5px 7px', borderRadius:6, transition:'all .15s' }}
+              onMouseEnter={e=>e.currentTarget.style.background=C.border}
+              onMouseLeave={e=>e.currentTarget.style.background=`${C.border}44`}
+            >{open?'◀':'▶'}</button>
+          </div>
+          <nav style={{ flex:1, padding:'10px 6px', overflowY:'auto' }}>
+            {NAVGROUPS.map(g=>(
+              <div key={g.label} style={{ marginBottom:14 }}>
+                {open && <div style={{ display:'flex', alignItems:'center', gap:8, padding:'0 6px', marginBottom:4 }}>
+                  <span style={{ fontSize:10, fontWeight:700, letterSpacing:'.1em', color:C.muted, textTransform:'uppercase' }}>{g.label}</span>
+                  {g.badge && <span className="tn">{g.badge}</span>}
+                </div>}
+                {g.items.map(item=>{
+                  const active = loc.pathname===item.path
+                  return (
+                    <div key={item.path} className="nav-item" style={{ position:'relative' }}>
+                      <Link to={item.path}
+                        style={{ display:'flex', alignItems:'center', gap:10, padding:'7px 8px', borderRadius:8, marginBottom:2, color:active?C.primary:C.muted, background:active?`${C.primary}15`:'transparent', transition:'all .15s', fontSize:13, fontWeight:active?600:400, whiteSpace:'nowrap', borderLeft:active?`2px solid ${C.primary}`:'2px solid transparent' }}>
+                        <span style={{ fontSize:16, flexShrink:0 }}>{item.icon}</span>
+                        {open && <><span style={{ flex:1 }}>{item.label}</span>{item.tag&&<span className="tn">NEW</span>}</>}
+                      </Link>
+                      {!open && <div className="nav-tooltip">{item.label}</div>}
+                    </div>
+                  )
+                })}
+              </div>
+            ))}
+          </nav>
+          {open && (
+            <div style={{ padding:'12px 10px', borderTop:`1px solid ${C.border}` }}>
+              <div style={{ fontSize:11, color:C.muted, lineHeight:1.5 }}>
+                CLEAR Platform v3.0<br />
+                <span style={{ color:C.success }}>● All systems operational</span>
+              </div>
             </div>
-          ))}
-        </nav>
-      </aside>
-      <main style={{ flex:1, overflowY:'auto' }}>{children}</main>
+          )}
+        </aside>
+
+        <main style={{ flex:1, overflowY:'auto', minWidth:0, paddingBottom:80 }}>{children}</main>
+      </div>
+
+      {/* Mobile bottom nav */}
+      <nav className="mobile-bottom-nav">
+        {mobileNavItems.map(item => {
+          const active = loc.pathname===item.path
+          return (
+            <Link key={item.path} to={item.path} style={{ flex:1, display:'flex', flexDirection:'column', alignItems:'center', gap:3, padding:'6px 4px', color:active?C.primary:C.muted, fontSize:10, fontWeight:active?700:400, transition:'color .15s' }}>
+              <span style={{ fontSize:20 }}>{item.icon}</span>
+              <span>{item.label}</span>
+            </Link>
+          )
+        })}
+      </nav>
     </div>
   )
 }
 
 // ── HOME ──────────────────────────────────────────────────────────────────────
+function AnimatedStat({ value, label, icon, color }) {
+  return (
+    <div className="stat-card" style={{ flex:1, minWidth:140 }}>
+      <div style={{ width:44, height:44, borderRadius:12, background:`${color}18`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:22, flexShrink:0 }}>{icon}</div>
+      <div>
+        <div style={{ fontSize:26, fontWeight:900, color:C.heading, letterSpacing:'-.02em', lineHeight:1 }}>{value}</div>
+        <div style={{ fontSize:12, color:C.muted, marginTop:4, fontWeight:500 }}>{label}</div>
+      </div>
+    </div>
+  )
+}
+
 function Home() {
   const phases = [
-    { n:'1-5', t:'Core Navigation', d:'Process maps, search, plain-language guides', s:'live' },
-    { n:'6-10', t:'Community & APIs', d:'Forums, government API integrations', s:'live' },
-    { n:'11-15', t:'Intelligence', d:'ML recommendations, regional deployment', s:'live' },
-    { n:'16-20', t:'UX Enhancements', d:'Doc generator, notifications, achievements', s:'live' },
-    { n:'21-25', t:'AI & Voice', d:'CLARA chatbot, voice UI, SMS, OCR, tax tools', s:'new' },
-    { n:'26-30', t:'Platform Maturity', d:'Blockchain, social auth, referrals, premium', s:'new' },
+    { n:'1-5', t:'Core Navigation', d:'Process maps, search, plain-language guides', s:'live', icon:'🗺️' },
+    { n:'6-10', t:'Community & APIs', d:'Forums, government API integrations', s:'live', icon:'🔗' },
+    { n:'11-15', t:'Intelligence', d:'ML recommendations, regional deployment', s:'live', icon:'🧠' },
+    { n:'16-20', t:'UX Enhancements', d:'Doc generator, notifications, achievements', s:'live', icon:'✨' },
+    { n:'21-25', t:'AI & Voice', d:'CLARA chatbot, voice UI, SMS, OCR, tax tools', s:'new', icon:'🤖' },
+    { n:'26-30', t:'Platform Maturity', d:'Blockchain, social auth, referrals, premium', s:'new', icon:'🚀' },
+  ]
+  const quickLinks = [
+    { label:'Apply for SNAP', path:'/knowledge', icon:'🍎', color:C.success },
+    { label:'Start a Business', path:'/knowledge', icon:'🏢', color:C.primary },
+    { label:'Veterans Benefits', path:'/knowledge', icon:'🏅', color:'#06b6d4' },
+    { label:'Housing Help', path:'/knowledge', icon:'🏠', color:'#f97316' },
+    { label:'Medical Insurance', path:'/knowledge', icon:'💊', color:'#ec4899' },
+    { label:'Tax Filing', path:'/knowledge', icon:'📊', color:'#f59e0b' },
   ]
   return (
     <div className="page">
-      <div className="ph">
-        <div className="pt">CLEAR Platform v3.0 — All 30 Phases Complete</div>
-        <h1>Making Government Simple</h1>
-        <p>Your complete guide to navigating government processes, powered by AI.</p>
-        <div style={{ marginTop:20, display:'flex', gap:12, flexWrap:'wrap' }}>
-          <Link to="/processmap"><button className="btn btn-primary">🗺️ Explore Processes</button></Link>
-          <Link to="/ai-assistant"><button className="btn btn-outline">🤖 Ask AI Assistant</button></Link>
-          <Link to="/premium"><button className="btn btn-outline">👑 See Plans</button></Link>
+      {/* Hero */}
+      <div style={{ padding:'32px 0 40px', borderBottom:`1px solid ${C.border}`, marginBottom:36 }}>
+        <div style={{ display:'inline-flex', alignItems:'center', gap:8, padding:'4px 12px', background:`${C.primary}15`, borderRadius:20, marginBottom:20 }}>
+          <span style={{ width:6, height:6, borderRadius:'50%', background:C.success, animation:'pulse 2s infinite' }} />
+          <span style={{ fontSize:12, fontWeight:700, color:C.primary, letterSpacing:'.06em' }}>ALL 30 PHASES COMPLETE</span>
+        </div>
+        <h1 style={{ fontSize:42, fontWeight:900, color:C.heading, letterSpacing:'-.03em', lineHeight:1.15, marginBottom:14 }}>
+          Making Government<br />
+          <span style={{ background:`linear-gradient(135deg, ${C.primary}, ${C.accent})`, WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>Simple for Everyone</span>
+        </h1>
+        <p style={{ color:C.muted, fontSize:17, lineHeight:1.7, maxWidth:500, marginBottom:28 }}>
+          90 in-depth guides, AI assistance, and step-by-step tools for every government process — built for real people.
+        </p>
+        <div style={{ display:'flex', gap:12, flexWrap:'wrap' }}>
+          <Link to="/knowledge"><button className="btn btn-primary" style={{ fontSize:15, padding:'12px 24px' }}>📚 Browse All 90 Guides</button></Link>
+          <Link to="/ai-assistant"><button className="btn btn-outline" style={{ fontSize:15, padding:'12px 24px' }}>🤖 Ask CLARA Anything</button></Link>
+          <Link to="/processmap"><button className="btn btn-ghost" style={{ fontSize:15, padding:'12px 24px' }}>🗺️ Process Map</button></Link>
         </div>
       </div>
-      <div className="g3" style={{ marginBottom:40 }}>
-        {[['500+','Government Processes','🗺️'],['33','Live Tools','⚡'],['12,400','Active Users','👥'],['$4.2M','Saved for Users','💰']].map(([v,l,i])=>(
-          <div key={l} className="card" style={{ textAlign:'center' }}>
-            <div style={{ fontSize:32, marginBottom:8 }}>{i}</div>
-            <div style={{ fontSize:32, fontWeight:800, color:C.heading }}>{v}</div>
-            <div style={{ color:C.muted, fontSize:14 }}>{l}</div>
-          </div>
-        ))}
+
+      {/* Stats */}
+      <div style={{ display:'flex', gap:12, marginBottom:36, flexWrap:'wrap' }}>
+        <AnimatedStat value="90" label="In-Depth Guides" icon="📚" color={C.primary} />
+        <AnimatedStat value="18" label="Categories" icon="🗂️" color={C.accent} />
+        <AnimatedStat value="4.8★" label="Avg Guide Rating" icon="⭐" color={C.warn} />
+        <AnimatedStat value="33" label="Interactive Tools" icon="⚡" color={C.success} />
       </div>
+
+      {/* Quick Topic Links */}
+      <div style={{ marginBottom:36 }}>
+        <div className="section-header">
+          <div className="section-title">⚡ Popular Topics</div>
+          <Link to="/knowledge"><button className="see-all-btn">See all 90 guides →</button></Link>
+        </div>
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(160px,1fr))', gap:10 }}>
+          {quickLinks.map(q=>(
+            <Link key={q.label} to={q.path}>
+              <div className="card card-hover" style={{ padding:'16px 14px', borderLeft:`3px solid ${q.color}`, display:'flex', alignItems:'center', gap:12 }}>
+                <span style={{ fontSize:24 }}>{q.icon}</span>
+                <span style={{ fontSize:13, fontWeight:600, color:C.heading, lineHeight:1.3 }}>{q.label}</span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      {/* Platform Phases */}
       <div className="card">
-        <h2 style={{ color:C.heading, marginBottom:20, fontSize:20 }}>Platform Phases</h2>
-        <div style={{ display:'grid', gap:10 }}>
-          {phases.map(p=>(
-            <div key={p.n} style={{ display:'flex', alignItems:'center', gap:14, padding:'12px 14px', background:C.surface, borderRadius:8, border:`1px solid ${C.border}` }}>
-              <div style={{ width:44, height:44, borderRadius:10, background:p.s==='new'?`${C.accent}22`:`${C.success}22`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
-                <span style={{ fontSize:11, fontWeight:800, color:p.s==='new'?C.accent:C.success }}>{p.n}</span>
-              </div>
+        <div className="section-header" style={{ marginBottom:16 }}>
+          <div className="section-title">🚀 Platform Phases</div>
+          <span style={{ fontSize:12, color:C.success, fontWeight:700 }}>6/6 Complete</span>
+        </div>
+        <div style={{ display:'grid', gap:8 }}>
+          {phases.map((p,i)=>(
+            <div key={p.n} className="fade-up" style={{ display:'flex', alignItems:'center', gap:14, padding:'12px 14px', background:C.surface, borderRadius:10, border:`1px solid ${C.border}`, animationDelay:`${i*50}ms` }}>
+              <div style={{ width:40, height:40, borderRadius:10, background:p.s==='new'?`${C.accent}18`:`${C.success}18`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, fontSize:18 }}>{p.icon}</div>
               <div style={{ flex:1 }}>
-                <div style={{ fontWeight:600, color:C.heading, fontSize:15 }}>{p.t}</div>
-                <div style={{ color:C.muted, fontSize:13 }}>{p.d}</div>
+                <div style={{ fontWeight:700, color:C.heading, fontSize:14 }}>{p.t}</div>
+                <div style={{ color:C.muted, fontSize:12, marginTop:2 }}>{p.d}</div>
               </div>
-              <span className={`badge ${p.s==='new'?'badge-blue':'badge-green'}`}>
-                {p.s==='new'?'⚡ New!':'✓ Live'}
-              </span>
+              <div style={{ display:'flex', alignItems:'center', gap:8 }}>
+                <span style={{ fontSize:11, color:C.muted }}>Phase {p.n}</span>
+                <span className={`badge ${p.s==='new'?'badge-blue':'badge-green'}`}>{p.s==='new'?'⚡ New':'✓ Live'}</span>
+              </div>
             </div>
           ))}
         </div>
@@ -154,28 +358,45 @@ function Home() {
 
 // ── PROCESS MAP ───────────────────────────────────────────────────────────────
 function ProcessMap() {
+  const [activeMap, setActiveMap] = useState(null)
   const cats = [
-    { name:'Business', color:C.primary, count:48, items:['LLC Formation','Business License','EIN Application','Sales Tax Permit','DBA Registration'] },
-    { name:'Benefits', color:C.success, count:62, items:['SNAP','Medicaid','Unemployment','SSI','TANF'] },
-    { name:'Housing', color:C.warn, count:35, items:['Section 8','HUD Programs','USDA Rural','LIHTC','HOME Program'] },
-    { name:'Immigration', color:'#8b5cf6', count:41, items:['Green Card','Citizenship','Work Visa','DACA','Asylum'] },
-    { name:'Veterans', color:'#06b6d4', count:29, items:['VA Healthcare','GI Bill','Disability Comp','Home Loan','Pension'] },
-    { name:'Education', color:'#f59e0b', count:38, items:['FAFSA','Pell Grant','Student Loans','Work Study','Public Service'] },
+    { name:'Business', color:C.primary, icon:'🏢', count:48, items:['LLC Formation','Business License','EIN Application','Sales Tax Permit','DBA Registration','Annual Reports','Trademark Filing','Business Insurance'] },
+    { name:'Benefits', color:C.success, icon:'🛡️', count:62, items:['SNAP / Food Stamps','Medicaid','Unemployment Insurance','SSI Disability','TANF Cash Assist','Child Tax Credit','EITC','WIC'] },
+    { name:'Housing', color:C.warn, icon:'🏠', count:35, items:['Section 8 Vouchers','HUD Programs','Emergency Rental Aid','USDA Rural Housing','LIHTC Affordable Apts','Down Payment Help','Foreclosure Prevention','Weatherization'] },
+    { name:'Immigration', color:'#8b5cf6', icon:'🌎', count:41, items:['Green Card','Citizenship / Naturalization','Work Visa H-1B / TN','DACA Renewal','Asylum Application','U Visa / T Visa','Immigration Court','Travel Documents'] },
+    { name:'Veterans', color:'#06b6d4', icon:'🏅', count:29, items:['VA Healthcare Enrollment','GI Bill Education','Disability Compensation','VA Home Loan','Veterans Pension','Vocational Rehab','VSO Claims Help','PACT Act Claims'] },
+    { name:'Education', color:'#f59e0b', icon:'🎓', count:38, items:['FAFSA Filing','Pell Grant','Student Loan IDR','PSLF Forgiveness','GED / Adult Ed','Work-Study','MAP Grant (IL)','529 Savings Plans'] },
+    { name:'Healthcare', color:'#ec4899', icon:'💊', count:44, items:['ACA Marketplace','Medicare Parts A-D','Telehealth','Mental Health Coverage','Substance Treatment','COBRA Continuation','Children CHIP','Ryan White HIV'] },
+    { name:'Legal', color:'#ef4444', icon:'⚖️', count:31, items:['Power of Attorney','Living Will / DNR','Small Claims Court','Expungement','Landlord-Tenant','Consumer Rights','Identity Theft','FCRA Disputes'] },
   ]
   return (
     <div className="page">
-      <div className="ph"><div className="pt">Phase 1-2</div><h1>Process Map</h1><p>Navigate 500+ government processes by category.</p></div>
-      <div className="g2">
+      <div style={{ marginBottom:28 }}>
+        <div style={{ fontSize:11, fontWeight:800, color:C.primary, letterSpacing:'.1em', textTransform:'uppercase', marginBottom:8 }}>Process Map</div>
+        <h1 style={{ fontSize:28, fontWeight:900, color:C.heading, letterSpacing:'-.02em', marginBottom:8 }}>500+ Government Processes</h1>
+        <p style={{ color:C.muted, fontSize:14 }}>Browse by category. Click any process to explore its step-by-step guide.</p>
+      </div>
+      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(280px,1fr))', gap:14 }}>
         {cats.map(c=>(
-          <div key={c.name} className="card">
-            <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:16 }}>
-              <div style={{ width:40, height:40, borderRadius:10, background:`${c.color}22`, display:'flex', alignItems:'center', justifyContent:'center' }}>
-                <div style={{ width:12, height:12, borderRadius:'50%', background:c.color }} />
+          <div key={c.name} className="card" style={{ borderTop:`3px solid ${c.color}`, padding:18 }}>
+            <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:14 }}>
+              <div style={{ width:42, height:42, borderRadius:12, background:`${c.color}18`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:22 }}>{c.icon}</div>
+              <div style={{ flex:1 }}>
+                <div style={{ fontWeight:800, color:C.heading, fontSize:15 }}>{c.name}</div>
+                <div style={{ color:C.muted, fontSize:12, marginTop:2 }}>{c.count} processes</div>
               </div>
-              <div><div style={{ fontWeight:700, color:C.heading }}>{c.name}</div><div style={{ color:C.muted, fontSize:12 }}>{c.count} processes</div></div>
+              <div style={{ width:32, height:32, borderRadius:8, background:`${c.color}18`, display:'flex', alignItems:'center', justifyContent:'center' }}>
+                <div className="progress-bar-fill" style={{ width:Math.round((c.count/62)*100)+'%', height:3, background:c.color, borderRadius:2 }} />
+              </div>
             </div>
-            <div style={{ display:'flex', flexWrap:'wrap', gap:8 }}>
-              {c.items.map(item=><span key={item} style={{ padding:'4px 10px', background:C.surface, borderRadius:20, fontSize:12, color:C.text, border:`1px solid ${C.border}`, cursor:'pointer' }}>{item}</span>)}
+            <div style={{ display:'flex', flexWrap:'wrap', gap:6 }}>
+              {c.items.map(item=>(
+                <span key={item} style={{ padding:'5px 11px', background:C.surface, borderRadius:20, fontSize:12, color:C.text, border:`1px solid ${C.border}`, cursor:'pointer', transition:'all .15s', display:'flex', alignItems:'center', gap:4 }}
+                  onMouseEnter={e=>{e.currentTarget.style.borderColor=c.color;e.currentTarget.style.color=c.color;e.currentTarget.style.background=`${c.color}12`}}
+                  onMouseLeave={e=>{e.currentTarget.style.borderColor=C.border;e.currentTarget.style.color=C.text;e.currentTarget.style.background=C.surface}}>
+                  {item}
+                </span>
+              ))}
             </div>
           </div>
         ))}
@@ -995,41 +1216,84 @@ function FaqSection({ faq, catColor }) {
   const [open, setOpen] = useState(null)
   return (
     <div className="card" style={{ marginBottom:20 }}>
-      <h2 style={{ color:C.heading, fontSize:18, fontWeight:700, marginBottom:16 }}>❓ Frequently Asked Questions</h2>
+      <h2 style={{ color:C.heading, fontSize:18, fontWeight:700, marginBottom:4 }}>Frequently Asked Questions</h2>
+      <p style={{ color:C.muted, fontSize:12, marginBottom:18 }}>{faq.length} questions answered</p>
       {faq.map((item, i) => (
-        <div key={i} style={{ borderBottom: i < faq.length-1 ? `1px solid ${C.border}` : 'none' }}>
-          <div onClick={()=>setOpen(open===i?null:i)} style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'14px 0', cursor:'pointer', gap:16 }}>
-            <div style={{ fontWeight:600, color:C.heading, fontSize:14 }}>{item.q}</div>
-            <span style={{ color:catColor, fontSize:18, flexShrink:0 }}>{open===i?'−':'+'}</span>
+        <div key={i} style={{ borderRadius:8, marginBottom:6, background:open===i?`${catColor}08`:C.surface, border:`1px solid ${open===i?catColor+'44':C.border}`, transition:'all .2s', overflow:'hidden' }}>
+          <div onClick={()=>setOpen(open===i?null:i)} style={{ display:'flex', justifyContent:'space-between', alignItems:'center', padding:'14px 16px', cursor:'pointer', gap:16 }}>
+            <div style={{ fontWeight:600, color:C.heading, fontSize:14, lineHeight:1.4 }}>{item.q}</div>
+            <div style={{ width:22, height:22, borderRadius:'50%', background:open===i?catColor:`${catColor}22`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, transition:'all .2s' }}>
+              <span style={{ color:open===i?'#fff':catColor, fontSize:14, lineHeight:1 }}>{open===i?'−':'+'}</span>
+            </div>
           </div>
-          {open===i && <div style={{ paddingBottom:16, paddingLeft:4 }}><p style={{ color:C.muted, fontSize:14, lineHeight:1.7 }}>{item.a}</p></div>}
+          {open===i && (
+            <div style={{ padding:'0 16px 16px', animation:'fadeUp .2s ease' }}>
+              <div style={{ height:1, background:`${catColor}22`, marginBottom:12 }} />
+              <p style={{ color:C.text, fontSize:14, lineHeight:1.75 }}>{item.a}</p>
+            </div>
+          )}
         </div>
       ))}
     </div>
   )
 }
 
-function ArticleList({ articles, view, onOpen, bookmarks, setBookmarks }) {
+function highlight(text, query) {
+  if (!query) return text
+  const i = text.toLowerCase().indexOf(query.toLowerCase())
+  if (i === -1) return text
+  return <>{text.slice(0,i)}<mark className="highlight">{text.slice(i,i+query.length)}</mark>{text.slice(i+query.length)}</>
+}
+
+function ArticleList({ articles, view, onOpen, bookmarks, setBookmarks, searchQuery='' }) {
+  const [hoverId, setHoverId] = useState(null)
+  const [hoverPos, setHoverPos] = useState({x:0,y:0})
+  const hoverArticle = hoverId ? articles.find(a=>a.id===hoverId) : null
+
+  const PreviewPopup = () => {
+    if (!hoverArticle) return null
+    const catColor = CAT_META[hoverArticle.c]?.color || C.primary
+    return (
+      <div className="preview-popup" style={{ position:'fixed', left:Math.min(hoverPos.x+16,window.innerWidth-300), top:Math.min(hoverPos.y-80,window.innerHeight-220), zIndex:9000 }}>
+        <div style={{ display:'flex', gap:8, marginBottom:8, alignItems:'center' }}>
+          <span style={{ fontSize:22 }}>{hoverArticle.icon}</span>
+          <span style={{ padding:'2px 8px', borderRadius:12, background:`${catColor}22`, color:catColor, fontSize:11, fontWeight:700 }}>{hoverArticle.c}</span>
+          <span style={{ fontSize:11, color:C.muted, marginLeft:'auto' }}>⏱ {hoverArticle.time}</span>
+        </div>
+        <div style={{ fontWeight:700, color:C.heading, fontSize:13, lineHeight:1.35, marginBottom:6 }}>{hoverArticle.t}</div>
+        <div style={{ fontSize:12, color:C.muted, lineHeight:1.55, marginBottom:8 }}>{hoverArticle.summary.slice(0,110)}…</div>
+        <div style={{ display:'flex', gap:10, fontSize:11, color:C.muted }}>
+          <span style={{ color:C.warn }}>★ {hoverArticle.rating}</span>
+          <span>·</span><span>{hoverArticle.v.toLocaleString()} views</span>
+          <span style={{ marginLeft:'auto', padding:'2px 8px', borderRadius:4, background:`${DIFF_COLOR[hoverArticle.diff]}22`, color:DIFF_COLOR[hoverArticle.diff], fontWeight:700 }}>{hoverArticle.diff}</span>
+        </div>
+        <div style={{ marginTop:8, paddingTop:8, borderTop:`1px solid ${C.border}`, fontSize:11, color:C.primary, fontWeight:600 }}>Click to open guide →</div>
+      </div>
+    )
+  }
+
   if (view==='grid') return (
     <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(280px,1fr))', gap:14 }}>
-      {articles.map(a=>{
+      {articles.map((a,idx)=>{
         const color = CAT_META[a.c]?.color || C.primary
         return (
-          <div key={a.id} onClick={()=>onOpen(a)} className="card" style={{ cursor:'pointer', display:'flex', flexDirection:'column', gap:10, borderTop:`3px solid ${color}` }}>
+          <div key={a.id} onClick={()=>onOpen(a)} className="card card-hover fade-up" style={{ cursor:'pointer', display:'flex', flexDirection:'column', gap:10, borderTop:`3px solid ${color}`, animationDelay:`${idx*30}ms` }}>
             <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center' }}>
               <span className="badge badge-blue">{a.c}</span>
-              <button onClick={e=>{e.stopPropagation();setBookmarks(b=>{const n=new Set(b);n.has(a.id)?n.delete(a.id):n.add(a.id);return n})}} style={{ background:'none', border:'none', cursor:'pointer', fontSize:16, color:bookmarks.has(a.id)?C.warn:C.muted }}>🔖</button>
+              <button onClick={e=>{e.stopPropagation();setBookmarks(b=>{const n=new Set(b);const adding=!n.has(a.id);adding?n.add(a.id):n.delete(a.id);showToast(adding?`Saved: ${a.t.slice(0,30)}…`:'Bookmark removed','success');return n})}} style={{ background:'none', border:'none', cursor:'pointer', fontSize:16, color:bookmarks.has(a.id)?C.warn:C.muted, transition:'all .2s', transform:bookmarks.has(a.id)?'scale(1.2)':'scale(1)' }}>🔖</button>
             </div>
             <div style={{ fontSize:32 }}>{a.icon}</div>
-            <div style={{ fontWeight:700, color:C.heading, fontSize:14, lineHeight:1.4 }}>{a.t}</div>
-            <div style={{ fontSize:12, color:C.muted, lineHeight:1.5, flex:1 }}>{a.summary.slice(0,80)}…</div>
+            <div style={{ fontWeight:700, color:C.heading, fontSize:14, lineHeight:1.4 }}>{highlight(a.t, searchQuery)}</div>
+            <div style={{ fontSize:12, color:C.muted, lineHeight:1.5, flex:1 }}>{a.summary.slice(0,90)}…</div>
             <div style={{ display:'flex', gap:8, flexWrap:'wrap' }}>
               <span style={{ fontSize:11, padding:'2px 7px', borderRadius:4, background:`${DIFF_COLOR[a.diff]}22`, color:DIFF_COLOR[a.diff], fontWeight:700 }}>{a.diff}</span>
               <span style={{ fontSize:11, color:C.muted }}>⏱ {a.time}</span>
+              <span style={{ fontSize:11, color:C.muted, marginLeft:'auto' }}>{a.updated}</span>
             </div>
-            <div style={{ display:'flex', gap:8, fontSize:12, color:C.muted, marginTop:'auto', paddingTop:6, borderTop:`1px solid ${C.border}` }}>
+            <div style={{ display:'flex', gap:8, fontSize:12, color:C.muted, marginTop:'auto', paddingTop:8, borderTop:`1px solid ${C.border}` }}>
               <span style={{ color:C.warn }}>★ {a.rating}</span>
               <span>·</span><span>{a.v.toLocaleString()} views</span>
+              <span>·</span><span>{a.reviews} reviews</span>
             </div>
           </div>
         )
@@ -1037,152 +1301,359 @@ function ArticleList({ articles, view, onOpen, bookmarks, setBookmarks }) {
     </div>
   )
   return (
-    <div style={{ display:'grid', gap:10 }}>
-      {articles.map(a=>{
+    <>
+    <div style={{ display:'grid', gap:8 }}>
+      {articles.map((a,idx)=>{
         const color = CAT_META[a.c]?.color || C.primary
         return (
-          <div key={a.id} onClick={()=>onOpen(a)} className="card" style={{ display:'flex', alignItems:'center', gap:16, cursor:'pointer', borderLeft:`3px solid ${color}` }}>
+          <div key={a.id} onClick={()=>onOpen(a)} className="card card-hover fade-up"
+            onMouseEnter={e=>{setHoverId(a.id);setHoverPos({x:e.clientX,y:e.clientY})}}
+            onMouseLeave={()=>setHoverId(null)}
+            style={{ display:'flex', alignItems:'center', gap:16, cursor:'pointer', borderLeft:`3px solid ${color}`, padding:'16px 20px', animationDelay:`${idx*20}ms`, position:'relative' }}>
             <div style={{ fontSize:28, flexShrink:0 }}>{a.icon}</div>
-            <div style={{ flex:1 }}>
+            <div style={{ flex:1, minWidth:0 }}>
               <div style={{ display:'flex', gap:8, marginBottom:6, flexWrap:'wrap', alignItems:'center' }}>
                 <span className="badge badge-blue">{a.c}</span>
                 <span style={{ fontSize:11, padding:'2px 7px', borderRadius:4, background:`${DIFF_COLOR[a.diff]}22`, color:DIFF_COLOR[a.diff], fontWeight:700 }}>{a.diff}</span>
-                <span style={{ fontSize:12, color:C.muted }}>⏱ {a.time}</span>
+                <span style={{ fontSize:11, color:C.muted }}>⏱ {a.time}</span>
                 <span style={{ fontSize:11, color:C.success, marginLeft:'auto' }}>Updated {a.updated}</span>
               </div>
-              <div style={{ fontWeight:700, color:C.heading, fontSize:14, marginBottom:4 }}>{a.t}</div>
-              <div style={{ fontSize:13, color:C.muted, lineHeight:1.4 }}>{a.summary.slice(0,110)}…</div>
-              <div style={{ display:'flex', gap:12, fontSize:12, color:C.muted, marginTop:8 }}>
+              <div style={{ fontWeight:700, color:C.heading, fontSize:14, marginBottom:4 }}>{highlight(a.t, searchQuery)}</div>
+              <div style={{ fontSize:13, color:C.muted, lineHeight:1.4, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap', maxWidth:'100%' }}>{a.summary}</div>
+              <div style={{ display:'flex', gap:10, fontSize:12, color:C.muted, marginTop:8 }}>
                 <span style={{ color:C.warn }}>★ {a.rating}</span>
                 <span>({a.reviews})</span><span>·</span><span>{a.v.toLocaleString()} views</span>
               </div>
             </div>
-            <button onClick={e=>{e.stopPropagation();setBookmarks(b=>{const n=new Set(b);n.has(a.id)?n.delete(a.id):n.add(a.id);return n})}} style={{ background:'none', border:'none', cursor:'pointer', fontSize:18, color:bookmarks.has(a.id)?C.warn:C.border, flexShrink:0 }}>🔖</button>
-            <span style={{ color:C.muted, fontSize:18 }}>›</span>
+            <div style={{ display:'flex', alignItems:'center', gap:10, flexShrink:0 }}>
+              <button onClick={e=>{e.stopPropagation();setBookmarks(b=>{const n=new Set(b);const adding=!n.has(a.id);adding?n.add(a.id):n.delete(a.id);showToast(adding?'Guide saved!':'Removed from saved','success');return n})}} style={{ background:'none', border:'none', cursor:'pointer', fontSize:16, color:bookmarks.has(a.id)?C.warn:C.border, transition:'all .2s' }}>🔖</button>
+              <span style={{ color:C.muted, fontSize:18 }}>›</span>
+            </div>
           </div>
         )
       })}
     </div>
+    {hoverArticle && <PreviewPopup />}
+    </>
   )
+}
+
+
+function ReadingProgressBar() {
+  const [pct, setPct] = useState(0)
+  useState(()=>{
+    const onScroll = () => {
+      const el = document.documentElement
+      const scrolled = el.scrollTop
+      const total = el.scrollHeight - el.clientHeight
+      setPct(total > 0 ? Math.round((scrolled/total)*100) : 0)
+    }
+    window.addEventListener('scroll', onScroll, {passive:true})
+  }, [])
+  return (
+    <div className="reading-progress">
+      <div style={{ height:'100%', background:`linear-gradient(90deg, #3b82f6, #06b6d4)`, width:`${pct}%`, transition:'width .1s linear', boxShadow:'0 0 8px #3b82f688' }} />
+    </div>
+  )
+}
+
+function CopyButton({ text }) {
+  const [copied, setCopied] = useState(false)
+  const copy = (e) => {
+    e.stopPropagation()
+    navigator.clipboard.writeText(text).catch(()=>{})
+    setCopied(true)
+    setTimeout(()=>setCopied(false), 1800)
+  }
+  return (
+    <button className="copy-btn" onClick={copy} title="Copy to clipboard">
+      {copied ? '✓ copied' : '⎘ copy'}
+    </button>
+  )
+}
+
+function enrichText(text) {
+  const phoneRe = /(\d{1}-\d{3}-\d{3}-\d{4}|\(\d{3}\) \d{3}-\d{4}|\d{3}-\d{3}-\d{4})/g
+  const urlRe = /(https?:\/\/[^\s,;]+|[a-zA-Z0-9-]+\.[a-zA-Z]{2,}(?:\/[^\s,;]*)?)/g
+  const parts = []
+  let lastIdx = 0
+  const matches = []
+  let m
+  const combined = new RegExp(phoneRe.source + '|' + urlRe.source, 'g')
+  while ((m = combined.exec(text)) !== null) {
+    matches.push({start:m.index, end:m.index+m[0].length, val:m[0]})
+  }
+  matches.forEach(({start,end,val},i) => {
+    if (start > lastIdx) parts.push(text.slice(lastIdx,start))
+    const isPhone = /\d{3}[-. ]\d{3}/.test(val)
+    parts.push(
+      <span key={i} style={{ display:'inline-flex', alignItems:'center', gap:4, background:`${C.primary}11`, borderRadius:4, padding:'0 4px' }}>
+        <span style={{ color:C.accent, fontWeight:600 }}>{val}</span>
+        <CopyButton text={val} />
+      </span>
+    )
+    lastIdx = end
+  })
+  if (lastIdx < text.length) parts.push(text.slice(lastIdx))
+  return parts.length > 1 ? parts : text
 }
 
 function ArticleView({ article, onBack, onViewArticle }) {
   const [helpful, setHelpful] = useState(null)
   const [bookmarked, setBookmarked] = useState(false)
-  const [activeStep, setActiveStep] = useState(null)
+  const [completedSteps, setCompletedSteps] = useState(new Set())
   const [showIL, setShowIL] = useState(false)
+  const [showConfetti, setShowConfetti] = useState(false)
+  const [activeSection, setActiveSection] = useState('steps')
   const related = KB_ARTICLES.filter(a => article.related?.includes(a.id))
   const catColor = CAT_META[article.c]?.color || C.primary
+  const progress = Math.round((completedSteps.size / article.steps.length) * 100)
+  const allDone = completedSteps.size === article.steps.length
+
+  const toggleStep = (i) => {
+    setCompletedSteps(prev => {
+      const next = new Set(prev)
+      if (next.has(i)) { next.delete(i) } else {
+        next.add(i)
+        if (next.size === article.steps.length) {
+          setShowConfetti(true)
+          setTimeout(()=>setShowConfetti(false), 3000)
+        }
+      }
+      return next
+    })
+  }
+
+  const scrollTo = (id) => {
+    setActiveSection(id)
+    document.getElementById('section-'+id)?.scrollIntoView({behavior:'smooth',block:'start'})
+  }
 
   return (
-    <div className="page">
-      <button onClick={onBack} style={{ background:'none', border:'none', color:C.primary, cursor:'pointer', fontSize:14, fontWeight:600, marginBottom:24, display:'flex', alignItems:'center', gap:6 }}>← Back to Knowledge Base</button>
-      <div style={{ display:'grid', gridTemplateColumns:'1fr 280px', gap:24, alignItems:'start' }}>
+    <div className="page fade-in" style={{ paddingTop:20 }}>
+      <ReadingProgressBar />
+
+      {showConfetti && (
+        <div style={{ position:'fixed', top:0, left:0, right:0, bottom:0, pointerEvents:'none', zIndex:9998, overflow:'hidden' }}>
+          {Array.from({length:20}).map((_,i)=>(
+            <div key={i} style={{ position:'absolute', left:`${Math.random()*100}%`, top:'-20px', width:8, height:8, borderRadius:'50%', background:['#3b82f6','#10b981','#f59e0b','#ef4444','#8b5cf6','#ec4899'][i%6], animation:`confetti-fall ${1.5+Math.random()}s ease forwards`, animationDelay:`${Math.random()*0.8}s` }} />
+          ))}
+        </div>
+      )}
+
+      <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:24, flexWrap:'wrap' }}>
+        <button onClick={onBack} style={{ background:'none', border:`1px solid ${C.border}`, color:C.muted, cursor:'pointer', fontSize:13, fontWeight:600, display:'flex', alignItems:'center', gap:6, padding:'6px 12px', borderRadius:8, transition:'all .2s' }}
+          onMouseEnter={e=>{ e.currentTarget.style.borderColor=C.primary; e.currentTarget.style.color=C.primary }}
+          onMouseLeave={e=>{ e.currentTarget.style.borderColor=C.border; e.currentTarget.style.color=C.muted }}>
+          ← Back
+        </button>
+        <div style={{ display:'flex', gap:6, flex:1, flexWrap:'wrap' }}>
+          <span className="badge badge-blue">{article.c}</span>
+          <span style={{ fontSize:11, padding:'2px 8px', borderRadius:4, background:`${DIFF_COLOR[article.diff]}22`, color:DIFF_COLOR[article.diff], fontWeight:700 }}>{article.diff}</span>
+          <span style={{ fontSize:12, color:C.muted }}>⏱ {article.time}</span>
+          <span style={{ fontSize:12, color:C.muted }}>Updated {article.updated}</span>
+        </div>
+        <button onClick={()=>setBookmarked(v=>!v)} style={{ background:bookmarked?`${C.warn}22`:'none', border:`1px solid ${bookmarked?C.warn:C.border}`, color:bookmarked?C.warn:C.muted, cursor:'pointer', padding:'6px 12px', borderRadius:8, fontSize:13, transition:'all .2s' }}>
+          {bookmarked?'🔖 Saved':'🔖 Save'}
+        </button>
+      </div>
+
+      <div style={{ display:'grid', gridTemplateColumns:'1fr 260px', gap:24, alignItems:'start' }} className="article-2col">
         <div>
-          <div className="card" style={{ marginBottom:20, borderTop:`3px solid ${catColor}` }}>
-            <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:16, flexWrap:'wrap' }}>
-              <span className="badge badge-blue">{article.c}</span>
-              <span style={{ fontSize:12, padding:'2px 8px', borderRadius:4, background:`${DIFF_COLOR[article.diff]}22`, color:DIFF_COLOR[article.diff], fontWeight:700 }}>{article.diff}</span>
-              <span style={{ fontSize:12, color:C.muted }}>⏱ {article.time}</span>
-              <span style={{ fontSize:12, color:C.muted, marginLeft:'auto' }}>Updated {article.updated}</span>
-            </div>
-            <div style={{ fontSize:40, marginBottom:12 }}>{article.icon}</div>
-            <h1 style={{ color:C.heading, fontSize:26, fontWeight:800, marginBottom:12, lineHeight:1.3 }}>{article.t}</h1>
-            <p style={{ color:C.muted, fontSize:15, lineHeight:1.7, marginBottom:16 }}>{article.summary}</p>
-            <div style={{ display:'flex', gap:12, color:C.muted, fontSize:13 }}>
-              <span style={{ color:C.warn }}>{'★'.repeat(Math.round(article.rating))}{'☆'.repeat(5-Math.round(article.rating))}</span>
-              <span>{article.rating} ({article.reviews} reviews)</span>
-              <span>·</span><span>{article.v.toLocaleString()} views</span>
+          {/* Header */}
+          <div className="card fade-up" style={{ marginBottom:20, borderTop:`3px solid ${catColor}`, position:'relative', overflow:'hidden' }}>
+            <div style={{ position:'absolute', top:0, right:0, fontSize:80, opacity:.06, transform:'translate(10px,-10px)', userSelect:'none' }}>{article.icon}</div>
+            <div style={{ fontSize:44, marginBottom:12 }}>{article.icon}</div>
+            <h1 style={{ color:C.heading, fontSize:24, fontWeight:800, marginBottom:12, lineHeight:1.3 }}>{article.t}</h1>
+            <p style={{ color:C.muted, fontSize:15, lineHeight:1.75, marginBottom:16 }}>{article.summary}</p>
+            <div style={{ display:'flex', gap:16, alignItems:'center', flexWrap:'wrap' }}>
+              <div style={{ display:'flex', gap:2 }}>
+                {Array.from({length:5}).map((_,i)=>(
+                  <span key={i} style={{ fontSize:14, color:i<Math.round(article.rating)?C.warn:C.border }}>★</span>
+                ))}
+              </div>
+              <span style={{ fontSize:13, color:C.muted }}>{article.rating} · {article.reviews.toLocaleString()} reviews · {article.v.toLocaleString()} views</span>
             </div>
           </div>
 
-          <div style={{ background:`${catColor}11`, border:`1px solid ${catColor}33`, borderRadius:12, padding:16, marginBottom:20 }}>
-            <div style={{ fontWeight:800, color:catColor, fontSize:12, marginBottom:8, letterSpacing:'.06em' }}>TL;DR — QUICK SUMMARY</div>
-            <div style={{ fontSize:14, color:C.text, lineHeight:1.6 }}>{article.summary}</div>
-            <div style={{ marginTop:10, display:'flex', flexWrap:'wrap', gap:6 }}>
+          {/* Progress banner */}
+          {completedSteps.size > 0 && (
+            <div className="fade-up" style={{ padding:'12px 16px', background:allDone?`${C.success}15`:`${catColor}10`, border:`1px solid ${allDone?C.success:catColor}33`, borderRadius:12, marginBottom:16, display:'flex', alignItems:'center', gap:12 }}>
+              <div style={{ flex:1 }}>
+                <div style={{ display:'flex', justifyContent:'space-between', marginBottom:6 }}>
+                  <span style={{ fontSize:13, fontWeight:700, color:allDone?C.success:catColor }}>
+                    {allDone ? '🎉 All steps complete!' : `${completedSteps.size} of ${article.steps.length} steps done`}
+                  </span>
+                  <span style={{ fontSize:12, color:C.muted }}>{progress}%</span>
+                </div>
+                <div className="progress-bar-track">
+                  <div className="progress-bar-fill" style={{ width:`${progress}%`, background:allDone?C.success:catColor }} />
+                </div>
+              </div>
+              {!allDone && (
+                <button onClick={()=>setCompletedSteps(new Set())} style={{ background:'none', border:'none', color:C.muted, cursor:'pointer', fontSize:12, padding:'2px 6px', borderRadius:4 }}>Reset</button>
+              )}
+            </div>
+          )}
+
+          {/* TL;DR */}
+          <div className="fade-up" style={{ background:`${catColor}09`, border:`1px solid ${catColor}25`, borderRadius:12, padding:'14px 16px', marginBottom:16 }}>
+            <div style={{ fontWeight:800, color:catColor, fontSize:10, marginBottom:8, letterSpacing:'.1em', textTransform:'uppercase' }}>Quick Summary</div>
+            <p style={{ fontSize:14, color:C.text, lineHeight:1.7, marginBottom:10 }}>{article.summary}</p>
+            <div style={{ display:'flex', flexWrap:'wrap', gap:6 }}>
               {article.steps.slice(0,3).map((s,i)=>(
-                <span key={i} style={{ padding:'3px 10px', background:`${catColor}22`, borderRadius:20, fontSize:11, color:catColor, fontWeight:600 }}>Step {i+1}: {s.slice(0,38)}…</span>
+                <span key={i} style={{ padding:'3px 10px', background:`${catColor}18`, borderRadius:20, fontSize:11, color:catColor, fontWeight:600 }}>
+                  {i+1}. {s.slice(0,35)}{s.length>35?'…':''}
+                </span>
               ))}
+              {article.steps.length > 3 && <span style={{ padding:'3px 10px', background:C.surface, borderRadius:20, fontSize:11, color:C.muted }}>+{article.steps.length-3} more</span>}
             </div>
           </div>
 
-          <div style={{ display:'flex', alignItems:'center', gap:12, padding:'11px 16px', background:C.surface, borderRadius:10, border:`1px solid ${C.border}`, marginBottom:20 }}>
-            <span>🏛️</span>
-            <span style={{ fontSize:13, color:C.text, flex:1 }}>Show Illinois-specific information</span>
+          {/* IL toggle */}
+          <div className="fade-up" style={{ display:'flex', alignItems:'center', gap:12, padding:'10px 16px', background:C.surface, borderRadius:10, border:`1px solid ${C.border}`, marginBottom:16 }}>
+            <span style={{ fontSize:18 }}>🏛️</span>
+            <span style={{ fontSize:13, color:C.text, flex:1 }}>Illinois-specific information</span>
             <div className="toggle" style={{ background:showIL?catColor:C.border }} onClick={()=>setShowIL(v=>!v)}>
               <div className="tknob" style={{ left:showIL?23:3 }} />
             </div>
           </div>
           {showIL && (
-            <div style={{ background:`${catColor}11`, border:`1px solid ${catColor}33`, borderRadius:12, padding:16, marginBottom:20 }}>
-              <div style={{ fontWeight:700, color:catColor, marginBottom:8, fontSize:14 }}>🏛️ Illinois-Specific Details</div>
-              <div style={{ fontSize:14, color:C.text, lineHeight:1.7 }}>
-                In Illinois, this process is handled through the Illinois Department of Human Services (IDHS) or the relevant state agency.
-                Contact the Illinois helpline at <strong>1-800-843-6154</strong> or visit <strong>dhs.illinois.gov</strong> for state-specific guidance.
-                Illinois residents can also use the <strong>ABE portal</strong> at abe.illinois.gov for most benefit applications.
+            <div className="fade-up" style={{ background:`${catColor}09`, border:`1px solid ${catColor}25`, borderRadius:12, padding:16, marginBottom:16 }}>
+              <div style={{ fontWeight:700, color:catColor, marginBottom:8, fontSize:13, display:'flex', alignItems:'center', gap:8 }}>
+                🏛️ Illinois Details
+              </div>
+              <div style={{ fontSize:14, color:C.text, lineHeight:1.75 }}>
+                In Illinois, this is handled through IDHS or the relevant state agency. Contact the Illinois helpline at{' '}
+                <span style={{ color:C.accent, fontWeight:600 }}>1-800-843-6154</span>
+                <CopyButton text="1-800-843-6154" />
+                {' '}or visit <span style={{ color:C.accent, fontWeight:600 }}>dhs.illinois.gov</span>. Illinois residents can use the <span style={{ color:C.accent, fontWeight:600 }}>ABE portal</span> at abe.illinois.gov.
               </div>
             </div>
           )}
 
-          <div className="card" style={{ marginBottom:20 }}>
-            <h2 style={{ color:C.heading, fontSize:18, fontWeight:700, marginBottom:20 }}>📋 Step-by-Step Guide</h2>
-            {article.steps.map((step, i) => (
-              <div key={i} onClick={()=>setActiveStep(activeStep===i?null:i)} style={{ marginBottom:i < article.steps.length-1 ? 16 : 0, cursor:'pointer' }}>
-                <div style={{ display:'flex', gap:14 }}>
-                  <div style={{ width:32, height:32, borderRadius:'50%', background:activeStep===i?catColor:`${catColor}22`, border:`2px solid ${catColor}`, display:'flex', alignItems:'center', justifyContent:'center', fontWeight:800, color:activeStep===i?'#fff':catColor, fontSize:14, flexShrink:0, marginTop:2, transition:'all .2s' }}>{i+1}</div>
-                  <div style={{ flex:1, paddingBottom:i < article.steps.length-1 ? 16 : 0, borderBottom:i < article.steps.length-1 ? `1px solid ${C.border}` : 'none' }}>
-                    <p style={{ color:C.text, fontSize:14, lineHeight:1.7 }}>{step}</p>
+          {/* Steps */}
+          <div id="section-steps" className="card fade-up" style={{ marginBottom:16 }}>
+            <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:20 }}>
+              <h2 style={{ color:C.heading, fontSize:17, fontWeight:700 }}>📋 Step-by-Step Guide</h2>
+              <span style={{ fontSize:12, color:C.muted }}>{article.steps.length} steps · click to mark done</span>
+            </div>
+            {article.steps.map((step, i) => {
+              const done = completedSteps.has(i)
+              return (
+                <div key={i} onClick={()=>toggleStep(i)} style={{ marginBottom:i < article.steps.length-1 ? 14 : 0, cursor:'pointer' }}>
+                  <div style={{ display:'flex', gap:12, padding:'10px 12px', borderRadius:8, background:done?`${C.success}08`:activeSection==='steps'?'transparent':'transparent', border:`1px solid ${done?C.success+'33':C.border}`, transition:'all .2s' }}
+                    onMouseEnter={e=>!done&&(e.currentTarget.style.borderColor=catColor+'44')}
+                    onMouseLeave={e=>!done&&(e.currentTarget.style.borderColor=C.border)}>
+                    <div style={{ width:28, height:28, borderRadius:'50%', background:done?C.success:`${catColor}22`, border:`2px solid ${done?C.success:catColor}`, display:'flex', alignItems:'center', justifyContent:'center', fontWeight:800, color:done?'#fff':catColor, fontSize:12, flexShrink:0, transition:'all .25s' }}>
+                      {done?'✓':i+1}
+                    </div>
+                    <p style={{ color:done?C.muted:C.text, fontSize:14, lineHeight:1.7, flex:1, transition:'color .2s', textDecoration:done?'line-through':'none', textDecorationColor:done?`${C.success}66`:'transparent' }}>{step}</p>
                   </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
 
-          <div className="card" style={{ marginBottom:20 }}>
-            <h2 style={{ color:C.heading, fontSize:18, fontWeight:700, marginBottom:16 }}>💡 Pro Tips</h2>
+          {/* Tips */}
+          <div id="section-tips" className="card fade-up" style={{ marginBottom:16 }}>
+            <h2 style={{ color:C.heading, fontSize:17, fontWeight:700, marginBottom:16 }}>💡 Pro Tips</h2>
             {article.tips.map((tip, i) => (
-              <div key={i} style={{ display:'flex', gap:12, padding:'12px 0', borderBottom:i < article.tips.length-1 ? `1px solid ${C.border}` : 'none' }}>
-                <span style={{ color:catColor, fontSize:18, flexShrink:0 }}>→</span>
-                <p style={{ color:C.text, fontSize:14, lineHeight:1.6 }}>{tip}</p>
+              <div key={i} style={{ display:'flex', gap:12, padding:'12px 12px', borderRadius:8, marginBottom:8, background:C.surface }}>
+                <span style={{ color:catColor, fontSize:16, flexShrink:0, marginTop:2 }}>→</span>
+                <p style={{ color:C.text, fontSize:14, lineHeight:1.7 }}>{enrichText(tip)}</p>
               </div>
             ))}
           </div>
 
-          <FaqSection faq={article.faq} catColor={catColor} />
+          {/* FAQ */}
+          <div id="section-faq">
+            <FaqSection faq={article.faq} catColor={catColor} />
+          </div>
 
-          <div className="card">
-            <h3 style={{ color:C.heading, marginBottom:16 }}>Was this guide helpful?</h3>
-            <div style={{ display:'flex', gap:12 }}>
-              <button onClick={()=>setHelpful('yes')} className="btn" style={{ flex:1, background:helpful==='yes'?`${C.success}22`:C.surface, border:`1px solid ${helpful==='yes'?C.success:C.border}`, color:helpful==='yes'?C.success:C.muted }}>👍 Yes, helpful!</button>
-              <button onClick={()=>setHelpful('no')} className="btn" style={{ flex:1, background:helpful==='no'?`${C.danger}22`:C.surface, border:`1px solid ${helpful==='no'?C.danger:C.border}`, color:helpful==='no'?C.danger:C.muted }}>👎 Needs work</button>
+          {/* Helpful */}
+          <div className="card" style={{ marginBottom:0 }}>
+            <h3 style={{ color:C.heading, marginBottom:6, fontSize:15 }}>Was this guide helpful?</h3>
+            <p style={{ color:C.muted, fontSize:12, marginBottom:14 }}>Your feedback helps us improve these guides.</p>
+            <div style={{ display:'flex', gap:10 }}>
+              <button onClick={()=>setHelpful('yes')} className="btn" style={{ flex:1, background:helpful==='yes'?`${C.success}22`:C.surface, border:`1px solid ${helpful==='yes'?C.success:C.border}`, color:helpful==='yes'?C.success:C.muted, fontSize:13 }}>👍 Helpful</button>
+              <button onClick={()=>setHelpful('no')} className="btn" style={{ flex:1, background:helpful==='no'?`${C.danger}22`:C.surface, border:`1px solid ${helpful==='no'?C.danger:C.border}`, color:helpful==='no'?C.danger:C.muted, fontSize:13 }}>👎 Needs work</button>
             </div>
-            {helpful==='yes' && <p style={{ marginTop:12, fontSize:14, color:C.success }}>✓ Thanks! Share this article with someone who might need it.</p>}
-            {helpful==='no' && <p style={{ marginTop:12, fontSize:14, color:C.muted }}>We\'ll use your feedback to improve this guide.</p>}
+            {helpful==='yes' && <p style={{ marginTop:10, fontSize:13, color:C.success }}>✓ Thanks for the feedback!</p>}
+            {helpful==='no' && <p style={{ marginTop:10, fontSize:13, color:C.muted }}>We'll use your feedback to improve this guide.</p>}
           </div>
         </div>
 
-        <div style={{ position:'sticky', top:20, display:'flex', flexDirection:'column', gap:14 }}>
-          <div className="card">
-            <h3 style={{ color:C.heading, fontSize:14, marginBottom:14 }}>Quick Actions</h3>
-            <button onClick={()=>setBookmarked(v=>!v)} className="btn" style={{ width:'100%', marginBottom:8, background:bookmarked?`${C.warn}22`:C.surface, border:`1px solid ${bookmarked?C.warn:C.border}`, color:bookmarked?C.warn:C.text, fontSize:13 }}>{bookmarked?'🔖 Bookmarked':'🔖 Save Article'}</button>
-            <button className="btn btn-primary" style={{ width:'100%', marginBottom:8, fontSize:13 }}>🤖 Ask CLARA About This</button>
-            <button className="btn btn-outline" style={{ width:'100%', fontSize:13 }}>📄 Download PDF</button>
-          </div>
-          <div className="card">
-            <h3 style={{ color:C.heading, fontSize:14, marginBottom:10 }}>Tags</h3>
-            <div style={{ display:'flex', flexWrap:'wrap', gap:6 }}>
-              {article.tags.map(tag=><span key={tag} style={{ padding:'3px 8px', background:C.surface, borderRadius:20, fontSize:11, color:C.muted, border:`1px solid ${C.border}` }}>#{tag}</span>)}
+        {/* Sidebar */}
+        <div style={{ position:'sticky', top:24, display:'flex', flexDirection:'column', gap:12 }} className="article-sidebar">
+          {/* Progress */}
+          <div className="card" style={{ padding:'16px' }}>
+            <div style={{ display:'flex', justifyContent:'space-between', marginBottom:8 }}>
+              <span style={{ fontSize:12, fontWeight:700, color:C.heading }}>Your Progress</span>
+              <span style={{ fontSize:12, color:catColor, fontWeight:700 }}>{progress}%</span>
+            </div>
+            <div className="progress-bar-track" style={{ marginBottom:12 }}>
+              <div className="progress-bar-fill" style={{ width:`${progress}%`, background:progress===100?C.success:catColor }} />
+            </div>
+            <div style={{ display:'flex', flexDirection:'column', gap:4 }}>
+              {article.steps.map((s,i)=>(
+                <button key={i} onClick={()=>toggleStep(i)} style={{ display:'flex', alignItems:'center', gap:8, padding:'5px 8px', borderRadius:6, background:completedSteps.has(i)?`${C.success}15`:C.surface, border:`1px solid ${completedSteps.has(i)?C.success+'44':C.border}`, cursor:'pointer', width:'100%', transition:'all .15s' }}>
+                  <div style={{ width:14, height:14, borderRadius:'50%', border:`2px solid ${completedSteps.has(i)?C.success:C.border}`, background:completedSteps.has(i)?C.success:'transparent', flexShrink:0, display:'flex', alignItems:'center', justifyContent:'center' }}>
+                    {completedSteps.has(i) && <span style={{ color:'#fff', fontSize:8 }}>✓</span>}
+                  </div>
+                  <span style={{ fontSize:11, color:completedSteps.has(i)?C.muted:C.text, textAlign:'left', lineHeight:1.3, flex:1, textDecoration:completedSteps.has(i)?'line-through':'none' }}>
+                    {s.slice(0,40)}{s.length>40?'…':''}
+                  </span>
+                </button>
+              ))}
             </div>
           </div>
-          {related.length > 0 && (
-            <div className="card">
-              <h3 style={{ color:C.heading, fontSize:14, marginBottom:12 }}>Related Guides</h3>
-              {related.map(a=>(
-                <div key={a.id} onClick={()=>onViewArticle(a)} style={{ padding:'10px 0', borderBottom:`1px solid ${C.border}`, cursor:'pointer', display:'flex', gap:10, alignItems:'center' }}>
-                  <span style={{ fontSize:20 }}>{a.icon}</span>
-                  <div><div style={{ fontSize:13, color:C.text, fontWeight:600, lineHeight:1.3 }}>{a.t}</div><span className="badge badge-blue" style={{ marginTop:4 }}>{a.c}</span></div>
-                </div>
+
+          {/* Jump to */}
+          <div className="card" style={{ padding:'14px' }}>
+            <span style={{ fontSize:11, fontWeight:700, color:C.muted, letterSpacing:'.08em', textTransform:'uppercase' }}>Jump to</span>
+            <div style={{ marginTop:8, display:'flex', flexDirection:'column', gap:2 }}>
+              {[['steps','📋 Steps'],['tips','💡 Tips'],['faq','❓ FAQ']].map(([id,label])=>(
+                <button key={id} className={`toc-link ${activeSection===id?'active':''}`} onClick={()=>scrollTo(id)}>{label}</button>
               ))}
+            </div>
+          </div>
+
+          {/* Quick actions */}
+          <div className="card" style={{ padding:'14px' }}>
+            <span style={{ fontSize:11, fontWeight:700, color:C.muted, letterSpacing:'.08em', textTransform:'uppercase' }}>Quick Actions</span>
+            <div style={{ marginTop:10, display:'flex', flexDirection:'column', gap:8 }}>
+              <button className="btn btn-primary" style={{ width:'100%', fontSize:12, padding:'8px 12px', justifyContent:'center' }}>🤖 Ask CLARA About This</button>
+              <button onClick={()=>setBookmarked(v=>!v)} className="btn" style={{ width:'100%', fontSize:12, padding:'8px 12px', justifyContent:'center', background:bookmarked?`${C.warn}15`:C.surface, border:`1px solid ${bookmarked?C.warn:C.border}`, color:bookmarked?C.warn:C.text }}>{bookmarked?'🔖 Saved':'🔖 Save Guide'}</button>
+            </div>
+          </div>
+
+          {/* Tags */}
+          <div className="card" style={{ padding:'14px' }}>
+            <span style={{ fontSize:11, fontWeight:700, color:C.muted, letterSpacing:'.08em', textTransform:'uppercase' }}>Tags</span>
+            <div style={{ marginTop:10, display:'flex', flexWrap:'wrap', gap:5 }}>
+              {article.tags.map(tag=><span key={tag} className="tag-pill" style={{ background:C.surface, color:C.muted }}>#{tag}</span>)}
+            </div>
+          </div>
+
+          {/* Related */}
+          {related.length > 0 && (
+            <div className="card" style={{ padding:'14px' }}>
+              <span style={{ fontSize:11, fontWeight:700, color:C.muted, letterSpacing:'.08em', textTransform:'uppercase' }}>Related Guides</span>
+              <div style={{ marginTop:10 }}>
+                {related.map(a=>(
+                  <div key={a.id} onClick={()=>onViewArticle(a)} className="card-hover" style={{ padding:'10px 8px', borderBottom:`1px solid ${C.border}`, cursor:'pointer', display:'flex', gap:10, alignItems:'center', borderRadius:6, transition:'background .15s' }}
+                    onMouseEnter={e=>e.currentTarget.style.background=`${C.primary}08`}
+                    onMouseLeave={e=>e.currentTarget.style.background='transparent'}>
+                    <span style={{ fontSize:18 }}>{a.icon}</span>
+                    <div style={{ flex:1, minWidth:0 }}>
+                      <div style={{ fontSize:12, color:C.text, fontWeight:600, lineHeight:1.3 }}>{a.t}</div>
+                      <div style={{ fontSize:11, color:C.muted, marginTop:2 }}>{a.c} · {a.time}</div>
+                    </div>
+                    <span style={{ color:C.muted, fontSize:14 }}>›</span>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
         </div>
@@ -1193,29 +1664,56 @@ function ArticleView({ article, onBack, onViewArticle }) {
 
 function GlossaryModal({ onClose }) {
   const [q, setQ] = useState('')
-  const filtered = GLOSSARY.filter(g => g.term.toLowerCase().includes(q.toLowerCase()) || g.def.toLowerCase().includes(q.toLowerCase()))
+  const [copied, setCopied] = useState(null)
+  const [activeLetter, setActiveLetter] = useState(null)
+  const filtered = GLOSSARY.filter(g => {
+    const qLow = q.toLowerCase()
+    const matchesSearch = g.term.toLowerCase().includes(qLow) || g.def.toLowerCase().includes(qLow)
+    const matchesLetter = !activeLetter || g.term[0].toUpperCase() === activeLetter
+    return matchesSearch && matchesLetter
+  })
+  const letters = [...new Set(GLOSSARY.map(g => g.term[0].toUpperCase()))].sort()
   return (
-    <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,.7)', zIndex:9999, display:'flex', alignItems:'center', justifyContent:'center', padding:20 }} onClick={onClose}>
-      <div style={{ background:C.card, borderRadius:16, border:`1px solid ${C.border}`, width:'100%', maxWidth:680, maxHeight:'80vh', display:'flex', flexDirection:'column' }} onClick={e=>e.stopPropagation()}>
-        <div style={{ padding:'20px 24px', borderBottom:`1px solid ${C.border}`, display:'flex', alignItems:'center', gap:12 }}>
-          <span style={{ fontSize:24 }}>📖</span>
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content" onClick={e=>e.stopPropagation()} style={{ maxWidth:720 }}>
+        <div style={{ padding:'18px 24px', borderBottom:`1px solid ${C.border}`, display:'flex', alignItems:'center', gap:12 }}>
+          <div style={{ width:40, height:40, borderRadius:10, background:`${C.primary}22`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:20 }}>📖</div>
           <div style={{ flex:1 }}>
-            <div style={{ fontWeight:800, color:C.heading, fontSize:18 }}>Benefits & Legal Glossary</div>
-            <div style={{ fontSize:12, color:C.muted }}>{GLOSSARY.length} terms defined</div>
+            <div style={{ fontWeight:800, color:C.heading, fontSize:17 }}>Benefits & Legal Glossary</div>
+            <div style={{ fontSize:12, color:C.muted }}>{filtered.length} of {GLOSSARY.length} terms · Click any term to copy definition</div>
           </div>
-          <button onClick={onClose} style={{ background:'none', border:`1px solid ${C.border}`, borderRadius:8, color:C.muted, cursor:'pointer', padding:'4px 10px', fontSize:16 }}>✕</button>
+          <button onClick={onClose} style={{ width:32, height:32, borderRadius:8, border:`1px solid ${C.border}`, background:'transparent', color:C.muted, cursor:'pointer', fontSize:18, display:'flex', alignItems:'center', justifyContent:'center' }}>✕</button>
         </div>
-        <div style={{ padding:'14px 24px', borderBottom:`1px solid ${C.border}` }}>
-          <input value={q} onChange={e=>setQ(e.target.value)} placeholder="Search terms…" style={{ padding:'10px 14px', fontSize:14 }} />
+        <div style={{ padding:'12px 24px', borderBottom:`1px solid ${C.border}`, display:'flex', gap:8, alignItems:'center' }}>
+          <input value={q} onChange={e=>{setQ(e.target.value);setActiveLetter(null)}} placeholder="Search 80+ government and legal terms…" style={{ padding:'9px 14px', fontSize:13 }} autoFocus />
+          {q && <button onClick={()=>setQ('')} style={{ background:'none', border:'none', color:C.muted, cursor:'pointer', fontSize:16, flexShrink:0 }}>✕</button>}
         </div>
-        <div style={{ overflowY:'auto', padding:'0 24px 24px' }}>
-          {filtered.map((g,i) => (
-            <div key={i} style={{ padding:'14px 0', borderBottom:`1px solid ${C.border}` }}>
-              <div style={{ fontWeight:800, color:C.primary, fontSize:14, marginBottom:4 }}>{g.term}</div>
-              <div style={{ fontSize:13, color:C.text, lineHeight:1.6 }}>{g.def}</div>
+        {!q && (
+          <div style={{ padding:'8px 24px', borderBottom:`1px solid ${C.border}`, display:'flex', gap:4, flexWrap:'wrap' }}>
+            {['All',...letters].map(l => (
+              <button key={l} onClick={()=>setActiveLetter(l==='All'?null:l)}
+                style={{ padding:'3px 8px', borderRadius:6, border:`1px solid ${activeLetter===l||(l==='All'&&!activeLetter)?C.primary:C.border}`, background:activeLetter===l||(l==='All'&&!activeLetter)?`${C.primary}22`:'transparent', color:activeLetter===l||(l==='All'&&!activeLetter)?C.primary:C.muted, cursor:'pointer', fontSize:11, fontWeight:700, transition:'all .12s' }}>
+                {l}
+              </button>
+            ))}
+          </div>
+        )}
+        <div style={{ overflowY:'auto', padding:'12px 24px 24px', flex:1 }}>
+          {filtered.length === 0 && <div style={{ padding:32, textAlign:'center', color:C.muted, fontSize:14 }}>No terms matching "{q}"</div>}
+          {filtered.map((g, i) => (
+            <div key={i} onClick={()=>{ navigator.clipboard.writeText(`${g.term}: ${g.def}`).catch(()=>{}); setCopied(i); setTimeout(()=>setCopied(null),1800) }}
+              style={{ padding:'12px 14px', borderRadius:10, marginBottom:6, background:C.surface, border:`1px solid ${copied===i?C.success:C.border}`, cursor:'pointer', transition:'all .15s' }}
+              onMouseEnter={e=>e.currentTarget.style.borderColor=C.primary+'44'}
+              onMouseLeave={e=>copied!==i&&(e.currentTarget.style.borderColor=C.border)}>
+              <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:4 }}>
+                <span style={{ fontWeight:800, color:C.primary, fontSize:13 }}>{g.term}</span>
+                <span style={{ marginLeft:'auto', fontSize:10, color:copied===i?C.success:C.muted, transition:'color .2s' }}>
+                  {copied===i ? '✓ Copied!' : '⎘ click to copy'}
+                </span>
+              </div>
+              <div style={{ fontSize:13, color:C.text, lineHeight:1.65 }}>{g.def}</div>
             </div>
           ))}
-          {filtered.length===0 && <div style={{ padding:32, textAlign:'center', color:C.muted }}>No terms matching "{q}"</div>}
         </div>
       </div>
     </div>
@@ -1235,6 +1733,23 @@ function Knowledge() {
   const [activeCollection, setActiveCollection] = useState(null)
   const [showGlossary, setShowGlossary] = useState(false)
   const [featIdx, setFeatIdx] = useState(0)
+
+  useState(()=>{
+    const handler = (e) => {
+      if ((e.metaKey||e.ctrlKey) && e.key==='k') {
+        e.preventDefault()
+        setSelected(null)
+        setTimeout(()=>document.querySelector('input[placeholder*="Search"]')?.focus(), 100)
+      }
+      if (e.key==='Escape') {
+        setSelected(null)
+        setShowGlossary(false)
+        setActiveCollection(null)
+        setActivePath(null)
+      }
+    }
+    window.addEventListener('keydown', handler)
+  }, [])
 
   function openArticle(a) {
     setSelected(a)
@@ -1266,57 +1781,102 @@ function Knowledge() {
     <div className="page">
       {showGlossary && <GlossaryModal onClose={()=>setShowGlossary(false)} />}
 
-      <div className="ph" style={{ marginBottom:0, position:'relative', overflow:'hidden' }}>
-        <div className="pt">Phase 19 — Enhanced</div>
-        <h1>Knowledge Base</h1>
-        <p style={{ maxWidth:560 }}>{KB_ARTICLES.length} in-depth guides across {Object.keys(CAT_META).length} categories — benefits, healthcare, taxes, legal rights, and more.</p>
-        <div style={{ display:'flex', gap:10, marginTop:16, flexWrap:'wrap' }}>
-          <button onClick={()=>setShowGlossary(true)} className="btn btn-outline" style={{ fontSize:13 }}>📖 Glossary ({GLOSSARY.length} terms)</button>
-          <button onClick={()=>{setSearch('');setCat('All');setDiff('All')}} className="btn btn-outline" style={{ fontSize:13 }}>🔀 Random Guide</button>
+      <div style={{ marginBottom:24 }}>
+        <div style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between', flexWrap:'wrap', gap:12 }}>
+          <div>
+            <div style={{ fontSize:11, fontWeight:800, color:C.primary, letterSpacing:'.1em', textTransform:'uppercase', marginBottom:6 }}>Knowledge Base</div>
+            <h1 style={{ fontSize:28, fontWeight:900, color:C.heading, letterSpacing:'-.02em', marginBottom:6 }}>
+              {KB_ARTICLES.length} Government Guides
+            </h1>
+            <p style={{ color:C.muted, fontSize:14, maxWidth:480 }}>Benefits, healthcare, taxes, legal rights, housing, employment and more — in plain English.</p>
+          </div>
+          <div style={{ display:'flex', gap:8, flexWrap:'wrap' }}>
+            <button onClick={()=>setShowGlossary(true)} className="btn btn-ghost btn-sm">📖 Glossary</button>
+            <button onClick={()=>{
+              const r = KB_ARTICLES[Math.floor(Math.random()*KB_ARTICLES.length)]
+              openArticle(r)
+              showToast(`Opening: ${r.icon} ${r.t.slice(0,40)}…`, 'info')
+            }} className="btn btn-ghost btn-sm">🎲 Random Guide</button>
+          </div>
         </div>
       </div>
 
       {/* Stats Bar */}
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:12, margin:'20px 0 28px' }}>
-        {[[KB_ARTICLES.length,'📚','Guides'],[Object.keys(CAT_META).length,'🗂️','Categories'],[avgRating,'⭐','Avg Rating'],[(totalViews/1000).toFixed(0)+'K','👁️','Monthly Views']].map(([v,i,l])=>(
-          <div key={l} style={{ padding:'14px 16px', background:C.card, borderRadius:12, border:`1px solid ${C.border}`, textAlign:'center' }}>
-            <div style={{ fontSize:22, marginBottom:4 }}>{i}</div>
-            <div style={{ fontSize:24, fontWeight:800, color:C.heading }}>{v}</div>
-            <div style={{ fontSize:12, color:C.muted }}>{l}</div>
+      <div style={{ display:'flex', gap:10, marginBottom:24, flexWrap:'wrap' }}>
+        {[[KB_ARTICLES.length+'','📚',C.primary,'Guides'],[Object.keys(CAT_META).length+'','🗂️',C.accent,'Categories'],[avgRating+'★','⭐',C.warn,'Avg Rating'],[(totalViews/1000).toFixed(0)+'K','👁️',C.success,'Monthly Views']].map(([v,i,color,l])=>(
+          <div key={l} style={{ display:'flex', alignItems:'center', gap:10, padding:'12px 16px', background:C.card, border:`1px solid ${C.border}`, borderRadius:12, flex:1, minWidth:100 }}>
+            <div style={{ width:36, height:36, borderRadius:10, background:`${color}18`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:18 }}>{i}</div>
+            <div>
+              <div style={{ fontSize:20, fontWeight:900, color:C.heading, letterSpacing:'-.01em' }}>{v}</div>
+              <div style={{ fontSize:11, color:C.muted, fontWeight:500 }}>{l}</div>
+            </div>
           </div>
         ))}
       </div>
 
       {/* Search */}
       <div style={{ position:'relative', marginBottom:16 }}>
-        <span style={{ position:'absolute', left:14, top:'50%', transform:'translateY(-50%)', fontSize:18 }}>🔍</span>
-        <input value={search} onChange={e=>{setSearch(e.target.value);setCat('All');setActivePath(null);setActiveCollection(null)}} placeholder={`Search ${KB_ARTICLES.length} guides — try "disability", "SNAP", "credit", "FMLA", "Medicare"…`} style={{ padding:'14px 44px', fontSize:15 }} />
-        {search && <button onClick={()=>setSearch('')} style={{ position:'absolute', right:14, top:'50%', transform:'translateY(-50%)', background:'none', border:'none', color:C.muted, cursor:'pointer', fontSize:18 }}>✕</button>}
+        <span style={{ position:'absolute', left:16, top:'50%', transform:'translateY(-50%)', fontSize:18 }}>🔍</span>
+        <input
+          value={search}
+          onChange={e=>{setSearch(e.target.value);setCat('All');setActivePath(null);setActiveCollection(null)}}
+          placeholder={`Search ${KB_ARTICLES.length} guides — try "disability", "SNAP", "eviction", "Medicare"…`}
+          style={{ padding:'14px 48px', fontSize:15, borderRadius:12, border:`1px solid ${search?C.primary:C.border}`, boxShadow:search?`0 0 0 3px ${C.primary}18`:'none' }}
+        />
+        {search
+          ? <button onClick={()=>setSearch('')} style={{ position:'absolute', right:16, top:'50%', transform:'translateY(-50%)', background:C.surface, border:`1px solid ${C.border}`, borderRadius:6, color:C.muted, cursor:'pointer', padding:'3px 8px', fontSize:12 }}>✕ Clear</button>
+          : <span style={{ position:'absolute', right:16, top:'50%', transform:'translateY(-50%)' }}><span className="kbd">⌘K</span></span>
+        }
       </div>
 
-      {/* Category Pills */}
-      <div style={{ display:'flex', gap:8, marginBottom:16, flexWrap:'wrap' }}>
-        <button onClick={()=>{setCat('All');setActivePath(null);setActiveCollection(null)}} style={{ padding:'6px 14px', borderRadius:20, border:`1px solid ${cat==='All'?C.primary:C.border}`, background:cat==='All'?`${C.primary}22`:'transparent', color:cat==='All'?C.primary:C.muted, cursor:'pointer', fontSize:12, fontWeight:cat==='All'?700:400 }}>All ({KB_ARTICLES.length})</button>
+      {/* Category Scroll + Filter Row */}
+      <div style={{ display:'flex', gap:6, marginBottom:12, overflowX:'auto', paddingBottom:4 }}>
+        <button onClick={()=>{setCat('All');setActivePath(null);setActiveCollection(null)}}
+          style={{ padding:'6px 14px', borderRadius:20, border:`1px solid ${cat==='All'?C.primary:C.border}`, background:cat==='All'?`${C.primary}22`:'transparent', color:cat==='All'?C.primary:C.muted, cursor:'pointer', fontSize:12, fontWeight:cat==='All'?700:400, flexShrink:0, transition:'all .15s' }}>
+          All · {KB_ARTICLES.length}
+        </button>
         {catCounts.map(({c,n,icon,color})=>(
-          <button key={c} onClick={()=>{setCat(c);setActivePath(null);setActiveCollection(null)}} style={{ padding:'6px 12px', borderRadius:20, border:`1px solid ${cat===c?color:C.border}`, background:cat===c?`${color}22`:'transparent', color:cat===c?color:C.muted, cursor:'pointer', fontSize:12, fontWeight:cat===c?700:400 }}>
-            {icon} {c} ({n})
+          <button key={c} onClick={()=>{setCat(c);setActivePath(null);setActiveCollection(null)}}
+            style={{ padding:'6px 12px', borderRadius:20, border:`1px solid ${cat===c?color:C.border}`, background:cat===c?`${color}22`:'transparent', color:cat===c?color:C.muted, cursor:'pointer', fontSize:12, fontWeight:cat===c?700:400, flexShrink:0, transition:'all .15s' }}>
+            {icon} {c} · {n}
           </button>
         ))}
       </div>
 
-      {/* Filter Row */}
-      <div style={{ display:'flex', gap:8, marginBottom:28, alignItems:'center', flexWrap:'wrap' }}>
-        <select value={diff} onChange={e=>setDiff(e.target.value)} style={{ width:'auto', padding:'7px 12px', fontSize:13 }}>
+      {/* Filter row + active chips */}
+      <div style={{ display:'flex', gap:8, marginBottom:20, alignItems:'center', flexWrap:'wrap' }}>
+        <select value={diff} onChange={e=>setDiff(e.target.value)} style={{ width:'auto', padding:'7px 12px', fontSize:12, borderRadius:8 }}>
           <option value="All">All Levels</option><option>Easy</option><option>Medium</option><option>Hard</option>
         </select>
-        <select value={sort} onChange={e=>setSort(e.target.value)} style={{ width:'auto', padding:'7px 12px', fontSize:13 }}>
-          <option value="popular">Most Popular</option><option value="rating">Highest Rated</option>
-          <option value="newest">Newest</option><option value="alpha">A–Z</option>
+        <select value={sort} onChange={e=>setSort(e.target.value)} style={{ width:'auto', padding:'7px 12px', fontSize:12, borderRadius:8 }}>
+          <option value="popular">🔥 Popular</option><option value="rating">★ Rating</option>
+          <option value="newest">🆕 Newest</option><option value="alpha">A–Z</option>
         </select>
-        <span style={{ color:C.muted, fontSize:13 }}>{filtered.length} guides</span>
-        <div style={{ marginLeft:'auto', display:'flex', gap:6 }}>
-          {['list','grid'].map(v=>(
-            <button key={v} onClick={()=>setView(v)} style={{ padding:'7px 12px', borderRadius:8, border:`1px solid ${view===v?C.primary:C.border}`, background:view===v?`${C.primary}22`:'transparent', color:view===v?C.primary:C.muted, cursor:'pointer', fontSize:13 }}>{v==='grid'?'⊞ Grid':'≡ List'}</button>
+
+        {/* Active filter chips */}
+        {cat!=='All' && (
+          <span className="filter-chip" style={{ background:`${CAT_META[cat]?.color||C.primary}18`, borderColor:`${CAT_META[cat]?.color||C.primary}44`, color:CAT_META[cat]?.color||C.primary }}
+            onClick={()=>setCat('All')}>
+            {CAT_META[cat]?.icon} {cat} ✕
+          </span>
+        )}
+        {diff!=='All' && (
+          <span className="filter-chip" style={{ background:`${DIFF_COLOR[diff]}18`, borderColor:`${DIFF_COLOR[diff]}44`, color:DIFF_COLOR[diff] }}
+            onClick={()=>setDiff('All')}>
+            {diff} ✕
+          </span>
+        )}
+        {search && (
+          <span className="filter-chip" style={{ background:`${C.primary}18`, borderColor:`${C.primary}44`, color:C.primary }}
+            onClick={()=>setSearch('')}>
+            "{search.slice(0,20)}{search.length>20?'…':''}" ✕
+          </span>
+        )}
+
+        <span style={{ color:C.muted, fontSize:12, marginLeft:'auto' }}>{filtered.length} guides</span>
+        <div style={{ display:'flex', gap:4 }}>
+          {[['≡','list'],['⊞','grid']].map(([label,v])=>(
+            <button key={v} onClick={()=>setView(v)} style={{ padding:'7px 10px', borderRadius:8, border:`1px solid ${view===v?C.primary:C.border}`, background:view===v?`${C.primary}22`:'transparent', color:view===v?C.primary:C.muted, cursor:'pointer', fontSize:14, transition:'all .15s' }}>{label}</button>
           ))}
         </div>
       </div>
@@ -1326,13 +1886,18 @@ function Knowledge() {
         <div>
           <div style={{ marginBottom:16, fontSize:14, color:C.muted }}>{filtered.length} result{filtered.length!==1?'s':''} for <strong style={{ color:C.text }}>"{search}"</strong></div>
           {filtered.length===0 ? (
-            <div className="card" style={{ textAlign:'center', padding:48 }}>
-              <div style={{ fontSize:48, marginBottom:16 }}>🔍</div>
-              <div style={{ fontWeight:700, color:C.heading, fontSize:18, marginBottom:8 }}>No articles found</div>
-              <div style={{ color:C.muted, marginBottom:16 }}>Try "SNAP", "disability", "credit", "Medicare", or "eviction"</div>
+            <div className="card fade-in" style={{ textAlign:'center', padding:48 }}>
+              <div style={{ fontSize:56, marginBottom:16 }}>🔍</div>
+              <div style={{ fontWeight:800, color:C.heading, fontSize:20, marginBottom:8 }}>No results for "{search}"</div>
+              <div style={{ color:C.muted, marginBottom:20, lineHeight:1.6 }}>Try one of these popular topics:</div>
+              <div style={{ display:'flex', gap:8, justifyContent:'center', flexWrap:'wrap', marginBottom:20 }}>
+                {['SNAP','Medicare','disability','taxes','LLC','eviction','credit','veterans'].map(s=>(
+                  <button key={s} onClick={()=>setSearch(s)} style={{ padding:'6px 14px', borderRadius:20, border:`1px solid ${C.border}`, background:C.surface, color:C.text, cursor:'pointer', fontSize:13, transition:'all .15s' }}>{s}</button>
+                ))}
+              </div>
               <button className="btn btn-primary" onClick={()=>setSearch('')}>Clear Search</button>
             </div>
-          ) : <ArticleList articles={filtered} view={view} onOpen={openArticle} bookmarks={bookmarks} setBookmarks={setBookmarks} />}
+          ) : <ArticleList articles={filtered} view={view} onOpen={openArticle} bookmarks={bookmarks} setBookmarks={setBookmarks} searchQuery={search} />}
         </div>
 
       /* ── CATEGORY VIEW ── */
@@ -1345,7 +1910,7 @@ function Knowledge() {
               <div style={{ color:C.muted, fontSize:14 }}>{filtered.length} guides</div>
             </div>
           </div>
-          <ArticleList articles={filtered} view={view} onOpen={openArticle} bookmarks={bookmarks} setBookmarks={setBookmarks} />
+          <ArticleList articles={filtered} view={view} onOpen={openArticle} bookmarks={bookmarks} setBookmarks={setBookmarks} searchQuery="" />
         </div>
 
       /* ── COLLECTION VIEW ── */
@@ -1362,7 +1927,7 @@ function Knowledge() {
               </div>
               <button onClick={()=>setActiveCollection(null)} style={{ background:'none', border:`1px solid ${C.border}`, borderRadius:8, color:C.muted, cursor:'pointer', padding:'5px 10px', fontSize:12 }}>✕ Back</button>
             </div>
-            <ArticleList articles={colArticles} view={view} onOpen={openArticle} bookmarks={bookmarks} setBookmarks={setBookmarks} />
+            <ArticleList articles={colArticles} view={view} onOpen={openArticle} bookmarks={bookmarks} setBookmarks={setBookmarks} searchQuery="" />
           </div>
         )
       })() : activePath ? (() => {
@@ -1394,67 +1959,85 @@ function Knowledge() {
         <div>
 
           {/* Featured Article Hero */}
-          {featuredArticle && (
-            <div style={{ marginBottom:32, position:'relative' }}>
-              <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:12 }}>
-                <span style={{ fontSize:13, fontWeight:700, color:C.warn, letterSpacing:'.05em' }}>⭐ FEATURED GUIDE</span>
-                <div style={{ flex:1, height:1, background:C.border }} />
-                <div style={{ display:'flex', gap:6 }}>
-                  {FEATURED_ARTICLES.slice(0,6).map((id,i)=>(
-                    <button key={id} onClick={()=>setFeatIdx(i)} style={{ width:8, height:8, borderRadius:'50%', border:'none', cursor:'pointer', background:featIdx%FEATURED_ARTICLES.length===i?C.primary:C.border }} />
-                  ))}
+          {featuredArticle && (() => {
+            const fc = CAT_META[featuredArticle.c]?.color || C.primary
+            return (
+              <div style={{ marginBottom:28 }}>
+                <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:12 }}>
+                  <span style={{ fontSize:12, fontWeight:800, color:C.warn, letterSpacing:'.08em', textTransform:'uppercase' }}>⭐ Featured Guide</span>
+                  <div style={{ flex:1, height:1, background:C.border }} />
+                  <div style={{ display:'flex', gap:5 }}>
+                    {FEATURED_ARTICLES.slice(0,6).map((id,i)=>(
+                      <button key={id} onClick={()=>setFeatIdx(i)}
+                        style={{ width:i===featIdx%FEATURED_ARTICLES.length?24:8, height:8, borderRadius:4, border:'none', cursor:'pointer', background:i===featIdx%FEATURED_ARTICLES.length?C.primary:C.border, transition:'all .25s' }} />
+                    ))}
+                  </div>
                 </div>
-              </div>
-              <div onClick={()=>openArticle(featuredArticle)} className="card" style={{ cursor:'pointer', display:'grid', gridTemplateColumns:'1fr auto', gap:24, alignItems:'center', borderLeft:`4px solid ${CAT_META[featuredArticle.c]?.color||C.primary}` }}>
-                <div>
-                  <div style={{ display:'flex', gap:8, marginBottom:10, flexWrap:'wrap' }}>
-                    <span className="badge badge-blue">{featuredArticle.c}</span>
+                <div onClick={()=>openArticle(featuredArticle)} className="card card-hover"
+                  style={{ background:`linear-gradient(135deg, ${C.card}, ${fc}08)`, borderLeft:`4px solid ${fc}`, position:'relative', overflow:'hidden' }}>
+                  <div style={{ position:'absolute', top:0, right:0, fontSize:100, opacity:.07, transform:'translate(20px,-10px)', userSelect:'none', pointerEvents:'none' }}>{featuredArticle.icon}</div>
+                  <div style={{ display:'flex', gap:8, marginBottom:12, flexWrap:'wrap', alignItems:'center' }}>
+                    <span style={{ padding:'3px 10px', borderRadius:20, background:`${fc}22`, color:fc, fontSize:11, fontWeight:800 }}>{featuredArticle.c}</span>
                     <span style={{ fontSize:11, padding:'2px 8px', borderRadius:4, background:`${DIFF_COLOR[featuredArticle.diff]}22`, color:DIFF_COLOR[featuredArticle.diff], fontWeight:700 }}>{featuredArticle.diff}</span>
                     <span style={{ fontSize:12, color:C.muted }}>⏱ {featuredArticle.time}</span>
+                    <span style={{ marginLeft:'auto', fontSize:12, color:C.muted }}>{featuredArticle.v.toLocaleString()} views</span>
                   </div>
-                  <h2 style={{ color:C.heading, fontSize:22, fontWeight:800, marginBottom:10, lineHeight:1.3 }}>{featuredArticle.icon} {featuredArticle.t}</h2>
-                  <p style={{ color:C.muted, fontSize:14, lineHeight:1.7, marginBottom:14 }}>{featuredArticle.summary}</p>
-                  <div style={{ display:'flex', gap:12, fontSize:13, color:C.muted }}>
-                    <span style={{ color:C.warn }}>★ {featuredArticle.rating}</span>
-                    <span>·</span><span>{featuredArticle.v.toLocaleString()} views</span>
+                  <h2 style={{ color:C.heading, fontSize:21, fontWeight:800, marginBottom:10, lineHeight:1.35, maxWidth:'75%' }}>
+                    {featuredArticle.icon} {featuredArticle.t}
+                  </h2>
+                  <p style={{ color:C.muted, fontSize:14, lineHeight:1.7, marginBottom:16, maxWidth:'72%' }}>{featuredArticle.summary}</p>
+                  <div style={{ display:'flex', gap:16, alignItems:'center' }}>
+                    <div style={{ display:'flex', gap:2 }}>
+                      {Array.from({length:5}).map((_,i)=><span key={i} style={{ color:i<Math.round(featuredArticle.rating)?C.warn:C.border, fontSize:13 }}>★</span>)}
+                    </div>
+                    <span style={{ fontSize:13, color:C.muted }}>{featuredArticle.rating} ({featuredArticle.reviews} reviews)</span>
+                    <button className="btn btn-primary btn-sm" style={{ marginLeft:'auto' }} onClick={e=>{e.stopPropagation();openArticle(featuredArticle)}}>Read Guide →</button>
                   </div>
                 </div>
-                <div style={{ fontSize:72, opacity:.15 }}>{featuredArticle.icon}</div>
               </div>
-            </div>
-          )}
+            )
+          })()}
 
           {/* Quick-Start Collections */}
-          <div style={{ marginBottom:32 }}>
-            <h2 style={{ color:C.heading, fontSize:18, fontWeight:700, marginBottom:6 }}>⚡ Quick-Start Collections</h2>
-            <p style={{ color:C.muted, fontSize:13, marginBottom:14 }}>Curated sets for common urgent situations</p>
-            <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(200px,1fr))', gap:10 }}>
+          <div style={{ marginBottom:28 }}>
+            <div className="section-header">
+              <div className="section-title">⚡ Quick-Start Collections</div>
+              <span style={{ fontSize:12, color:C.muted }}>Curated for urgent situations</span>
+            </div>
+            <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(188px,1fr))', gap:10 }}>
               {COLLECTIONS.map(col=>(
-                <div key={col.id} onClick={()=>setActiveCollection(col.id)} style={{ padding:'14px 16px', background:C.card, border:`2px solid ${col.color}33`, borderRadius:12, cursor:'pointer' }}>
-                  <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:8 }}>
-                    <div style={{ width:36, height:36, borderRadius:10, background:`${col.color}22`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:18 }}>{col.icon}</div>
-                    <div style={{ fontWeight:700, color:C.heading, fontSize:13, lineHeight:1.3 }}>{col.title}</div>
-                  </div>
-                  <div style={{ fontSize:11, color:C.muted }}>{col.articles.length} guides</div>
+                <div key={col.id} onClick={()=>setActiveCollection(col.id)} className="card card-hover"
+                  style={{ padding:'14px 16px', borderTop:`3px solid ${col.color}`, position:'relative', overflow:'hidden' }}>
+                  <div style={{ position:'absolute', top:-8, right:-4, fontSize:48, opacity:.06 }}>{col.icon}</div>
+                  <div style={{ width:36, height:36, borderRadius:10, background:`${col.color}22`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:18, marginBottom:10 }}>{col.icon}</div>
+                  <div style={{ fontWeight:700, color:C.heading, fontSize:13, lineHeight:1.35, marginBottom:4 }}>{col.title}</div>
+                  <div style={{ fontSize:11, color:C.muted }}>{col.articles.length} guides · click to explore</div>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Learning Paths */}
-          <div style={{ marginBottom:32 }}>
-            <h2 style={{ color:C.heading, fontSize:18, fontWeight:700, marginBottom:6 }}>🗺️ Learning Paths</h2>
-            <p style={{ color:C.muted, fontSize:13, marginBottom:14 }}>Step-by-step article sequences for common life situations</p>
+          <div style={{ marginBottom:28 }}>
+            <div className="section-header">
+              <div className="section-title">🗺️ Learning Paths</div>
+              <span style={{ fontSize:12, color:C.muted }}>{LEARNING_PATHS.length} curated sequences</span>
+            </div>
             <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(220px,1fr))', gap:10 }}>
               {LEARNING_PATHS.map(path=>(
-                <div key={path.id} onClick={()=>setActivePath(path.id)} style={{ padding:16, background:C.card, border:`1px solid ${C.border}`, borderRadius:12, cursor:'pointer' }}>
+                <div key={path.id} onClick={()=>setActivePath(path.id)} className="card card-hover"
+                  style={{ padding:16, borderLeft:`3px solid ${path.color}` }}>
                   <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:10 }}>
-                    <div style={{ width:40, height:40, borderRadius:10, background:`${path.color}22`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:20 }}>{path.icon}</div>
-                    <div><div style={{ fontWeight:700, color:C.heading, fontSize:13 }}>{path.title}</div><div style={{ fontSize:11, color:C.muted }}>{path.articles.length} guides</div></div>
+                    <div style={{ width:38, height:38, borderRadius:10, background:`${path.color}22`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:19, flexShrink:0 }}>{path.icon}</div>
+                    <div>
+                      <div style={{ fontWeight:700, color:C.heading, fontSize:13, lineHeight:1.3 }}>{path.title}</div>
+                      <div style={{ fontSize:11, color:C.muted }}>{path.articles.length} guides</div>
+                    </div>
                   </div>
-                  <div style={{ fontSize:12, color:C.muted }}>{path.desc}</div>
-                  <div style={{ marginTop:10, display:'flex', gap:5 }}>
-                    {path.articles.slice(0,5).map(id=>{ const a=KB_ARTICLES.find(x=>x.id===id); return a?<span key={id} style={{ fontSize:15 }}>{a.icon}</span>:null })}
+                  <div style={{ fontSize:12, color:C.muted, marginBottom:10, lineHeight:1.5 }}>{path.desc}</div>
+                  <div style={{ display:'flex', gap:4 }}>
+                    {path.articles.slice(0,5).map(id=>{ const a=KB_ARTICLES.find(x=>x.id===id); return a?<span key={id} title={a.t} style={{ fontSize:15 }}>{a.icon}</span>:null })}
+                    {path.articles.length>5 && <span style={{ fontSize:11, color:C.muted, display:'flex', alignItems:'center' }}>+{path.articles.length-5}</span>}
                   </div>
                 </div>
               ))}
@@ -1462,73 +2045,101 @@ function Knowledge() {
           </div>
 
           {/* Trending + New Split */}
-          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:20, marginBottom:32 }}>
+          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:16, marginBottom:28 }}>
             <div>
-              <h2 style={{ color:C.heading, fontSize:16, fontWeight:700, marginBottom:12 }}>🔥 Trending</h2>
-              <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
-                {trending.map((a,i)=>(
-                  <div key={a.id} onClick={()=>openArticle(a)} style={{ padding:'11px 14px', background:C.card, border:`1px solid ${C.border}`, borderRadius:10, cursor:'pointer', display:'flex', gap:12, alignItems:'center' }}>
-                    <div style={{ fontWeight:900, fontSize:16, color:i<3?C.warn:C.muted, minWidth:22, flexShrink:0 }}>#{i+1}</div>
-                    <div style={{ flex:1 }}><div style={{ fontSize:13, fontWeight:600, color:C.heading }}>{a.icon} {a.t.length>42?a.t.slice(0,42)+'…':a.t}</div><div style={{ fontSize:11, color:C.muted, marginTop:2 }}>{a.v.toLocaleString()} views</div></div>
-                  </div>
-                ))}
+              <div className="section-header">
+                <div className="section-title">🔥 Trending Now</div>
+              </div>
+              <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
+                {trending.map((a,i)=>{
+                  const color = i===0?C.warn:i<3?C.primary:C.muted
+                  return (
+                    <div key={a.id} onClick={()=>openArticle(a)} className="card card-hover"
+                      style={{ padding:'10px 14px', display:'flex', gap:12, alignItems:'center' }}>
+                      <div style={{ width:26, height:26, borderRadius:6, background:i<3?`${color}22`:C.surface, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+                        <span style={{ fontWeight:900, fontSize:13, color }}>{i+1}</span>
+                      </div>
+                      <div style={{ flex:1, minWidth:0 }}>
+                        <div style={{ fontSize:13, fontWeight:600, color:C.heading, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{a.icon} {a.t}</div>
+                        <div style={{ fontSize:11, color:C.muted, marginTop:2 }}>{a.v.toLocaleString()} views · {a.c}</div>
+                      </div>
+                    </div>
+                  )
+                })}
               </div>
             </div>
             <div>
-              <h2 style={{ color:C.heading, fontSize:16, fontWeight:700, marginBottom:12 }}>🆕 Recently Added</h2>
-              <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+              <div className="section-header">
+                <div className="section-title">🆕 Recently Added</div>
+              </div>
+              <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
                 {newArticles.map(a=>(
-                  <div key={a.id} onClick={()=>openArticle(a)} style={{ padding:'11px 14px', background:C.card, border:`1px solid ${C.border}`, borderRadius:10, cursor:'pointer' }}>
-                    <div style={{ display:'flex', gap:8, marginBottom:4 }}>
-                      <span className="badge badge-blue">{a.c}</span>
-                      <span style={{ fontSize:11, padding:'2px 6px', borderRadius:4, background:`${C.success}22`, color:C.success, fontWeight:700 }}>NEW</span>
+                  <div key={a.id} onClick={()=>openArticle(a)} className="card card-hover" style={{ padding:'10px 14px' }}>
+                    <div style={{ display:'flex', gap:8, marginBottom:5, alignItems:'center' }}>
+                      <span style={{ padding:'2px 8px', borderRadius:20, background:`${CAT_META[a.c]?.color||C.primary}22`, color:CAT_META[a.c]?.color||C.primary, fontSize:11, fontWeight:700 }}>{CAT_META[a.c]?.icon} {a.c}</span>
+                      <span style={{ fontSize:10, padding:'2px 7px', borderRadius:4, background:`${C.success}22`, color:C.success, fontWeight:800, letterSpacing:'.05em' }}>NEW</span>
                     </div>
-                    <div style={{ fontSize:13, fontWeight:600, color:C.heading }}>{a.icon} {a.t.length>50?a.t.slice(0,50)+'…':a.t}</div>
+                    <div style={{ fontSize:13, fontWeight:600, color:C.heading, lineHeight:1.4 }}>{a.icon} {a.t.length>52?a.t.slice(0,52)+'…':a.t}</div>
                   </div>
                 ))}
               </div>
             </div>
           </div>
 
-          {/* Recently Viewed */}
-          {recentlyViewed.length > 0 && (
-            <div style={{ marginBottom:32 }}>
-              <h2 style={{ color:C.heading, fontSize:16, fontWeight:700, marginBottom:12 }}>👁️ Recently Viewed</h2>
-              <div style={{ display:'flex', gap:10, overflowX:'auto', paddingBottom:8 }}>
-                {recentlyViewed.map(a=>(
-                  <div key={a.id} onClick={()=>openArticle(a)} style={{ padding:'10px 14px', background:C.card, border:`1px solid ${C.border}`, borderRadius:10, cursor:'pointer', flexShrink:0, display:'flex', alignItems:'center', gap:10, minWidth:180 }}>
-                    <span style={{ fontSize:20 }}>{a.icon}</span>
-                    <div><div style={{ fontSize:12, fontWeight:600, color:C.heading, lineHeight:1.3 }}>{a.t.length>35?a.t.slice(0,35)+'…':a.t}</div><span className="badge badge-blue" style={{ marginTop:3 }}>{a.c}</span></div>
+          {/* Recently Viewed + Bookmarks */}
+          {(recentlyViewed.length > 0 || bookmarks.size > 0) && (
+            <div style={{ display:'grid', gridTemplateColumns:recentlyViewed.length>0&&bookmarks.size>0?'1fr 1fr':'1fr', gap:16, marginBottom:28 }}>
+              {recentlyViewed.length > 0 && (
+                <div>
+                  <div className="section-header"><div className="section-title">👁️ Continue Reading</div></div>
+                  <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
+                    {recentlyViewed.slice(0,4).map(a=>(
+                      <div key={a.id} onClick={()=>openArticle(a)} className="card card-hover"
+                        style={{ padding:'10px 14px', display:'flex', alignItems:'center', gap:10 }}>
+                        <span style={{ fontSize:20, flexShrink:0 }}>{a.icon}</span>
+                        <div style={{ flex:1, minWidth:0 }}>
+                          <div style={{ fontSize:12, fontWeight:600, color:C.heading, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{a.t}</div>
+                          <div style={{ fontSize:11, color:C.muted, marginTop:2 }}>{a.c} · {a.time}</div>
+                        </div>
+                        <span style={{ color:C.muted, fontSize:16 }}>›</span>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Bookmarks */}
-          {bookmarks.size > 0 && (
-            <div style={{ marginBottom:32 }}>
-              <h2 style={{ color:C.heading, fontSize:16, fontWeight:700, marginBottom:12 }}>🔖 Saved ({bookmarks.size})</h2>
-              <div style={{ display:'flex', gap:10, overflowX:'auto', paddingBottom:8 }}>
-                {KB_ARTICLES.filter(a=>bookmarks.has(a.id)).map(a=>(
-                  <div key={a.id} onClick={()=>openArticle(a)} style={{ padding:'10px 14px', background:C.card, border:`1px solid ${C.warn}44`, borderRadius:10, cursor:'pointer', flexShrink:0, display:'flex', alignItems:'center', gap:10, minWidth:180 }}>
-                    <span style={{ fontSize:20 }}>{a.icon}</span>
-                    <div><div style={{ fontSize:12, fontWeight:600, color:C.heading, lineHeight:1.3 }}>{a.t.length>35?a.t.slice(0,35)+'…':a.t}</div><span className="badge badge-blue" style={{ marginTop:3 }}>{a.c}</span></div>
+                </div>
+              )}
+              {bookmarks.size > 0 && (
+                <div>
+                  <div className="section-header"><div className="section-title">🔖 Saved Guides ({bookmarks.size})</div></div>
+                  <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
+                    {KB_ARTICLES.filter(a=>bookmarks.has(a.id)).slice(0,4).map(a=>(
+                      <div key={a.id} onClick={()=>openArticle(a)} className="card card-hover"
+                        style={{ padding:'10px 14px', display:'flex', alignItems:'center', gap:10, border:`1px solid ${C.warn}33` }}>
+                        <span style={{ fontSize:20, flexShrink:0 }}>{a.icon}</span>
+                        <div style={{ flex:1, minWidth:0 }}>
+                          <div style={{ fontSize:12, fontWeight:600, color:C.heading, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{a.t}</div>
+                          <div style={{ fontSize:11, color:C.muted, marginTop:2 }}>{a.c}</div>
+                        </div>
+                        <span style={{ color:C.warn, fontSize:14 }}>🔖</span>
+                      </div>
+                    ))}
                   </div>
-                ))}
-              </div>
+                </div>
+              )}
             </div>
           )}
 
           {/* Categories Grid */}
-          <div style={{ marginBottom:32 }}>
-            <h2 style={{ color:C.heading, fontSize:16, fontWeight:700, marginBottom:12 }}>📂 Browse by Category</h2>
-            <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(120px,1fr))', gap:8 }}>
+          <div style={{ marginBottom:28 }}>
+            <div className="section-header">
+              <div className="section-title">📂 All Categories</div>
+            </div>
+            <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(110px,1fr))', gap:8 }}>
               {catCounts.map(({c,n,icon,color})=>(
-                <div key={c} onClick={()=>setCat(c)} style={{ padding:'12px 10px', background:C.card, border:`1px solid ${C.border}`, borderRadius:10, cursor:'pointer', textAlign:'center' }}>
-                  <div style={{ fontSize:24, marginBottom:4 }}>{icon}</div>
-                  <div style={{ fontWeight:700, color:C.heading, fontSize:12, lineHeight:1.3 }}>{c}</div>
-                  <div style={{ fontSize:11, color:C.muted, marginTop:2 }}>{n} guides</div>
+                <div key={c} onClick={()=>setCat(c)} className="card card-hover"
+                  style={{ padding:'14px 10px', textAlign:'center', borderTop:`2px solid ${color}` }}>
+                  <div style={{ fontSize:26, marginBottom:6 }}>{icon}</div>
+                  <div style={{ fontWeight:700, color:C.heading, fontSize:11, lineHeight:1.3, marginBottom:3 }}>{c}</div>
+                  <div style={{ fontSize:10, color:C.muted }}>{n}</div>
                 </div>
               ))}
             </div>
@@ -1536,10 +2147,16 @@ function Knowledge() {
 
           {/* All Articles */}
           <div>
-            <h2 style={{ color:C.heading, fontSize:16, fontWeight:700, marginBottom:16 }}>
-              All Guides <span style={{ color:C.muted, fontWeight:400, fontSize:13 }}>({filtered.length})</span>
-            </h2>
-            <ArticleList articles={filtered} view={view} onOpen={openArticle} bookmarks={bookmarks} setBookmarks={setBookmarks} />
+            <div className="section-header" style={{ marginBottom:16 }}>
+              <div className="section-title">📋 All Guides <span style={{ color:C.muted, fontWeight:400, fontSize:12 }}>({filtered.length})</span></div>
+              <div style={{ display:'flex', gap:6 }}>
+                <button onClick={()=>setSort('popular')} style={{ padding:'4px 10px', borderRadius:6, border:`1px solid ${sort==='popular'?C.primary:C.border}`, background:sort==='popular'?`${C.primary}18`:'transparent', color:sort==='popular'?C.primary:C.muted, cursor:'pointer', fontSize:11, fontWeight:600 }}>🔥</button>
+                <button onClick={()=>setSort('rating')} style={{ padding:'4px 10px', borderRadius:6, border:`1px solid ${sort==='rating'?C.primary:C.border}`, background:sort==='rating'?`${C.primary}18`:'transparent', color:sort==='rating'?C.primary:C.muted, cursor:'pointer', fontSize:11, fontWeight:600 }}>★</button>
+                <button onClick={()=>setSort('newest')} style={{ padding:'4px 10px', borderRadius:6, border:`1px solid ${sort==='newest'?C.primary:C.border}`, background:sort==='newest'?`${C.primary}18`:'transparent', color:sort==='newest'?C.primary:C.muted, cursor:'pointer', fontSize:11, fontWeight:600 }}>🆕</button>
+                <button onClick={()=>setSort('alpha')} style={{ padding:'4px 10px', borderRadius:6, border:`1px solid ${sort==='alpha'?C.primary:C.border}`, background:sort==='alpha'?`${C.primary}18`:'transparent', color:sort==='alpha'?C.primary:C.muted, cursor:'pointer', fontSize:11, fontWeight:600 }}>A-Z</button>
+              </div>
+            </div>
+            <ArticleList articles={filtered} view={view} onOpen={openArticle} bookmarks={bookmarks} setBookmarks={setBookmarks} searchQuery="" />
           </div>
         </div>
       )}
@@ -1550,11 +2167,13 @@ function Knowledge() {
 
 // ── PHASE 21: AI ASSISTANT ────────────────────────────────────────────────────
 function AIAssistant() {
-  const [msgs, setMsgs] = useState([{ role:'ai', text:"Hi! I'm CLARA — your government process assistant. Ask me anything about benefits, permits, applications, or any government process." }])
+  const [msgs, setMsgs] = useState([{ role:'ai', text:"Hi! I'm CLARA — your government process assistant. Ask me anything about benefits, permits, applications, healthcare, housing, or any government process. I'm here to help.", ts:new Date() }])
   const [inp, setInp] = useState('')
   const [loading, setLoading] = useState(false)
+  const [inputFocused, setInputFocused] = useState(false)
+  const msgsEndRef = useState(null)
 
-  const Q = ['How do I apply for SNAP?','What benefits am I eligible for?','How to start an LLC in Illinois?','Check my application status']
+  const Q = ['How do I apply for SNAP?','What benefits am I eligible for?','How to start an LLC in Illinois?','I need help with Medicare','What are my rights as a renter?','How do I appeal an unemployment denial?']
   const R = {
     snap:"To apply for SNAP:\n\n1. Check eligibility — gross income ≤130% federal poverty level\n2. Gather documents — ID, proof of income, residency\n3. Apply at benefits.gov or your state DHS portal\n4. Complete a phone interview within 30 days\n5. Receive EBT card if approved\n\nWant me to estimate your benefit amount?",
     llc:"Starting an LLC in Illinois:\n\n1. Choose a unique name (search at ilsos.gov)\n2. File Articles of Organization — $150 fee\n3. Get EIN free at irs.gov (5 minutes online)\n4. Register for state taxes at mytax.illinois.gov\n5. File Annual Report each year — $75 fee\n\nTimeline: 1-2 weeks. Want a checklist?",

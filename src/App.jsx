@@ -479,10 +479,390 @@ const KB_ARTICLES = [
     tips:['"Disability" under ADA is broadly defined — includes mental health conditions, cancer, diabetes, and PTSD.','Your employer does not have to give you your preferred accommodation — only an effective one.','Retaliation for requesting accommodation or filing a complaint is illegal under the ADA.','Many accommodations are free or low-cost — flexible scheduling, ergonomic equipment, remote work, or modified duties.'],
     faq:[{q:'Can my employer fire me because of my disability?',a:'No, if you can perform the essential functions of your job with or without reasonable accommodation.'},{q:'Does ADA cover mental health conditions?',a:'Yes. Depression, anxiety, PTSD, bipolar disorder, and other mental health conditions that substantially limit a major life activity qualify under ADA.'}],
     related:[32,33], tags:['ADA','disability rights','accommodation','workplace','discrimination','EEOC'] },
+
+  // ── Consumer Rights (NEW) ─────────────────────────────────────────────────
+  { id:41, t:'Disputing Credit Report Errors (Your FCRA Rights)', c:'Consumer', icon:'📋', time:'7 min', v:3200, rating:4.8, reviews:312, diff:'Medium', updated:'Feb 2026',
+    summary:'How to find errors on your Equifax, Experian, and TransUnion credit reports and get them removed — for free, without a lawyer or credit repair company.',
+    steps:['Get your free credit reports at AnnualCreditReport.com — the only federally authorized source. Pull all three bureaus (Equifax, Experian, TransUnion).','Review each report for errors: wrong personal info, accounts you don\'t recognize, late payments you made on time, duplicate accounts, or debts past the 7-year reporting limit.','For each error, write a dispute letter to the credit bureau. State what is incorrect, why it is wrong, and request removal or correction. Attach supporting documents.','Submit your dispute online (fastest), by certified mail, or by phone. The bureau must investigate within 30 days (45 if you provide additional info).','Also dispute directly with the original creditor (data furnisher) — they must investigate independently under FCRA.','If the item is verified as accurate but you still disagree, add a 100-word consumer statement to your file — it will appear on future reports.'],
+    tips:['AnnualCreditReport.com is the only site authorized by federal law — annualcreditreport.com, not any lookalike sites.','The credit bureaus have 30 days to respond — if they fail to respond in time, the item must be removed.','You are entitled to a free credit report after any adverse action (loan denial, higher insurance rate) within 60 days.','Paid credit repair companies cannot do anything you cannot do yourself for free. Avoid services charging upfront fees.'],
+    faq:[{q:'How long do negative items stay on my credit report?',a:'Most negative items remain for 7 years. Chapter 7 bankruptcy stays for 10 years. Positive accounts can stay indefinitely.'},{q:'What if the bureau says my dispute is frivolous?',a:'Request the specific reason in writing. If you have evidence proving the item is wrong, resubmit with that documentation. You can also file a complaint with the CFPB (consumerfinance.gov) or sue under FCRA for violations.'}],
+    related:[42,43], tags:['credit report','FCRA','dispute','credit bureau','consumer rights'] },
+
+  { id:42, t:'Debt Collection: What Collectors Can and Cannot Do (FDCPA)', c:'Consumer', icon:'📞', time:'6 min', v:2700, rating:4.7, reviews:267, diff:'Easy', updated:'Feb 2026',
+    summary:'The Fair Debt Collection Practices Act gives you powerful rights against abusive collectors — including the right to demand they stop calling.',
+    steps:['Know what FDCPA covers: third-party debt collectors (not original creditors) collecting personal, family, or household debts (credit cards, medical bills, mortgages, student loans).','Understand prohibited practices: collectors cannot call before 8am or after 9pm, call your workplace if told not to, use profane language, make false statements, threaten arrest, or add unauthorized fees.','Send a Cease Communication Letter (certified mail, return receipt) to demand all contact stop. The collector may then only contact you to confirm no further contact or to notify you of a specific action.','Request debt validation within 30 days of first contact — the collector must stop collection until they provide written verification of the debt amount and creditor name.','Review the debt\'s statute of limitations. After expiration, the debt is legally uncollectable, though it may still appear on your credit report.','If a collector violates FDCPA, you can sue in federal court within one year for actual damages plus up to $1,000 in statutory damages, plus attorney\'s fees.'],
+    tips:['Document every interaction: dates, times, names, and what was said. Save voicemails.','A debt being sent to collections does not mean you owe it — verify everything before paying.','Paying a very old debt can restart the statute of limitations in some states — consult an attorney before paying old debts.','Illinois statute of limitations on credit card debt: 5 years. On written contracts: 10 years.'],
+    faq:[{q:'Can collectors contact my family or friends?',a:'Only to locate you (get your address or phone number), not to discuss the debt. They cannot reveal that you owe a debt to third parties.'},{q:'What if a debt collector sues me?',a:'Respond to the lawsuit — if you ignore it, the collector gets a default judgment and can garnish wages or bank accounts. Many debts can be settled for less than the full amount or dismissed for procedural errors.'}],
+    related:[41,43], tags:['debt collection','FDCPA','collectors','consumer rights','harassment'] },
+
+  { id:43, t:'Understanding and Building Your Credit Score', c:'Consumer', icon:'💯', time:'8 min', v:3800, rating:4.9, reviews:445, diff:'Easy', updated:'Feb 2026',
+    summary:'How FICO scores are calculated, what actions actually move the needle, and a realistic roadmap to excellent credit.',
+    steps:['Understand the five FICO factors: Payment History (35%), Amounts Owed/Utilization (30%), Length of Credit History (15%), Credit Mix (10%), New Credit (10%).','Pull your free score — many banks, credit cards, and apps (Credit Karma, Credit Sesame) provide free FICO or VantageScore access. Checking your own score never hurts it.','Fix payment history first: set up autopay for at least the minimum on every account. One 30-day late payment can drop your score 50-100 points.','Reduce your credit utilization: aim to use less than 30% of each card\'s limit (ideally under 10%). Pay down balances before your statement closes, not just before the due date.','Do not close old accounts — length of history matters. Keep old cards open even if unused (put a small recurring charge on them).','Apply for new credit sparingly — each hard inquiry drops your score slightly for up to two years. Space out applications by at least 6 months.'],
+    tips:['Becoming an authorized user on a family member\'s old, well-managed card is one of the fastest ways to build credit history.','Credit builder loans from credit unions and CDFIs are designed for people with no credit — the payments are reported to all three bureaus.','Requesting a credit limit increase (without spending more) lowers your utilization ratio immediately.','Score improvements from good habits take 3-6 months to reflect in your score — be patient and consistent.'],
+    faq:[{q:'What credit score do I need for an apartment?',a:'Most landlords want a score of 620+ for standard rentals. With scores below 620, expect to pay a larger deposit or provide a co-signer.'},{q:'How quickly can I build credit from scratch?',a:'You can establish a credit profile within 3-6 months using a secured card or credit builder loan. Getting to "good" (670+) from zero typically takes 12-18 months of responsible use.'}],
+    related:[41,42], tags:['credit score','FICO','credit utilization','credit building','personal finance'] },
+
+  // ── Employment (NEW) ──────────────────────────────────────────────────────
+  { id:44, t:'FMLA: Your Right to Job-Protected Medical Leave', c:'Employment', icon:'🏥', time:'8 min', v:2900, rating:4.8, reviews:289, diff:'Medium', updated:'Feb 2026',
+    summary:'The Family and Medical Leave Act entitles eligible employees to 12 weeks of unpaid, job-protected leave per year for serious health conditions, childbirth, or family care.',
+    steps:['Check employer eligibility: FMLA applies to employers with 50+ employees within 75 miles. Federal, state, and local governments are always covered.','Check employee eligibility: you must have worked for the employer for at least 12 months AND at least 1,250 hours in the past 12 months.','Qualifying reasons: serious health condition of you, spouse, child, or parent; birth, adoption, or foster placement of a child; qualifying military exigency.','Notify your employer at least 30 days in advance for foreseeable leave. For emergencies, notify as soon as practical — same day or next business day.','Your employer may require you to use accrued PTO concurrently with FMLA, but FMLA protects the job regardless.','Upon return, you must be restored to the same or equivalent position with the same pay, benefits, and working conditions.'],
+    tips:['FMLA leave can be taken intermittently — for example, 2 hours per week for medical appointments — not just in a block.','Your employer cannot retaliate against you for taking FMLA leave. Documenting your leave request and any negative actions afterward is crucial.','Illinois employees at companies with 5+ employees may also have protections under the Illinois Human Rights Act for disability-related leave.','Many states have their own paid family leave laws that provide wage replacement during FMLA — check your state\'s program.'],
+    faq:[{q:'Is FMLA leave paid?',a:'No. FMLA itself is unpaid, though your employer may require or you may choose to use paid time off concurrently. Some states have separate Paid Family Leave programs.'},{q:'What if my employer denies my FMLA request?',a:'File a complaint with the U.S. Department of Labor Wage and Hour Division (dol.gov/agencies/whd) within 2 years of the violation. You may also sue for back pay, damages, and attorney\'s fees.'}],
+    related:[45,46,34], tags:['FMLA','family leave','medical leave','job protection','employment rights'] },
+
+  { id:45, t:'Wage Theft and Overtime: Know Your Pay Rights', c:'Employment', icon:'💵', time:'7 min', v:2600, rating:4.8, reviews:254, diff:'Medium', updated:'Feb 2026',
+    summary:'Federal and state laws guarantee minimum wage, overtime pay, and protection from illegal wage deductions — and give you powerful tools to recover stolen wages.',
+    steps:['Know the federal minimum wage: $7.25/hr (2024). Illinois minimum wage: $14/hr (rising to $15/hr Jan 1, 2025). You are entitled to whichever is higher.','Understand overtime: non-exempt employees covered by the FLSA must receive 1.5x their regular rate for all hours over 40 in a workweek. "Exempt" classification requires meeting specific salary and duties tests.','Recognize wage theft: unpaid overtime, improper tip pooling, illegal paycheck deductions, misclassification as independent contractor, off-the-clock work requirements, and minimum wage violations.','Gather evidence: keep copies of pay stubs, timesheets, work schedules, and any written communications about pay. If possible, keep a personal log of hours worked.','File a wage claim with the Illinois Department of Labor (labor.illinois.gov) or the U.S. Department of Labor Wage and Hour Division. No lawyer needed — the agency investigates for free.','You can also sue your employer privately — FLSA allows you to recover back wages, an equal amount in liquidated damages, plus attorney\'s fees.'],
+    tips:['The statute of limitations for federal FLSA claims is 2 years (3 years for willful violations). Don\'t delay.','Retaliation for reporting wage violations is illegal — document any adverse actions taken against you.','Tipped workers: tips cannot reduce your wage below $7.25/hr (federal). If tips plus direct wage don\'t reach minimum wage, the employer must make up the difference.','Illinois workers can join a class action for widespread wage violations — contact a plaintiff\'s employment attorney for free consultation.'],
+    faq:[{q:'Am I exempt from overtime as a salaried employee?',a:'Not necessarily. The salary threshold for exemption is $684/week ($35,568/year) federally, and you must also perform specific duties. Many salaried workers are misclassified.'},{q:'Can my employer average my hours over two weeks?',a:'No. Overtime is calculated weekly, not bi-weekly. An employer cannot use a long week to offset a short week.'}],
+    related:[44,46], tags:['minimum wage','overtime','wage theft','FLSA','employment rights','pay'] },
+
+  { id:46, t:'OSHA: Workplace Safety Rights and How to File a Complaint', c:'Employment', icon:'⛑️', time:'6 min', v:1900, rating:4.7, reviews:178, diff:'Easy', updated:'Jan 2026',
+    summary:'Every worker has the right to a safe workplace. OSHA gives you the right to report hazards, refuse dangerous work, and be protected from retaliation.',
+    steps:['Know your basic OSHA rights: the right to a workplace free from recognized hazards, to receive safety training, to see OSHA records of work-related injuries, and to report violations without retaliation.','Report hazards to your employer first — they have primary responsibility for maintaining safe conditions.','If your employer fails to address serious hazards, file a complaint with OSHA online (osha.gov), by phone (1-800-321-OSHA), or by mail. Complaints can be anonymous.','Request an OSHA inspection — OSHA must inspect if an imminent danger is reported. You have the right to accompany the OSHA inspector during the walkaround.','Refuse imminently dangerous work — you have the legal right to refuse work you reasonably believe poses imminent danger of death or serious physical harm, and the employer cannot discipline you.','Report retaliation within 30 days to OSHA — retaliation for safety complaints is illegal and OSHA investigates these complaints separately.'],
+    tips:['Keep a personal log of safety hazards, incidents, and your reports to management — dates and details matter if there is a dispute.','OSHA does not cover self-employed workers or federal government employees (who have separate protections).','Many OSHA standards require employers to provide safety equipment free of charge — you should never have to pay for required PPE.','In Illinois, IDOL (Illinois Department of Labor) enforces state occupational safety standards for public sector workers not covered by federal OSHA.'],
+    faq:[{q:'Can I be fired for filing an OSHA complaint?',a:'No. Retaliation for reporting safety concerns is prohibited under Section 11(c) of the OSH Act. File a retaliation complaint with OSHA within 30 days of the adverse action.'},{q:'What is a General Duty Clause violation?',a:'OSHA\'s General Duty Clause requires employers to fix recognized hazards even if no specific standard covers them. This is OSHA\'s catch-all requirement for workplace safety.'}],
+    related:[44,45], tags:['OSHA','workplace safety','workers rights','hazards','retaliation'] },
+
+  // ── Mental Health (NEW) ───────────────────────────────────────────────────
+  { id:47, t:'Finding Affordable Mental Health Care', c:'Mental Health', icon:'🧠', time:'8 min', v:3500, rating:4.9, reviews:398, diff:'Easy', updated:'Feb 2026',
+    summary:'A practical guide to finding therapists, psychiatrists, and counselors who accept your insurance, charge on a sliding scale, or are completely free.',
+    steps:['Start with your insurance: call the member services number on your card and ask for in-network therapists who are accepting new patients. Also ask about out-of-network benefits.','Use the SAMHSA treatment locator (findtreatment.gov) or the Psychology Today therapist directory (psychologytoday.com/us/therapists) to search by insurance, location, and specialty.','Community Mental Health Centers (CMHCs): every county has one. They provide mental health services regardless of ability to pay, often on a sliding-scale fee based on income.','Federally Qualified Health Centers (FQHCs): offer integrated behavioral health at sliding-scale fees. Find your nearest one at findahealthcenter.hrsa.gov.','Open Path Collective (openpathcollective.org): vetted therapists who charge $30-$80 per session for individuals earning under $100K.','University training clinics offer high-quality low-cost therapy provided by supervised graduate students — typically $0-$30 per session.'],
+    tips:['Telehealth dramatically expanded mental health access — most therapists now offer video sessions, removing transportation and geographic barriers.','If your first therapist isn\'t a good fit, switch — the therapeutic relationship is the strongest predictor of outcomes.','Many employers offer an Employee Assistance Program (EAP) providing 3-8 free sessions per year — check with HR.','For adolescents: school counselors can provide referrals and sometimes brief counseling, and many community providers specialize in youth services.'],
+    faq:[{q:'What is the difference between a therapist, psychologist, and psychiatrist?',a:'Therapists (LCSWs, LPCs, MFTs) provide counseling and cannot prescribe medication. Psychologists (PhD/PsyD) also provide therapy and testing. Psychiatrists (MD/DO) are medical doctors who specialize in mental health and can prescribe medication.'},{q:'How long does therapy take?',a:'Depends on your goals and the type of therapy. Cognitive Behavioral Therapy (CBT) for anxiety or depression is typically 12-20 sessions. Ongoing therapy for complex issues may continue for years.'}],
+    related:[48,49], tags:['mental health','therapy','therapist','sliding scale','affordable care','counseling'] },
+
+  { id:48, t:'988 Suicide and Crisis Lifeline: What It Is and How to Use It', c:'Mental Health', icon:'📱', time:'4 min', v:4100, rating:4.9, reviews:489, diff:'Easy', updated:'Feb 2026',
+    summary:'The 988 Lifeline provides free, confidential crisis support 24/7 by call, text, or chat — here\'s who it is for, what to expect, and other crisis resources.',
+    steps:['Call or text 988 from any phone in the U.S. — it\'s free, available 24/7, and your call is answered by a trained crisis counselor, not a robot.','You can also chat online at 988lifeline.org if you prefer not to call.','Specialized lines within 988: press 1 for Veterans Crisis Line, press 2 for Spanish-language support. The Trevor Project (1-866-488-7386) specializes in LGBTQ+ youth.','What to expect: a counselor will listen, help you feel heard, and work with you on next steps. They will not automatically dispatch emergency services unless you are in immediate danger.','Crisis Text Line: text HOME to 741741 for text-based crisis support — helpful if calling is not possible.','After a crisis call, the counselor may help you create a safety plan and connect you with local follow-up resources.'],
+    tips:['988 is not only for suicidal crises — it is for anyone experiencing a mental health emergency, substance use crisis, or overwhelming emotional distress.','You will not automatically lose your rights or be involuntarily hospitalized for calling 988 — counselors use the least restrictive intervention.','If calling for someone else in crisis, 988 can coach you on how to help.','Save 988 in your phone now so you have it available during a crisis when it\'s hardest to think clearly.'],
+    faq:[{q:'Will my location be traced?',a:'988 can identify your approximate location to connect you with local resources but will not dispatch police without your consent unless there is an imminent threat to life.'},{q:'Is the 988 Lifeline only for adults?',a:'No. 988 is for people of all ages. There are counselors specializing in youth crisis.'}],
+    related:[47,49], tags:['988','crisis line','suicide prevention','mental health crisis','hotline'] },
+
+  { id:49, t:'Mental Health Parity: Your Insurance Coverage Rights', c:'Mental Health', icon:'⚖️', time:'7 min', v:2100, rating:4.7, reviews:198, diff:'Medium', updated:'Jan 2026',
+    summary:'Federal law requires insurers to cover mental health and substance use treatment no more restrictively than medical care — and how to fight back when they don\'t.',
+    steps:['Understand the law: the Mental Health Parity and Addiction Equity Act (MHPAEA) requires insurers that cover mental health/substance use disorders to provide coverage comparable to medical/surgical coverage.','Parity applies to: treatment limitations (number of sessions, prior authorization requirements), cost sharing (copays, deductibles), and network composition.','Get a Summary of Benefits and Coverage from your insurer — compare the rules applied to mental health vs. medical benefits side by side.','If your insurer applies stricter limits (e.g., limits therapy to 20 sessions but not medical visits), file a complaint with your state insurance commissioner.','Request a Non-Quantitative Treatment Limitation (NQTL) analysis from your insurer in writing — federal law now requires them to provide this document.','File a complaint with the U.S. Department of Labor (for employer plans) or HHS (for individual/marketplace plans) if parity violations occur.'],
+    tips:['Keep detailed records of all denials, prior authorization requirements, and limitations applied to your mental health claims.','Many parity violations are in non-quantitative limits like prior authorization, step therapy requirements, or network adequacy — not just visit limits.','If you are denied coverage, use the internal appeal process first, then external review, then file regulatory complaints.','The Parity Compliance Guide (paritytrack.org) tracks state enforcement actions and provides parity complaint resources.'],
+    faq:[{q:'Does parity apply to my small employer\'s health plan?',a:'MHPAEA applies to employer health plans with more than 50 employees that cover mental health/substance use disorders. Small employer plans and some Medicaid plans may have different rules.'},{q:'What if my insurer claims a treatment is "not medically necessary"?',a:'Request the clinical criteria they used for the denial in writing. If the criteria are more restrictive than for comparable medical conditions, that is likely a parity violation.'}],
+    related:[47,48,18], tags:['mental health parity','insurance','MHPAEA','coverage','behavioral health'] },
+
+  // ── More Housing ──────────────────────────────────────────────────────────
+  { id:50, t:'Renters\' Rights: Security Deposits, Repairs, and Eviction', c:'Housing', icon:'🔑', time:'9 min', v:3100, rating:4.8, reviews:312, diff:'Medium', updated:'Feb 2026',
+    summary:'Your legal rights as a renter in Illinois — what landlords must provide, how to get your deposit back, and what to do if you face eviction.',
+    steps:['Security deposit rights: Illinois landlords in cities with local ordinances (Chicago requires written receipts and interest on deposits held over 31 days) must follow specific rules. Outside of Chicago, state law provides baseline protections.','Get everything in writing: lease terms, move-in condition (take photos/video), and all communications with your landlord.','Habitability rights: landlords must maintain rentals in habitable condition — working heat, plumbing, electrical, and freedom from pests. If they fail to repair after written notice, you may have the right to withhold rent, repair-and-deduct, or terminate the lease.','Getting your deposit back: landlords must return deposits within 30-45 days of move-out (varies by city) with itemized deductions. Improper withholding entitles you to 2x the deposit amount in damages in many Illinois cities.','Know the eviction process: landlords cannot lock you out, remove your belongings, or shut off utilities — these are illegal self-help evictions. They must go through court.','If served an eviction notice, respond within the deadline stated. Legal aid organizations provide free representation for low-income renters facing eviction.'],
+    tips:['Never pay rent in cash — always pay by check, money order, or electronic transfer so you have a record of payment.','Document everything before you move in: take time-stamped photos of every room and send them to your landlord in writing.','In Chicago, the Residential Landlord and Tenant Ordinance (RLTO) provides stronger renter protections than state law.','Illinois Legal Aid Online (illinoislegalaid.org) provides free legal resources and attorney referrals for housing issues.'],
+    faq:[{q:'Can my landlord raise my rent at any time?',a:'During a lease term, no — unless the lease specifically allows it. For month-to-month tenancies, the landlord must give proper notice (typically 30 days in Illinois).'},{q:'What if my landlord enters without notice?',a:'Illinois law requires landlords to give at least 24 hours\' notice before entry except in emergencies. Repeated unauthorized entry may constitute harassment and give you grounds to terminate the lease.'}],
+    related:[14,15,39], tags:['renters rights','security deposit','eviction','habitability','landlord','tenant'] },
+
+  { id:51, t:'First-Time Homebuyer Programs and Down Payment Assistance', c:'Housing', icon:'🏡', time:'9 min', v:2700, rating:4.8, reviews:267, diff:'Medium', updated:'Feb 2026',
+    summary:'Federal and state programs that help first-time buyers with down payments, closing costs, and below-market interest rates.',
+    steps:['Understand first-time buyer status: most programs define this as not having owned a primary residence in the past 3 years — even if you owned before.','HUD-approved housing counseling (free at 800-569-4287): required for many assistance programs and provides personalized homebuying guidance.','FHA Loans: require only 3.5% down with a 580+ credit score (10% down with 500-579). More flexible debt-to-income requirements than conventional loans.','Illinois Housing Development Authority (IHDA): offers the SmartBuy and Access Mortgage programs providing 4% of purchase price in down payment assistance (up to $6,000) paired with a 30-year fixed mortgage.','USDA Rural Development loans: 0% down for properties in eligible rural and suburban areas. Income limits apply. Check eligibility at eligibility.sc.egov.usda.gov.','VA Loans: 0% down, no PMI, competitive rates for eligible veterans and service members.'],
+    tips:['Shop multiple lenders — even a 0.25% difference in interest rate saves thousands over a 30-year loan.','Get pre-approved (not just pre-qualified) before making offers — it shows sellers you are serious.','Private Mortgage Insurance (PMI) is required for conventional loans with less than 20% down — it adds 0.5-1.5% of the loan amount annually. It can be removed once you reach 20% equity.','Ask about employer-assisted housing (EAH) programs — many large employers offer forgivable loans or grants for employees buying in certain areas.'],
+    faq:[{q:'What credit score do I need to buy a home?',a:'620 for most conventional loans. 580 for FHA with 3.5% down. VA and USDA have no minimum, but lenders typically want 620+.'},{q:'How much house can I afford?',a:'A general rule: keep your total housing payment (PITI — principal, interest, taxes, insurance) at 28% or less of your gross monthly income. Total debt payments should be under 36-43%.'}],
+    related:[14,50,39], tags:['first time homebuyer','down payment','FHA','IHDA','home buying','mortgage'] },
+
+  // ── More Immigration ──────────────────────────────────────────────────────
+  { id:52, t:'Asylum: How to Apply for Refugee Protection in the U.S.', c:'Immigration', icon:'🛡️', time:'11 min', v:2400, rating:4.8, reviews:245, diff:'Hard', updated:'Jan 2026',
+    summary:'Who qualifies for asylum, the two ways to apply (affirmative and defensive), and what to expect during the process.',
+    steps:['Understand who qualifies: asylum protects people who have suffered persecution or have a well-founded fear of persecution based on race, religion, nationality, membership in a particular social group, or political opinion.','Apply within 1 year of arriving in the U.S. — missing this deadline bars most asylum claims unless you qualify for an exception (changed or extraordinary circumstances).','Affirmative asylum: if you are not in removal proceedings, file Form I-589 with USCIS. You\'ll be interviewed by an asylum officer. If denied, your case goes to immigration court.','Defensive asylum: if you are in removal proceedings, raise asylum as a defense before an immigration judge. The burden of proof is higher.','Prepare your case: gather country condition evidence, personal testimony, witness statements, medical records of any injuries, and expert testimony on conditions in your country.','If approved, you receive asylum status, which leads to a green card after 1 year, and U.S. citizenship 5 years after asylum grant.'],
+    tips:['Hire an immigration attorney or find free legal help through ILRC (ilrc.org), PAIR Project, or local legal aid — asylum cases are complex and the stakes are high.','Be consistent and detailed in all statements — inconsistencies are closely scrutinized.','Keep copies of all documents submitted and all receipts from USCIS.','Asylum seekers are eligible for work authorization 180 days after filing a complete asylum application.'],
+    faq:[{q:'Can I include my family in my asylum application?',a:'Yes. Your spouse and unmarried children under 21 who are in the U.S. can be included as derivatives on your Form I-589.'},{q:'What if I miss the one-year filing deadline?',a:'You may still apply if you can show changed circumstances (new persecution risk) or extraordinary circumstances (serious illness, ineffective counsel) that explain the delay.'}],
+    related:[9,10,53], tags:['asylum','refugee','I-589','immigration','persecution','protection'] },
+
+  { id:53, t:'Work Visas: H-1B, TN, OPT, and Employment Authorization', c:'Immigration', icon:'💼', time:'10 min', v:2200, rating:4.7, reviews:212, diff:'Hard', updated:'Feb 2026',
+    summary:'An overview of the most common pathways to work legally in the U.S. on a temporary basis, and how each visa works.',
+    steps:['H-1B Specialty Occupation: requires a bachelor\'s or higher in a specific field. Employer must sponsor and file a Labor Condition Application. Subject to an annual cap (65,000 + 20,000 for U.S. master\'s holders) with a lottery system.','TN Visa (USMCA/NAFTA): for Canadian and Mexican citizens in specific professional occupations. No annual cap, faster process. Canadians can apply at the border.','Optional Practical Training (OPT): F-1 students may work in their field of study for 12 months (or 36 months for STEM graduates) after completing their degree.','L-1 Intracompany Transferee: for employees of international companies transferred to a U.S. office in a managerial, executive, or specialized knowledge capacity.','Employment Authorization Document (EAD): some visa holders and certain immigration categories (DACA, asylum applicants, adjustment of status applicants) can apply for an EAD that allows work for any employer.','EB-1, EB-2, EB-3: employment-based green card categories for extraordinary ability workers, professionals, and skilled workers respectively.'],
+    tips:['H-1B cap season opens March 1 — work with an immigration attorney to ensure your petition is filed before the registration window closes.','J-1 scholars and students with J-1 visas may be subject to a 2-year home country residency requirement that must be waived before applying for most other visas or green cards.','Premium processing ($2,805 in 2024) guarantees USCIS will act on your H-1B within 15 business days.','Keep copies of all I-94 arrival/departure records and monitor your authorized stay dates carefully.'],
+    faq:[{q:'Can I change employers on an H-1B?',a:'Yes, through H-1B portability — if you file a new H-1B petition before your current status expires, you can start working for the new employer immediately upon filing.'},{q:'What happens if I lose my job on an H-1B?',a:'You have a 60-day grace period to find a new employer, change status, or depart the U.S. File for a change of status or new employer petition within that window.'}],
+    related:[9,10,52], tags:['H-1B','work visa','OPT','TN visa','employment authorization','immigration'] },
+
+  // ── More Benefits ─────────────────────────────────────────────────────────
+  { id:54, t:'Child Tax Credit and Child Care Tax Credits Explained', c:'Benefits', icon:'👶', time:'7 min', v:3300, rating:4.8, reviews:334, diff:'Easy', updated:'Feb 2026',
+    summary:'The Child Tax Credit (CTC), Additional Child Tax Credit (ACTC), and Child and Dependent Care Credit — how much you get and how to claim them.',
+    steps:['Child Tax Credit (CTC): up to $2,000 per qualifying child under 17. Phases out at $200K (single) / $400K (married). The refundable portion (ACTC) is up to $1,700 per child for lower-income families.','Qualifying child requirements: under 17 at year-end, related to you, lived with you more than half the year, and you provided more than half their support.','Claim the CTC on Schedule 8812 when filing your federal tax return. You don\'t need to do anything extra if you file — the credit is calculated automatically.','Child and Dependent Care Credit: if you paid for childcare while working or looking for work, you can claim 20-35% of up to $3,000 (one child) or $6,000 (two or more children) in care expenses.','Use Form 2441 to claim the Child and Dependent Care Credit. You\'ll need the care provider\'s name, address, and Tax ID (EIN or SSN).','Dependent Care FSA through your employer: you can contribute up to $5,000 pre-tax per year to a Dependent Care FSA — this reduces your taxable income and is often more valuable than the credit for higher earners.'],
+    tips:['Keep childcare receipts and provider information throughout the year — you\'ll need it at tax time.','The Earned Income Tax Credit (EITC) is separate from CTC and you may qualify for both.','If the other parent claims the child for CTC, you cannot also claim it — divorce agreements should specify who claims each child each year.','The IRS Free File program and VITA sites can help you claim all credits you\'re entitled to accurately.'],
+    faq:[{q:'Can I claim the CTC for a child born late in the year?',a:'Yes. A child born at any point during the tax year qualifies for the full CTC for that year.'},{q:'What if I didn\'t file taxes last year and missed the CTC?',a:'You can file an amended return (Form 1040-X) for up to 3 years back to claim credits you missed, including the CTC and EITC.'}],
+    related:[1,23,5], tags:['child tax credit','CTC','dependent care','tax credit','families','childcare'] },
+
+  { id:55, t:'Medicare Extra Help: Low-Income Prescription Drug Assistance', c:'Benefits', icon:'💊', time:'6 min', v:2100, rating:4.7, reviews:187, diff:'Easy', updated:'Jan 2026',
+    summary:'The Extra Help program (also called Low Income Subsidy or LIS) dramatically reduces Medicare Part D drug costs — worth up to $5,300/year for eligible beneficiaries.',
+    steps:['Check eligibility: you must be enrolled in Medicare Part A and/or B, live in the U.S. (including Puerto Rico), and have income below 150% of the federal poverty level (~$21,870/yr for a single person in 2024).','Resource limits: single person up to $17,220 in countable resources; married couple up to $34,360. Some resources are excluded (home, car, life insurance).','Apply online at ssa.gov/extrahelp, call 1-800-772-1213, or visit your local Social Security office. Medicaid beneficiaries and those receiving Medicare Savings Program benefits are automatically enrolled.','If approved, you pay reduced Part D premiums ($0 in many cases), reduced deductibles, and copays of $4.50-$11.20 per drug (2024). Costs are the same at any Part D-participating pharmacy.','Medicare Savings Programs (QMB, SLMB, QI) can also help pay Part A and Part B premiums — apply through your state Medicaid agency.','Reapply annually — Extra Help eligibility is redetermined each year based on income and resources.'],
+    tips:['Automatically qualifying beneficiaries (full Medicaid, SSI, Medicare Savings Program) are enrolled in Extra Help without needing to apply.','Even if you were denied before, reapply — income and resource limits are updated annually and may now include you.','Extra Help also protects you from the coverage gap ("donut hole") — you pay the same low copays throughout the year.','State Pharmaceutical Assistance Programs (SPAPs) can provide additional help — many states have programs beyond the federal Extra Help.'],
+    faq:[{q:'Will applying for Extra Help affect my Social Security benefits?',a:'No. Extra Help is a Medicare benefit, not a welfare program. Applying will not affect your SSI, Social Security retirement, or disability benefits.'},{q:'Can I have both Extra Help and a Medicare Advantage plan?',a:'Yes. If your Medicare Advantage plan includes Part D drug coverage, Extra Help will apply to your drug costs within that plan.'}],
+    related:[2,26,27], tags:['Extra Help','LIS','Medicare Part D','prescription drugs','low income','seniors'] },
+
+  // ── More Business ─────────────────────────────────────────────────────────
+  { id:56, t:'Trademarks and Copyrights: Protecting Your Business', c:'Business', icon:'™️', time:'9 min', v:2300, rating:4.7, reviews:221, diff:'Medium', updated:'Feb 2026',
+    summary:'When and how to register a trademark or copyright, what protection each provides, and common mistakes small business owners make.',
+    steps:['Understand the difference: copyright protects original creative works (written content, logos, art, music, code) automatically upon creation. Trademark protects brand identifiers (name, logo, slogan) used in commerce and requires registration for full protection.','Copyright: you own copyright automatically, but registration at copyright.gov ($35-$65 online) is required to sue for infringement and to recover statutory damages and attorney\'s fees.','Trademark: search the USPTO database (tmsearch.uspto.gov) to ensure your mark isn\'t already registered before investing in branding.','File a trademark application at USPTO.gov. Basic TEAS Plus application: $250/class. Processing takes 8-12 months. Use the "Intent to Use" basis if you haven\'t started using it yet.','Common law trademark rights: even without registration, you have some rights in a mark you\'ve been using in commerce. Registration provides nationwide priority and public notice.','Trade secrets: valuable business information (recipes, customer lists, algorithms) is protected by keeping it confidential, not by registration.'],
+    tips:['Register your trademark in every class of goods/services you sell — it\'s class-specific protection.','A trademark attorney can cost $1,000-$3,000 for a straightforward registration but can prevent costly mistakes and office action responses.','Monitor for infringement: set up Google Alerts for your brand name and check USPTO\'s TSDR database regularly.','Domain name registration is NOT trademark registration — owning a .com doesn\'t give you trademark rights.'],
+    faq:[{q:'Can I trademark my business name?',a:'Yes, if it is distinctive enough. Generic or descriptive marks (like "Best Plumbing") are harder to register. Suggestive, arbitrary, or fanciful marks (like "Apple" for computers) are strongest.'},{q:'How long does a trademark last?',a:'Indefinitely, as long as you continue using it in commerce and file maintenance documents with the USPTO (between years 5-6, and then every 10 years).'}],
+    related:[6,7,57], tags:['trademark','copyright','intellectual property','brand protection','small business'] },
+
+  { id:57, t:'Hiring Your First Employee: Taxes, Payroll, and Legal Requirements', c:'Business', icon:'🤝', time:'10 min', v:2100, rating:4.7, reviews:198, diff:'Hard', updated:'Feb 2026',
+    summary:'A compliance checklist for small business owners taking on their first hire — payroll taxes, workers\' comp, I-9 verification, and more.',
+    steps:['Get your EIN (if you don\'t have one) at irs.gov and register with your state labor department for state unemployment insurance (SUI).','Verify employment eligibility: complete Form I-9 within 3 days of the employee\'s start date. You must physically verify original documents — photocopies are not acceptable.','Set up payroll withholding: withhold federal income tax (based on W-4), Social Security (6.2%), and Medicare (1.45%) from each paycheck. You match Social Security and Medicare as the employer.','Register for FUTA (federal unemployment tax): 6% on the first $7,000 of each employee\'s wages, offset by state unemployment tax credit (typically reducing it to 0.6%).','Obtain workers\' compensation insurance: required in Illinois for all employers with one or more employees. Contact your state\'s workers\' comp agency or a commercial insurer.','Display required workplace posters: FLSA, FMLA, OSHA, EEO, USERRA, and state-required posters must be visibly displayed. Free posters available at dol.gov.'],
+    tips:['Payroll software (Gusto, QuickBooks Payroll, ADP) automates withholding, filing, and deposits — highly recommended for first-time employers.','Misclassifying employees as independent contractors is one of the most common and costly mistakes — the IRS and state agencies scrutinize this closely.','New hire reporting: you must report new employees to the Illinois New Hire Reporting Center within 20 days of hiring.','Consider an HR consultant for your first hire — getting it right from the start avoids expensive compliance problems.'],
+    faq:[{q:'Can I pay my employee as an independent contractor to avoid payroll taxes?',a:'Only if they genuinely meet the IRS and state tests for contractor status. Misclassification penalties include back taxes, penalties, and interest — often more than the taxes you were trying to avoid.'},{q:'Do I need an employee handbook?',a:'Not legally required, but strongly recommended. A handbook sets expectations, establishes policies, and provides legal protection in disputes.'}],
+    related:[6,7,35], tags:['hiring','payroll','I-9','workers comp','small business','employment'] },
+
+  // ── More Veterans ─────────────────────────────────────────────────────────
+  { id:58, t:'VA Vocational Rehabilitation and Employment (VR&E / Chapter 31)', c:'Veterans', icon:'🎯', time:'7 min', v:1700, rating:4.8, reviews:143, diff:'Medium', updated:'Jan 2026',
+    summary:'Chapter 31 Veteran Readiness and Employment helps veterans with service-connected disabilities prepare for, find, and maintain suitable employment.',
+    steps:['Check eligibility: you must have a service-connected disability rating of at least 10% (or a memorandum rating of 20%+) and need help overcoming an employment barrier related to your disability.','Apply at va.gov/careers-employment/vocational-rehabilitation — the application is online and takes about 15 minutes.','Meet with a VR&E Counselor who will conduct a comprehensive evaluation of your abilities, interests, and employment barriers, then develop an Individual Plan for Employment (IPE).','Choose your track: Reemployment (return to prior occupation), Rapid Access to Employment, Self-Employment, Employment through Long-Term Services (college or trade school), or Independent Living.','If a degree or certification is needed, VR&E pays tuition, fees, books, supplies, and a monthly subsistence allowance while you are enrolled.','Job search assistance: the program provides resume help, interview coaching, job placement assistance, and workplace accommodations coordination.'],
+    tips:['VR&E subsistence allowance is separate from and in addition to GI Bill benefits — you cannot use both simultaneously for the same training, but VR&E often pays more.','There is no dollar cap on VR&E services — the program will fund the education and support needed to achieve your employment goal.','Self-employment track: the VA can fund business plan development, equipment, and supplies for veterans starting a business with a disability-related barrier.','Even veterans with a 0% rating may qualify if the VA determines they have a serious employment handicap.'],
+    faq:[{q:'Can I use VR&E and the GI Bill at the same time?',a:'Not for the same training program simultaneously. You can switch between them, and sometimes VR&E is the better choice — consult with your VR&E counselor.'},{q:'How long does VR&E last?',a:'The basic entitlement is 48 months of full-time services, which can be extended in certain circumstances. The program may also cover job coaching and placement services after program completion.'}],
+    related:[12,13,37], tags:['vocational rehab','VR&E','Chapter 31','employment','veterans','disability'] },
+
+  // ── More Education ────────────────────────────────────────────────────────
+  { id:59, t:'Adult Education: GED, HiSET, and Workforce Training', c:'Education', icon:'📚', time:'7 min', v:2200, rating:4.7, reviews:198, diff:'Easy', updated:'Feb 2026',
+    summary:'How to earn a high school equivalency credential as an adult, find free classes, and access workforce training programs that lead to good-paying jobs.',
+    steps:['Choose your credential: GED (most widely recognized), HiSET (accepted in most states), or TASC (some states). Check which your state offers — Illinois accepts GED and HiSET.','Find free adult education classes: Illinois Adult Education programs are available at community colleges, libraries, and community organizations. Search at careerlinkil.com or call 877-342-7870.','Prepare for the exam: Khan Academy (khanacademy.org) and the GED official website (ged.com) offer free practice tests and study materials.','Register and take the exam: GED tests are administered at approved testing centers. Cost is $36 per subject ($144 total for all four). Fee waivers available through your adult ed program.','After earning your credential, explore Workforce Innovation and Opportunity Act (WIOA) funded programs for job training in high-demand fields (healthcare, manufacturing, IT, trades).','Illinois Workforce Development: Illinois workNet Centers provide free job training, resume help, and career counseling statewide. Find yours at illinoisworknet.com.'],
+    tips:['Many adult education programs are completely free — including textbooks and practice tests.','You can retake failed GED subjects individually without retaking all four — there is a mandatory waiting period after two failures.','Apprenticeship programs combine on-the-job training with classroom instruction and pay you while you learn — explore options at apprenticeship.gov.','SNAP Employment and Training (SNAP E&T) provides additional support for SNAP recipients pursuing job training.'],
+    faq:[{q:'Is a GED equivalent to a high school diploma?',a:'For most purposes, yes. Employers, colleges, and military recruiters generally treat a GED the same as a diploma. Some selective employers or institutions may prefer a diploma.'},{q:'Am I too old to get my GED?',a:'No. There is no age maximum — people in their 60s, 70s, and beyond earn their GED. You must be at least 17 (or 16 with special circumstances) and not currently enrolled in high school.'}],
+    related:[16,17], tags:['GED','adult education','HiSET','workforce training','WIOA','job training'] },
+
+  { id:60, t:'College Work-Study and Campus Financial Aid Programs', c:'Education', icon:'🎓', time:'6 min', v:1800, rating:4.6, reviews:154, diff:'Easy', updated:'Jan 2026',
+    summary:'How Federal Work-Study works, how to find on-campus jobs, and other campus-based financial aid programs beyond the Pell Grant.',
+    steps:['Federal Work-Study (FWS): a need-based program that provides part-time jobs for students, funded jointly by the federal government and the school. Eligibility is determined through the FAFSA.','Check your financial aid award letter for a Work-Study award — it will show a dollar amount. This is not free money; you earn it by working.','Find campus jobs: your school\'s financial aid or student employment office maintains a list of FWS-eligible positions. Apply early — spots fill quickly.','Work-Study earnings are paid directly to you (not applied to your bill) and are reported on your W-2. They do not count against you on next year\'s FAFSA.','Institutional grants: in addition to federal aid, most colleges offer their own scholarships and grants based on merit and need — ask the financial aid office what campus-specific aid you may qualify for.','Tuition payment plans: most colleges offer interest-free installment plans (typically 4-5 monthly payments) to spread tuition across the semester — contact your bursar\'s office.'],
+    tips:['Work-Study off-campus positions with nonprofits and community service organizations often pay more and provide valuable experience.','If you don\'t use your full Work-Study award in one semester, the unused portion does not carry over.','Appeal your financial aid award if your family circumstances have changed significantly — schools have professional judgment authority to adjust aid.','Scholarship search engines like Fastweb and Scholly can find private scholarships you may qualify for beyond federal aid.'],
+    faq:[{q:'Do I have to pay back Work-Study earnings?',a:'No. Work-Study is earned wages, not a loan. However, you will owe taxes on earnings above certain thresholds.'},{q:'What if my school doesn\'t participate in FWS?',a:'About 3,400 schools participate in the FWS program. If your school doesn\'t, ask about institutional work programs, which operate similarly.'}],
+    related:[16,17], tags:['work study','financial aid','campus jobs','college','FWS'] },
+
+  // ── More Seniors ──────────────────────────────────────────────────────────
+  { id:61, t:'Reverse Mortgage: What It Is, What It Costs, and When It Makes Sense', c:'Seniors', icon:'🏠', time:'9 min', v:2400, rating:4.6, reviews:198, diff:'Hard', updated:'Jan 2026',
+    summary:'A no-nonsense guide to Home Equity Conversion Mortgages (HECMs) — how they work, the real costs, and the key questions to ask before signing.',
+    steps:['Understand the basics: a HECM (federally insured reverse mortgage) lets homeowners 62+ borrow against their home equity with no monthly mortgage payment required. The loan is repaid when you sell, move out, or die.','Eligibility: must be 62+, own your home outright or have a low balance, live in it as your primary residence, and not be delinquent on any federal debt.','Required counseling: before applying, you must receive HUD-approved HECM counseling from an independent agency (find one at hecmcounseling.org). This is not optional.','Understand the true costs: origination fees (up to $6,000), upfront MIP (2% of home value), ongoing MIP (0.5% annually), closing costs, and servicing fees. These are typically rolled into the loan.','Disbursement options: lump sum (fixed rate only), line of credit (grows over time — often the most flexible), monthly payments, or a combination.','Non-borrowing spouses: if one spouse is under 62, they can be a "non-borrowing spouse" and stay in the home after the borrowing spouse dies — but they cannot access new funds and must maintain the property.'],
+    tips:['A reverse mortgage should not be used to fund investments — the costs are too high.','If you plan to move within 5 years, a reverse mortgage is almost never a good idea — the upfront costs make it extremely expensive for short-term use.','Compare with alternatives: home equity loan, HELOC, downsizing, renting out a room, or property tax deferral programs.','HUD-approved counselors are impartial — unlike lenders, they have no incentive to sell you a product.'],
+    faq:[{q:'Will I lose my home with a reverse mortgage?',a:'You can lose your home if you fail to pay property taxes, homeowners insurance, or let the property fall into disrepair. These are the most common causes of reverse mortgage foreclosure.'},{q:'What happens when I die?',a:'Your heirs have 30 days (extendable to 12 months) to repay the loan or sell the home. If the home is worth more than the loan, heirs keep the difference. If it\'s worth less, HUD\'s insurance covers the shortfall — heirs never owe more than the home\'s value.'}],
+    related:[27,28,26], tags:['reverse mortgage','HECM','home equity','seniors','retirement'] },
+
+  // ── More Justice ─────────────────────────────────────────────────────────
+  { id:62, t:'Small Claims Court: Suing Without a Lawyer', c:'Justice', icon:'⚖️', time:'7 min', v:2800, rating:4.8, reviews:289, diff:'Medium', updated:'Feb 2026',
+    summary:'How to file a small claims case, what to expect at the hearing, and how to collect your judgment — without needing an attorney.',
+    steps:['Check the dollar limit: Illinois Small Claims Court handles disputes up to $10,000. Different states have limits ranging from $2,500 to $25,000.','Identify the correct court: file in the county where the defendant lives, works, or where the dispute occurred. File at the circuit court clerk\'s office.','Complete the complaint form: describe what happened, who the defendant is, and how much money you\'re owed. Filing fees range from $30-$200 depending on the amount claimed.','Serve the defendant: the court will send a summons. In some cases you\'ll need a process server or the county sheriff to serve papers. Keep your proof of service.','Prepare for your hearing: bring all evidence — contracts, receipts, photos, texts, emails, and witness testimony. Organize everything chronologically.','Collect your judgment: winning in court doesn\'t mean you\'ll automatically receive payment. Collection tools include wage garnishment, bank account liens, and property liens.'],
+    tips:['Send a demand letter before suing — many disputes are resolved without court, and judges look favorably on plaintiffs who tried to resolve things first.','Bring two copies of all documents — one for the judge, one for yourself. The clerk will handle the defendant\'s copy.','Practice your presentation — you typically have 10-15 minutes. Focus on the most important facts.','A judgment is good for 7-20 years in most states and can be renewed — even if the defendant can\'t pay now, you can collect later.'],
+    faq:[{q:'Can I sue a business in small claims court?',a:'Yes. You can sue businesses, including corporations and LLCs. Name the business entity (not just the owner) and find the registered agent\'s address for service.'},{q:'Can I have a lawyer in small claims court?',a:'In most states, yes — though it rarely makes financial sense given the dollar limits. Some states prohibit attorneys in small claims proceedings.'}],
+    related:[24,25], tags:['small claims court','lawsuit','self-represented','legal rights','consumer'] },
+
+  { id:63, t:'Immigration Court: What to Expect If You Receive a Notice to Appear', c:'Justice', icon:'🏛️', time:'10 min', v:2600, rating:4.8, reviews:267, diff:'Hard', updated:'Feb 2026',
+    summary:'What a Notice to Appear (NTA) means, how immigration court proceedings work, and your rights during the process.',
+    steps:['Understand the NTA: a Notice to Appear is the charging document that initiates removal proceedings. It lists the reasons DHS believes you are removable from the U.S.','Appear at every hearing: failure to appear (FTA) results in an automatic order of removal in absentia. Keep your address updated with the immigration court (EOIR).','Find an immigration attorney immediately: immigration proceedings are complex, stakes are extremely high, and there is no right to a government-appointed attorney in immigration court. Many nonprofits provide free representation.','At the Master Calendar Hearing (first appearance): you will state whether you admit or deny the charges and what forms of relief you will seek. Do not answer questions without an attorney present.','Apply for relief: depending on your situation, you may apply for asylum, cancellation of removal, adjustment of status, withholding of removal, or Convention Against Torture (CAT) protection.','At the Individual (Merits) Hearing: you present your full case, testimony, and evidence. The immigration judge decides whether to grant relief or issue removal.'],
+    tips:['Update your address with EOIR within 5 days of moving — failure to do so and missing a hearing can result in removal.','Even if you cannot afford an attorney, attend every hearing. Judges cannot help unrepresented people but can continue cases to allow time to find counsel.','Legal aid resources: find free immigration legal services at immigrationadvocates.org/nonprofit/legaldirectory.','Your children who are U.S. citizens are not subject to removal — make plans for their care in all scenarios.'],
+    faq:[{q:'Can I work while in removal proceedings?',a:'Only with an Employment Authorization Document (EAD). You may be eligible to apply for one depending on your immigration status or relief application.'},{q:'How long does immigration court take?',a:'The current backlog means cases can take 4-7 years or more from NTA to final decision. You may remain in the U.S. (with or without authorization) during this time.'}],
+    related:[9,10,52], tags:['immigration court','removal','NTA','deportation','EOIR','asylum'] },
+
+  // ── More Disability ───────────────────────────────────────────────────────
+  { id:64, t:'Special Education: IEP and 504 Plan Rights for Students', c:'Disability', icon:'🎒', time:'8 min', v:2700, rating:4.8, reviews:278, diff:'Medium', updated:'Feb 2026',
+    summary:'How to get an IEP or 504 Plan for your child, what each provides, and how to advocate effectively when schools push back.',
+    steps:['Understand the two frameworks: IDEA (Individuals with Disabilities Education Act) provides Individualized Education Programs (IEPs) for students whose disability affects their education and who need specialized instruction. Section 504 provides accommodations for students whose disability substantially limits a major life activity but who don\'t need special instruction.','Request an evaluation in writing: send a dated, signed letter to the school principal and special education director requesting a comprehensive evaluation. The school has 60 days (14 school days in Illinois) to respond.','The evaluation is free and must cover all suspected areas of disability. You must give written consent before the evaluation begins.','IEP meeting: you are a full member of the IEP team. The IEP must include: present levels of performance, measurable annual goals, services to be provided, and how progress will be measured.','If you disagree with the IEP: you can request a resolution meeting, file for mediation (free through your state), or request a due process hearing. You do not have to sign the IEP.','504 Plan: simpler than an IEP — a list of accommodations (extended time, preferential seating, note-taking assistance) the school agrees to provide. Request one in writing and get it in writing.'],
+    tips:['Document everything in writing: requests, meeting summaries, and agreements. Follow up verbal conversations with a written email summary.','Bring an advocate to IEP meetings — a disability rights organization, parent training center, or trusted person who knows your child. You are allowed to bring anyone.','Schools cannot require you to medicate your child as a condition of receiving services.','Parent Training and Information Centers (PTIs) provide free help navigating special education — find yours at parentcenterhub.org.'],
+    faq:[{q:'My child has ADHD — do they qualify for an IEP or 504?',a:'Possibly both. ADHD can qualify under IDEA\'s "Other Health Impairment" category if it adversely affects educational performance. Most students with ADHD who don\'t need special instruction qualify for a 504 Plan.'},{q:'What if the school says my child doesn\'t qualify?',a:'You can disagree with the eligibility determination and request a due process hearing. Get an independent educational evaluation (IEE) at the school\'s expense if you disagree with their evaluation.'}],
+    related:[32,33,34], tags:['IEP','504 plan','special education','IDEA','disability','children','school'] },
+
+  // ── More Childcare ────────────────────────────────────────────────────────
+  { id:65, t:'Foster Care and Adoption: How to Become a Foster Parent', c:'Childcare', icon:'💛', time:'9 min', v:1900, rating:4.8, reviews:167, diff:'Medium', updated:'Jan 2026',
+    summary:'The step-by-step process to become a licensed foster parent in Illinois, what support is provided, and pathways to adoption.',
+    steps:['Attend an orientation: in Illinois, DCFS (Department of Children and Family Services) holds free orientations explaining the foster care system, what to expect, and the licensing process.','Complete the pre-service training (PRIDE training): a 30-hour training program covering child development, trauma-informed care, and the foster care system. Usually offered evenings and weekends.','Complete the licensing application and home study: background checks (all adults in the home), medical clearances, home inspection, and interviews with a licensing worker.','Licensing requirements in Illinois: must be at least 21, have a stable income, adequate space for children, and no disqualifying criminal history.','Receive your license and work with a caseworker to accept children: you can specify age ranges, number of children, and any special needs you are or aren\'t equipped to handle.','Foster parent support: Illinois provides a monthly board rate ($507-$1,200+ depending on the child\'s age and needs), Medicaid coverage for foster children, clothing allowances, and respite care.'],
+    tips:['Foster parenting is challenging — build a strong support network before you begin.','Trauma-informed parenting training beyond PRIDE is highly valuable — children in foster care have often experienced significant adverse childhood experiences (ACEs).','If adoption is your goal, foster-to-adopt programs focus on placements where adoption may be an outcome — ask DCFS specifically about concurrent planning placements.','The National Foster Parent Association (nfpaonline.org) provides resources and community for foster families nationwide.'],
+    faq:[{q:'Can single people or same-sex couples become foster parents?',a:'Yes. Illinois law prohibits discrimination in foster/adoptive parent licensing based on marital status, sexual orientation, or gender identity.'},{q:'How long will a child be placed with me?',a:'It varies — some placements are days, others are years. The goal is always reunification with the birth family if safe. Foster parents are a critical part of that process.'}],
+    related:[29,30,31], tags:['foster care','adoption','DCFS','foster parent','children'] },
+
+
+  // ── Legal Planning (NEW) ──────────────────────────────────────────────────
+  { id:66, t:'Power of Attorney: Types, How to Create One, and When You Need It', c:'Legal', icon:'📜', time:'8 min', v:2900, rating:4.8, reviews:267, diff:'Medium', updated:'Feb 2026',
+    summary:'A power of attorney lets someone you trust manage your finances or medical care if you\'re unable to. Here\'s what each type does and how to create one correctly.',
+    steps:['Understand the types: Financial POA (manages bank accounts, property, bills), Healthcare POA / Healthcare Proxy (makes medical decisions), General POA (broad financial authority), Limited POA (specific tasks), Durable POA (survives incapacitation — the most important type to have).','Choose your agent carefully: this person will have significant legal authority over your affairs. Choose someone trustworthy, organized, and willing to serve in your best interest.','Draft the document: Illinois POA forms are available free at illinoislegalaid.org. You do not need an attorney, but one is recommended for complex situations.','Sign before a notary and two witnesses (requirements vary by state and document type). In Illinois, the agent cannot serve as a witness.','Store it safely and give copies to your agent, your bank, and your doctor. File the healthcare POA with your medical providers.','Review and update POAs every 5-7 years or after major life changes (divorce, death of agent, significant health change).'],
+    tips:['A Durable POA is critical — without one, your family may need to go to court for guardianship if you become incapacitated, which is expensive and time-consuming.','Your agent must keep detailed records of all transactions made on your behalf.','You can revoke a POA at any time while you still have mental capacity — do so in writing and notify all relevant parties.','Illinois Legal Aid Online provides free POA forms and instructions for Illinois residents at illinoislegalaid.org.'],
+    faq:[{q:'Is a power of attorney the same as a will?',a:'No. A POA is effective during your lifetime and ends at death. A will takes effect at death. You need both for comprehensive planning.'},{q:'Can I have multiple agents?',a:'Yes. You can name co-agents (who must act together) or successor agents (who serve if the first is unable). Co-agents can be efficient but also create conflict — discuss with an attorney.'}],
+    related:[67,68], tags:['power of attorney','POA','estate planning','incapacity','legal documents'] },
+
+  { id:67, t:'Advance Directives: Living Wills and Healthcare Wishes', c:'Legal', icon:'🏥', time:'7 min', v:2600, rating:4.8, reviews:245, diff:'Easy', updated:'Feb 2026',
+    summary:'How to document your healthcare wishes in advance so they are honored if you can\'t speak for yourself — including living wills, DNR orders, and POLST forms.',
+    steps:['Understand the documents: Living Will (documents your wishes about life-sustaining treatment), Healthcare POA / Proxy (names someone to make decisions for you), POLST/MOLST (Physician Orders for Life-Sustaining Treatment — a medical order that travels with you across care settings), DNR (Do Not Resuscitate order — specific instruction to medical staff).','Decide what matters most to you: quality vs. length of life, acceptable medical interventions, pain management preferences, and organ donation wishes.','Complete Illinois-specific forms: the Illinois Declaration for Mental Health Treatment and the Illinois Directive to Physicians are available free at the Illinois Department of Public Health website.','Discuss your wishes with your healthcare agent, family members, and primary care doctor — the conversation is as important as the document.','Give copies to your healthcare agent, primary care doctor, and each hospital or care facility where you receive treatment.','Review your advance directive every 5 years or after a significant diagnosis, hospitalization, or change in your beliefs.'],
+    tips:['POLST forms are for people with serious illness or advanced age — they provide more specific medical guidance than a living will and must be signed by a physician.','Your healthcare agent can override your documented wishes only if they believe circumstances have changed significantly — choose someone who truly understands your values.','If you are admitted to a hospital without these documents, hospital staff must make decisions based on state law, which may not reflect your wishes.','Five Wishes (agingwithdignity.org) is a widely used document that meets legal requirements in most states and is written in plain language.'],
+    faq:[{q:'What happens if I don\'t have an advance directive?',a:'Medical decisions default to next-of-kin under state law (spouse, adult children, parents, siblings in order). This may not reflect your wishes, and can create family conflict.'},{q:'Can I change my mind after creating one?',a:'Yes, at any time while you have decision-making capacity. Destroy old copies, create new documents, and notify your healthcare providers.'}],
+    related:[66,68], tags:['living will','advance directive','DNR','POLST','healthcare','estate planning'] },
+
+  { id:68, t:'Wills and Estate Planning: Protecting What You Leave Behind', c:'Legal', icon:'🏛️', time:'9 min', v:2800, rating:4.8, reviews:289, diff:'Medium', updated:'Feb 2026',
+    summary:'Who needs a will, what happens if you die without one, and how to create a basic estate plan that protects your family without spending thousands on lawyers.',
+    steps:['Understand dying intestate: if you die without a will, Illinois law decides who gets your assets — typically your spouse and children, but not always as you would choose. Unmarried partners receive nothing.','Inventory your assets: bank accounts, investment accounts, real estate, retirement accounts, life insurance, vehicles, and valuable personal property.','Choose your beneficiaries and executor: the executor administers your estate, pays debts, and distributes assets. Choose someone organized and trustworthy.','Create your will: online tools like LegalZoom, Trust & Will, or FreeWill (freewill.com — free for basic wills) can create valid wills for most people. For complex estates, use an estate attorney.','Sign with witnesses: in Illinois, a will must be signed by you and two adult witnesses who are not beneficiaries. Notarization is not required but recommended.','Update beneficiary designations: bank accounts, retirement accounts (401k, IRA), and life insurance pass by beneficiary designation — outside your will. Review and update these separately.'],
+    tips:['A will does NOT avoid probate — it just directs the probate process. A revocable living trust can avoid probate for assets transferred into it.','Store your original will in a fireproof location and tell your executor where it is. A bank safety deposit box can be inaccessible after death.','If you have minor children, name a guardian in your will — this is one of the most important decisions for parents.','Review your will every 3-5 years and after major life events: marriage, divorce, death of a beneficiary or executor, birth of a child, or significant change in assets.'],
+    faq:[{q:'Do I need a lawyer to write a will?',a:'No. Online will-creation tools are legally valid for straightforward estates. An attorney is worth the cost for blended families, business ownership, large estates, or when you want to minimize estate taxes.'},{q:'What is probate and should I avoid it?',a:'Probate is the court-supervised process of validating your will and distributing assets. It is public, can take 6-18 months, and costs 3-7% of estate value. Assets with beneficiary designations, POD accounts, and assets in a trust bypass probate.'}],
+    related:[66,67], tags:['will','estate planning','probate','executor','inheritance','guardian'] },
+
+  // ── Reentry (NEW) ─────────────────────────────────────────────────────────
+  { id:69, t:'Reentry After Incarceration: Benefits, IDs, and Getting Back on Track', c:'Reentry', icon:'🔓', time:'10 min', v:2700, rating:4.8, reviews:245, diff:'Medium', updated:'Feb 2026',
+    summary:'A practical guide to restoring benefits, getting ID documents, finding housing and employment after release from prison or jail.',
+    steps:['Get your ID documents first: without ID, you cannot work, open a bank account, or access benefits. Illinois releases individuals with a state ID if they don\'t have one. You can also get a birth certificate from your birth state (often $10-$20) and a Social Security card at ssa.gov at no cost.','Restore benefits eligibility: SNAP and Medicaid eligibility is restored upon release for most convictions (drug felonies no longer automatically disqualify in Illinois). Apply at your local DHS office or abe.illinois.gov.','Housing: halfway houses/transitional housing are available through the Illinois Department of Corrections. Apply before release if possible. Most Section 8 programs cannot exclude you based solely on a conviction.','Employment: Illinois Ban the Box law (Job Opportunities for Qualified Applicants Act) prohibits most employers from asking about convictions on initial applications. Convictions can still be considered, but later in the process.','Expungement: certain convictions may be eligible for expungement or sealing after your sentence is complete — potentially opening more housing and employment opportunities.','Healthcare: if released without insurance, apply for Medicaid immediately — you may qualify starting your first day out.'],
+    tips:['Contact Safer Foundation (saferfoundation.org) or Heartland Alliance for comprehensive reentry services in Illinois.','Social Security benefits (SSI/SSDI) are suspended during incarceration but not terminated — contact your local SSA office 3 months before release to restart benefits.','Illinois record sealing has expanded significantly — even some felonies can be sealed. Consult Illinois Legal Aid or a free legal clinic.','Many libraries offer free computer access, job search assistance, and reentry resource guides.'],
+    faq:[{q:'Can I get food stamps (SNAP) right after release?',a:'Yes, in Illinois. Previous drug felony conviction restrictions on SNAP were removed. Apply immediately upon release.'},{q:'What about voting rights?',a:'In Illinois, your voting rights are automatically restored upon release from incarceration — even for felony convictions. You can register to vote immediately.'}],
+    related:[24,25,62], tags:['reentry','incarceration','expungement','housing','employment','benefits'] },
+
+  { id:70, t:'Workers\' Compensation: What to Do When You\'re Injured on the Job', c:'Employment', icon:'🦺', time:'8 min', v:3100, rating:4.8, reviews:298, diff:'Medium', updated:'Feb 2026',
+    summary:'How to file a workers\' comp claim in Illinois, what benefits you\'re entitled to, and what to do when your employer disputes your claim.',
+    steps:['Report your injury immediately: Illinois law requires you to report a work injury to your employer within 45 days. Do it in writing, dated, and keep a copy.','Seek medical treatment: your employer has the right to send you to a specific doctor for the first visit (in some cases). After that, you have the right to choose your own physician.','File a claim with the Illinois Workers\' Compensation Commission (IWCC) at iwcc.il.gov — especially if your employer disputes your claim or doesn\'t offer a settlement.','Understand your benefits: medical expenses (100% covered), temporary total disability (TTD) = 2/3 of your average weekly wage while you cannot work, permanent partial disability (PPD) for lasting impairments, and vocational rehabilitation.','Do not resign or sign any release without consulting an attorney — you may be giving up significant rights.','Hire a workers\' comp attorney: they work on contingency (typically 20% of your settlement) and can dramatically improve your outcome.'],
+    tips:['Never exaggerate injuries — this gives the insurer grounds to deny your entire claim.','Keep records of all medical appointments, medications, mileage to appointments, and how the injury affects your daily life.','Your employer cannot legally fire you for filing a workers\' comp claim — retaliation is a separate cause of action.','Independent Medical Examinations (IMEs) are often ordered by the insurance company — these doctors often minimize findings. You have the right to your own medical opinion.'],
+    faq:[{q:'What if my employer says I\'m an independent contractor?',a:'Contractors are generally not covered by workers\' comp. However, if you were misclassified as a contractor when you should be an employee, you may still have a claim. Consult an attorney.'},{q:'How long do I have to file a claim?',a:'In Illinois, you generally have 3 years from the date of injury (or 2 years from the last payment of compensation) to file a claim with the IWCC.'}],
+    related:[44,45,46], tags:['workers comp','workplace injury','Illinois','IWCC','disability','employment'] },
+
+  { id:71, t:'Unemployment Appeals: How to Win Your Hearing', c:'Employment', icon:'📢', time:'8 min', v:2800, rating:4.7, reviews:267, diff:'Medium', updated:'Feb 2026',
+    summary:'Step-by-step guide to winning an unemployment benefits appeal — what to argue, how to prepare evidence, and common mistakes to avoid.',
+    steps:['Understand why you were denied: the most common reasons are voluntary quit, misconduct, and insufficient earnings. Your denial letter will state the specific reason.','File your appeal within the deadline: in Illinois, you have 30 days from the mailing date of the denial to file your appeal with the Illinois Department of Employment Security (IDES).','Gather evidence: gather documentation that supports your version of events — emails, texts, written warnings, HR policies, witness contact information, pay stubs, and medical records if relevant.','For voluntary quit appeals, argue: good cause connected to work (unsafe conditions, significant pay cut, harassment, health issue requiring relocation). Personal reasons do not qualify as good cause.','For misconduct appeals, argue: the alleged conduct did not rise to the level of "misconduct" as defined by law, or you had good cause for your actions, or the employer\'s policy was not clear.','At the hearing (usually by phone): be concise, respectful, and factual. The referee asks questions and both parties present evidence. You can call witnesses and cross-examine the employer\'s witnesses.'],
+    tips:['Confirm your hearing by phone the day before — many people miss hearings by assuming notice was sufficient.','Request a postponement if you need more time to gather evidence or get an attorney — it is usually granted once.','An attorney or union rep can represent you at the hearing — Illinois Legal Aid Online can help you find representation.','Even if you lose at the referee level, you can appeal to the IDES Board of Review, then to circuit court.'],
+    faq:[{q:'What happens if I miss my appeal deadline?',a:'You lose your right to appeal in most cases. Call IDES immediately — in rare circumstances, a late appeal can be accepted for "good cause" such as medical emergency.'},{q:'What does "misconduct" mean for unemployment purposes?',a:'Deliberate or wanton disregard of the employer\'s interests. Simple mistakes, poor performance, or disagreements with management do not constitute misconduct under Illinois law.'}],
+    related:[3,44,45], tags:['unemployment appeal','IDES','misconduct','voluntary quit','hearing'] },
+
+  // ── More Consumer ─────────────────────────────────────────────────────────
+  { id:72, t:'Identity Theft: How to Recover and Protect Yourself', c:'Consumer', icon:'🔐', time:'9 min', v:3400, rating:4.9, reviews:389, diff:'Medium', updated:'Feb 2026',
+    summary:'What to do immediately after discovering identity theft, how to dispute fraudulent accounts, and steps to prevent it from happening again.',
+    steps:['Place a fraud alert: call one of the three credit bureaus (Equifax 800-685-1111, Experian 888-397-3742, TransUnion 800-888-4213) — they must notify the other two. A fraud alert is free and lasts 1 year.','Place a credit freeze (strongest protection): contact each bureau separately to freeze your credit. This prevents anyone from opening new accounts in your name. Free, effective immediately, and can be lifted when needed.','Report to the FTC: file an identity theft report at identitytheft.gov — this creates an official report and generates a personalized recovery plan.','File a police report: bring your FTC Identity Theft Report to your local police department. A police report helps dispute fraudulent accounts and may be required by some creditors.','Dispute fraudulent accounts: write to each creditor and credit bureau listing fraudulent accounts. Include your FTC report and police report as supporting documents.','Monitor all accounts: check bank statements, credit reports, and tax transcripts (account.irs.gov) for signs of continued fraud.'],
+    tips:['An extended fraud alert (7 years) is available to identity theft victims — you\'ll need to provide a police report or FTC report.','Consider a credit freeze over a fraud alert — freezes prevent new accounts entirely, while alerts just require creditors to take extra steps.','IRS Identity Protection PIN (IP PIN): if your SSN was used to file a fraudulent tax return, request an IP PIN at irs.gov/ippin.','Synthetic identity fraud (combining real and fake information) is harder to detect — monitor your credit regularly even if you haven\'t been affected.'],
+    faq:[{q:'Does a credit freeze affect my existing accounts?',a:'No. A freeze only prevents new accounts from being opened. Your existing credit cards, loans, and accounts continue to work normally.'},{q:'What if someone filed taxes using my SSN?',a:'File a paper return with Form 14039 (Identity Theft Affidavit) attached. The IRS will investigate and, if resolved in your favor, issue your refund — though it can take 12-18 months.'}],
+    related:[41,43,42], tags:['identity theft','credit freeze','fraud alert','FTC','recovery','security'] },
+
+  { id:73, t:'Bankruptcy Basics: Chapter 7 vs. Chapter 13 — Is It Right for You?', c:'Consumer', icon:'⚖️', time:'10 min', v:2900, rating:4.7, reviews:278, diff:'Hard', updated:'Jan 2026',
+    summary:'When bankruptcy makes sense, what it can and cannot discharge, and the key differences between Chapter 7 (liquidation) and Chapter 13 (repayment plan).',
+    steps:['Understand when bankruptcy helps: it discharges (eliminates) most unsecured debts — credit cards, medical bills, personal loans — but NOT student loans (usually), child support, alimony, recent taxes, or criminal fines.','Chapter 7 (Liquidation): most debts discharged in 3-4 months. Your non-exempt assets may be sold. You must pass the "means test" (income below your state median or pass a disposable income calculation).','Chapter 13 (Reorganization): you keep your assets and repay some or all debts over 3-5 years through a court-approved plan. Best if you want to save a home from foreclosure or have non-exempt assets.','Consult a bankruptcy attorney before filing: many offer free consultations. Filing incorrectly can result in case dismissal.','Credit counseling: federal law requires completing a credit counseling course from an approved agency within 180 days before filing.','After discharge: Chapter 7 stays on your credit report for 10 years; Chapter 13 for 7 years. Rebuilding credit can begin immediately with secured cards and responsible habits.'],
+    tips:['Don\'t transfer assets or pay back family members before filing — these can be "preference payments" or fraudulent transfers that complicate your case.','Illinois exemptions protect certain assets in Chapter 7: your home equity up to $15,000 ($30,000 for married couples), one vehicle up to $2,400, and more.','Bankruptcy stops foreclosures, repossessions, wage garnishments, and collection calls immediately via the "automatic stay."','Non-bankruptcy alternatives: debt management plans, debt settlement, and negotiating directly with creditors may achieve debt relief without the long-term credit impact of bankruptcy.'],
+    faq:[{q:'Will I lose my home in bankruptcy?',a:'In Chapter 13, typically no — you can cure mortgage arrears through your repayment plan. In Chapter 7, if your equity exceeds the homestead exemption, the trustee may sell your home.'},{q:'Can I include tax debt in bankruptcy?',a:'Some income tax debt can be discharged in Chapter 7 if the taxes are at least 3 years old, the return was filed on time at least 2 years ago, and the IRS assessed the tax at least 240 days before filing.'}],
+    related:[41,42,43], tags:['bankruptcy','Chapter 7','Chapter 13','debt relief','financial hardship'] },
+
+  // ── More Healthcare ───────────────────────────────────────────────────────
+  { id:74, t:'Telehealth: How to Access Virtual Doctor Visits and Mental Health Care', c:'Healthcare', icon:'💻', time:'6 min', v:3200, rating:4.8, reviews:312, diff:'Easy', updated:'Feb 2026',
+    summary:'How to use telehealth services through your insurance, for free, or at low cost — including mental health, primary care, and specialist visits.',
+    steps:['Check your insurance first: most major insurers and Medicare now cover telehealth for primary care, mental health, and many specialty visits at the same cost as in-person visits.','Find free or low-cost telehealth: Federally Qualified Health Centers (FQHCs) at findahealthcenter.hrsa.gov offer telehealth at sliding-scale fees. Open Door Community Health Centers serve anyone regardless of ability to pay.','Mental health apps and platforms: Talkspace and BetterHelp offer therapy subscriptions ($65-$100/week). Some insurance plans fully cover BetterHelp sessions. Headspace and Calm offer free meditations.','For urgent non-emergency care: Urgent Care virtual visits (MDLive, Teladoc, AmWell) typically cost $75-$90 without insurance and can prescribe most non-controlled medications.','Prescription refills: many primary care telehealth services can issue refills for chronic condition medications. Controlled substances (like ADHD medications) have more restrictions.','Prepare for your visit: find a quiet, private location, test your internet connection and camera, and have your ID, insurance card, pharmacy info, and a list of current medications ready.'],
+    tips:['Many employers offer free telehealth through their EAP or benefits package — check before paying out of pocket.','Amazon Clinic and Walmart Health (where available) offer low-cost telehealth services with transparent pricing.','Mental health telehealth is often more accessible and less stigmatizing than in-person — appointment wait times are typically much shorter.','Illinois expanded telehealth coverage requirements significantly in 2021 — insurers must cover telehealth at parity with in-person services.'],
+    faq:[{q:'Is telehealth as good as in-person care?',a:'For most conditions — yes. Studies show comparable outcomes for primary care, mental health, chronic disease management, and many specialty consultations. Some conditions require physical examination.'},{q:'What about prescriptions from telehealth?',a:'Telehealth providers can prescribe most medications. The Ryan Haight Act restricts prescribing controlled substances via telehealth without an in-person relationship (with some exceptions expanded during COVID).'}],
+    related:[18,47,49], tags:['telehealth','virtual care','online doctor','mental health','prescription'] },
+
+  { id:75, t:'Substance Use Treatment: Finding Help and Understanding Your Options', c:'Healthcare', icon:'🌱', time:'8 min', v:2800, rating:4.9, reviews:334, diff:'Easy', updated:'Feb 2026',
+    summary:'How to access substance use treatment — from free community programs to residential rehab — and understanding insurance coverage, MAT, and crisis resources.',
+    steps:['Contact SAMHSA\'s National Helpline: 1-800-662-4357 (1-800-662-HELP) — free, confidential, 24/7, in English and Spanish. Provides referrals to local treatment facilities, support groups, and community-based organizations.','Find local treatment: SAMHSA\'s treatment locator at findtreatment.gov lists providers by location, type of care, insurance accepted, and specialty.','Illinois DHS Division of Substance Use Prevention and Recovery (SUPR): provides publicly funded treatment for Illinois residents who are uninsured or underinsured. Call 800-843-6154 or search at dhs.illinois.gov.','Medication-Assisted Treatment (MAT): FDA-approved medications (buprenorphine, methadone, naltrexone/Vivitrol) combined with counseling are the most effective treatment for opioid and alcohol use disorders. These are covered by Medicaid and most insurance.','Levels of care: outpatient (weekly appointments), intensive outpatient (IOP, 9+ hrs/week), partial hospitalization (PHP), residential (inpatient), and detox (medically supervised withdrawal).','Peer support specialists: people in recovery who provide support and connection to resources. Many treatment centers and community organizations offer peer support at no cost.'],
+    tips:['Medicaid covers comprehensive substance use treatment in Illinois including MAT, counseling, and residential treatment.','Narcan/naloxone (opioid overdose reversal medication) is available without a prescription at Illinois pharmacies — stock it if you or someone you know uses opioids.','Recovery housing (sober living homes) provides a supportive, drug-free environment post-treatment — costs range from free to $800+/month.','Al-Anon (al-anon.org) and Nar-Anon provide free support for family members of people struggling with addiction.'],
+    faq:[{q:'What if someone refuses treatment?',a:'You cannot force an adult into treatment. Focus on harm reduction, maintain the relationship, and consider an intervention facilitated by a professional interventionist or counselor.'},{q:'Does my employer find out if I seek treatment?',a:'HIPAA protects your health information. The ADA also protects employees who voluntarily seek treatment for substance use disorders. Your employer is not entitled to know unless your work performance is affected.'}],
+    related:[47,48,18], tags:['substance use','addiction','treatment','MAT','recovery','SAMHSA'] },
+
+  // ── More Benefits ─────────────────────────────────────────────────────────
+  { id:76, t:'Social Security Survivors Benefits', c:'Benefits', icon:'💔', time:'8 min', v:2600, rating:4.8, reviews:245, diff:'Medium', updated:'Feb 2026',
+    summary:'If a spouse, parent, or other family member dies, their Social Security record may support monthly survivor benefits for you — here\'s who qualifies and how to apply.',
+    steps:['Notify Social Security immediately after a death: call 1-800-772-1213. You cannot apply for survivor benefits online — you must call or visit a local office.','Who qualifies: widow/widower (60+, or 50+ if disabled, or any age if caring for deceased\'s child under 16), divorced spouse (if married 10+ years), children under 18 (or 19 if in high school), and dependent parents (62+).','Understand the benefit amount: widow/widowers receive 100% of the deceased\'s benefit amount at full retirement age, or a reduced amount as early as age 60. Children receive 75% of the deceased\'s benefit.','One-time lump-sum death payment: $255 is available to the surviving spouse or, if no surviving spouse, to children — apply within 2 years of death.','You must choose: if you qualify for both your own Social Security benefit and survivor benefits, you can take the lower benefit first and switch to the higher one later.','If you remarry before 60, you generally cannot collect survivor benefits on the prior spouse\'s record. Remarriage at 60+ does not affect eligibility.'],
+    tips:['Survivor benefits are separate from your own retirement benefits — you can maximize by claiming one early and the other at 70.','Divorced spouses who were married 10+ years may collect survivor benefits even if the deceased has remarried.','Apply as soon as possible after death — benefits are not paid for months before the application date.','Death certificates will be requested — have several certified copies available.'],
+    faq:[{q:'Do survivor benefits affect my own future Social Security?',a:'No. Collecting survivor benefits does not reduce or affect your own future Social Security retirement or disability benefits.'},{q:'My parent died. Do I qualify as an adult child?',a:'Generally only if you were disabled before age 22 and remain disabled. Otherwise, adult children do not receive survivor benefits.'}],
+    related:[28,4,5], tags:['survivor benefits','Social Security','widow','death','family benefits'] },
+
+  { id:77, t:'Low Income Home Weatherization Assistance Program (WAP)', c:'Benefits', icon:'🏠', time:'5 min', v:1900, rating:4.7, reviews:167, diff:'Easy', updated:'Jan 2026',
+    summary:'Free home energy efficiency improvements — insulation, air sealing, furnace tune-ups, and more — for income-qualifying homeowners and renters.',
+    steps:['Check eligibility: income at or below 200% of the federal poverty level (~$61,320 for a family of 4 in 2024). Households receiving LIHEAP, SSI, SNAP, or TANF are automatically income-eligible.','Find your local WAP provider: contact the Illinois Home Weatherization Assistance Program at 800-843-6154 or visit dhs.illinois.gov/energy. Each county has a designated community action agency.','Apply through your local provider — they will assess your home and determine eligible measures.','A certified energy auditor inspects your home to identify where energy is being wasted and what improvements will have the most impact.','Approved work is completed by certified contractors at no cost to you: attic/wall insulation, air sealing, window/door weatherstripping, heating system tune-up or replacement, health and safety repairs.','Renters can also receive WAP services with landlord permission — the improvements benefit both the tenant (lower bills) and landlord (improved property value).'],
+    tips:['WAP services are completely free — the average home receives about $7,500 in improvements.','Homes with elderly, disabled, or young children get priority scheduling.','WAP and LIHEAP are complementary — you can receive both energy bill assistance and weatherization improvements.','After weatherization, the average household saves 25-35% on energy bills annually.'],
+    faq:[{q:'Do I own the home to qualify?',a:'No. Renters qualify too, but the landlord must agree to allow the work. For rental properties, landlords are sometimes required to contribute to the cost of larger improvements.'},{q:'Will this affect my rent?',a:'It should not. WAP typically requires landlords to agree not to raise rent as a direct result of the improvements for a set period.'}],
+    related:[40,14,15], tags:['weatherization','WAP','energy efficiency','low income','home improvement'] },
+
+  // ── More Taxes ────────────────────────────────────────────────────────────
+  { id:78, t:'Self-Employment Taxes: What Freelancers and Gig Workers Must Know', c:'Taxes', icon:'🧾', time:'8 min', v:3100, rating:4.8, reviews:312, diff:'Medium', updated:'Feb 2026',
+    summary:'Quarterly estimated taxes, the self-employment tax, business deductions, and how to avoid the most common mistakes that get freelancers into trouble with the IRS.',
+    steps:['Understand the self-employment tax: you pay both the employee and employer portions of Social Security (12.4%) and Medicare (2.9%) — totaling 15.3% on net self-employment income. This is in addition to income tax.','Deduct half of self-employment tax: the IRS allows you to deduct 50% of your SE tax from gross income, effectively reducing your income tax burden.','Make quarterly estimated payments to avoid penalties: due April 15, June 15, September 15, and January 15. Use Form 1040-ES or pay at irs.gov/payments.','Calculate quarterly payments: a safe harbor is paying 100% of last year\'s tax liability in equal installments (110% if your prior year income exceeded $150K).','Maximize business deductions: home office (must be exclusive, regular business use), vehicle mileage (67 cents/mile in 2024), health insurance premiums, retirement contributions (SEP-IRA up to 25% of net SE income), business equipment, and professional development.','Keep meticulous records: use accounting software (Wave is free, QuickBooks Self-Employed is ~$15/month) to track all income and expenses throughout the year.'],
+    tips:['Open a separate business bank account and credit card immediately — this makes tracking deductions vastly easier and protects you in an audit.','Set aside 25-30% of each payment you receive for taxes — it\'s easy to spend money you\'ll need for taxes later.','1099-K reporting change: payment platforms must issue 1099-Ks for payments over $600 starting in 2026 (delayed multiple times). Keep records of all transactions regardless.','A SEP-IRA lets you contribute up to $69,000 (2024) based on income — a powerful tax reduction tool for profitable self-employed individuals.'],
+    faq:[{q:'Do I have to pay quarterly taxes if I also have a W-2 job?',a:'If your side income results in more than $1,000 in annual taxes, quarterly payments are recommended to avoid the underpayment penalty. You can also increase W-4 withholding from your employer to cover side income taxes.'},{q:'Can I deduct my home office if I work from home sometimes?',a:'Only if you have a dedicated space used exclusively and regularly for business. A corner of your living room or a shared room doesn\'t qualify — but a separate room used only for work does.'}],
+    related:[21,22,35], tags:['self-employment tax','freelance','gig worker','quarterly taxes','deductions','1099'] },
+
+  { id:79, t:'Property Tax Exemptions and Appeals', c:'Taxes', icon:'🏡', time:'7 min', v:2400, rating:4.7, reviews:221, diff:'Medium', updated:'Feb 2026',
+    summary:'How to reduce your property taxes through exemptions for seniors, disabled homeowners, and veterans — and how to appeal if your assessment is too high.',
+    steps:['Find your current assessed value: check your county assessor\'s website or your property tax bill. In Illinois, property is assessed at 33.33% of fair market value in most counties (except Cook County).','Apply for all exemptions you qualify for — in Illinois: General Homestead Exemption ($10,000 reduction in EAV for your primary residence), Senior Citizens Homestead Exemption (additional $8,000), Senior Citizens Assessment Freeze (locks your assessed value), Disabled Persons Exemption ($2,000 reduction), and Disabled Veterans Exemptions (up to 100% exemption for service-connected disability).','Apply through your county assessor\'s office — most exemptions require annual renewal. Deadlines vary by county.','Review your assessment for errors: compare your assessed value to recent sales of similar properties. Look for errors in property characteristics (square footage, number of rooms, lot size).','File an appeal if your assessment is too high: in Cook County, appeal to the Cook County Assessor\'s Office, then the Board of Review. In other Illinois counties, appeal to the County Board of Review.','Gather comparables: find 3-5 similar properties (same neighborhood, similar size and age) that sold recently for less than your assessed value implies. This is your evidence.'],
+    tips:['Deadlines for exemptions and appeals vary by county — look up your specific county\'s calendar as missing the deadline means waiting another year.','In Cook County, property assessments rotate — your township is reassessed every 3 years. Appeal in your reassessment year for maximum impact.','Hiring a property tax appeal firm is common — they typically charge a contingency fee of 30-40% of your first year\'s savings. Worth it for high-value properties.','Senior Assessment Freeze is often the most valuable benefit — it can save thousands per year as the market rises.'],
+    faq:[{q:'What if I miss the appeal deadline?',a:'You wait until next year. In Cook County, you can appeal during the Assessor\'s open appeals period or at the Board of Review — two separate opportunities annually.'},{q:'Can I get a refund on past property taxes?',a:'Generally no — appeals are prospective. However, if you discover you never applied for an exemption you qualified for, you may be able to apply retroactively for up to 2-3 years in some counties.'}],
+    related:[21,22,68], tags:['property tax','exemption','seniors','disabled','appeal','homeowner'] },
+
+  // ── More Housing ─────────────────────────────────────────────────────────
+  { id:80, t:'Emergency Rental Assistance: Programs When You\'re Behind on Rent', c:'Housing', icon:'🆘', time:'6 min', v:3300, rating:4.8, reviews:312, diff:'Easy', updated:'Feb 2026',
+    summary:'What to do if you\'re facing eviction for unpaid rent — emergency rental assistance programs, utility help, and your rights during the process.',
+    steps:['Contact Illinois Rental Payment Program (ILRPP) or local equivalent immediately at illinoisrentalassistance.org — programs provide up to 15 months of rent and utility arrears for eligible households.','Eligibility for most ERA programs: household income at or below 80% of Area Median Income (AMI), one or more household members at risk of housing instability.','Call 211: dial 2-1-1 or visit 211.org to find local emergency rental assistance, food banks, utility assistance, and other crisis resources near you.','Negotiation with landlord: landlords often prefer partial payment and a payment plan over the cost and time of eviction proceedings — communicate openly before legal action begins.','Know your eviction timeline: Illinois law requires a 5-day written notice for nonpayment before eviction proceedings can begin. Use this time to find assistance.','Legal aid: if served with eviction papers, contact Illinois Legal Aid Online (illinoislegalaid.org) or Prairie State Legal Services immediately — free representation may be available.'],
+    tips:['Apply for assistance even if you\'re only one month behind — programs often require documentation of a risk of homelessness, not actual eviction proceedings.','Emergency assistance is often available through local churches, community action agencies, and mutual aid networks — search "[your city] rental assistance."','In Illinois, an eviction takes 30-60+ days through the court process — you have time if you act quickly.','Document all communications with your landlord about your situation in writing.'],
+    faq:[{q:'Will emergency rental assistance affect my credit?',a:'The assistance itself does not appear on your credit report. However, unpaid rent that goes to collections can damage your credit — act before that happens.'},{q:'Can I get help with back rent from before the pandemic?',a:'Most current programs focus on recent arrears. Contact 211 for the most up-to-date information on what periods are covered by local programs.'}],
+    related:[14,15,50], tags:['emergency rental assistance','eviction','ERA','housing crisis','ILRPP'] },
+
+  // ── More Seniors ──────────────────────────────────────────────────────────
+  { id:81, t:'Senior Nutrition Programs: Meals on Wheels and Congregate Dining', c:'Seniors', icon:'🍽️', time:'5 min', v:2100, rating:4.7, reviews:187, diff:'Easy', updated:'Jan 2026',
+    summary:'Free and low-cost meal programs for seniors — home-delivered meals, community dining sites, and supplemental food programs available in every Illinois county.',
+    steps:['Contact your local Area Agency on Aging: the Illinois network of 13 Area Agencies on Aging coordinates nutrition programs in every county. Find yours at ageguide.org or call 800-252-8966.','Home-Delivered Meals (Meals on Wheels): available for homebound seniors who cannot leave home without assistance. Meals are delivered to your door typically 5 days a week. Based on the Older Americans Act — no income requirement, though donations are welcomed.','Congregate Meal Sites: community dining sites at senior centers, churches, and community centers provide hot meals in a social setting. Also funded by the Older Americans Act with no income requirement.','Commodity Supplemental Food Program (CSFP): USDA program providing monthly food packages specifically for low-income seniors 60+. Income limit: 130% of FPL. Contact your local food bank to enroll.','SNAP: seniors often qualify for SNAP benefits and can use them at grocery stores and farmers markets. The application can be completed at home by phone.','Illinois Senior Health Insurance Program (SHIP): provides free Medicare counseling alongside nutrition program connections — call 800-548-9034.'],
+    tips:['Most nutrition programs allow you to request culturally appropriate foods or accommodate dietary restrictions — ask when enrolling.','Meals on Wheels programs often provide more than food — regular wellness checks, safety monitoring, and social connection.','Grocery delivery services (Instacart, Amazon Fresh, Walmart+) accept EBT/SNAP as payment and are an option for mobile seniors.','Illinois seniors can get additional produce at farmers markets through the Farmers Market Nutrition Program — check local farmers markets for the program.'],
+    faq:[{q:'Is there a cost for Meals on Wheels?',a:'The program is funded through the Older Americans Act and is available at no required cost. Voluntary donations are accepted to support the program.'},{q:'How do I qualify for home-delivered meals?',a:'You must be 60 or older and homebound (leaving home requires considerable effort or assistance). There is no income requirement. Contact your local Area Agency on Aging to be assessed.'}],
+    related:[26,27,55], tags:['meals on wheels','senior nutrition','congregate dining','Older Americans Act','food'] },
+
+  { id:82, t:'Senior Transportation Options and Reduced Fare Programs', c:'Seniors', icon:'🚌', time:'6 min', v:1800, rating:4.6, reviews:154, diff:'Easy', updated:'Jan 2026',
+    summary:'Free and reduced-cost transportation options for seniors and disabled individuals — from Ride Free Transit Programs to medical transportation benefits.',
+    steps:['Illinois Ride Free Program: Illinois seniors 65+ and disabled individuals with valid Ride Free Transit Card can ride RTA public transit (CTA, Metra, Pace) for free. Apply at RTAChicago.org.','Pace ADA Paratransit: for individuals whose disability prevents use of fixed-route transit, Pace provides door-to-door service in the Chicago metro area. ADA certification required.','Downstate Public Transit: Illinois has public transit systems in most mid-size cities — Champaign, Springfield, Peoria, and others — many with senior reduced fares.','Medical transportation through Medicaid: if you are a Medicaid beneficiary, you may be entitled to free Non-Emergency Medical Transportation (NEMT) to medical appointments. Call your MCO (managed care organization) 48+ hours in advance.','Area Agency on Aging transportation programs: many local AAA programs provide volunteer driver programs for seniors — for medical appointments, errands, and social activities.','Senior ride services: programs like GoGoGrandparent (1-855-464-6872) enable seniors without smartphones to use Uber/Lyft via a simple phone call.'],
+    tips:['AARP Smart Driver Course can reduce auto insurance premiums by 5-15% and refreshes driving skills — available online or in person.','For rural seniors, contact your local Township Road Commissioner or Township Supervisor — Illinois townships often run transportation assistance programs.','Veterans may be eligible for VA transportation services to medical appointments — contact your VA medical center\'s patient transportation coordinator.','Free vehicle modification programs may be available for disabled veterans and low-income disabled individuals through state programs.'],
+    faq:[{q:'What is the Ride Free Transit Card?',a:'A card issued to Illinois seniors 65+ and qualifying disabled individuals that provides free rides on all CTA, Metra, and Pace routes. Apply at RTAChicago.org or at participating libraries and community centers.'},{q:'What if I live in a rural area with no public transit?',a:'Contact your local Area Agency on Aging and your township office — volunteer driver networks, medical transportation programs, and community shuttles exist in most rural Illinois counties.'}],
+    related:[26,27,81], tags:['senior transportation','RTA','Ride Free','Medicaid transportation','paratransit'] },
+
+  // ── More Education ────────────────────────────────────────────────────────
+  { id:83, t:'Pell Grant Lifetime Limit and Transfer Student Aid Guide', c:'Education', icon:'🎓', time:'7 min', v:2200, rating:4.7, reviews:198, diff:'Medium', updated:'Feb 2026',
+    summary:'How the Pell Grant lifetime limit works, how to maximize your aid when transferring between schools, and other grant programs you may have missed.',
+    steps:['Understand Pell Grant lifetime eligibility: you have 600% of Pell Grant eligibility total (equivalent to 6 full-time years of aid). Check your remaining eligibility at studentaid.gov under "Aid Summary."','Pell for short-term programs: the FAFSA Simplification Act created "Short-Term Pell" for high-quality, non-degree workforce programs in high-demand fields — expanding access in 2024-25.','Transferring schools: your financial aid does not automatically transfer. File an updated FAFSA listing your new school and contact the financial aid office at both your old and new school.','Federal Supplemental Educational Opportunity Grant (SEOG): schools with the highest-need students receive SEOG funds to supplement Pell. Awards range from $100-$4,000/year — ask your financial aid office.','Illinois state grants: Monetary Award Program (MAP) grant provides up to $6,998/year for Illinois residents with exceptional financial need at in-state schools. Apply early via FAFSA — MAP funds run out.','Teacher Education Assistance for College and Higher Education (TEACH) Grant: provides up to $4,000/year for students committed to teaching in high-need subjects at low-income schools — converts to a loan if you don\'t fulfill the teaching obligation.'],
+    tips:['File FAFSA as close to October 1 (the opening date) as possible — state grant funds are limited and distributed first-come, first-served.','Even community colleges have institutional grants — ask the financial aid office what school-specific aid you may qualify for.','If your family\'s financial situation changed significantly since the prior tax year used on your FAFSA, request a "professional judgment" review from your financial aid office.','Academic Competitiveness Grant and National SMART Grant: no longer active, but some schools have their own merit-based equivalents for high achievers with financial need.'],
+    faq:[{q:'Can I get Pell Grant for graduate school?',a:'No. Pell Grants are only for undergraduate students who have not yet earned a bachelor\'s degree.'},{q:'What happens to my financial aid if I drop below half-time enrollment?',a:'Pell Grant is reduced — you receive a prorated amount. Federal loans and some grants are only available to half-time+ students. Check with your financial aid office before dropping courses.'}],
+    related:[16,17,59], tags:['Pell Grant','MAP grant','financial aid','transfer','SEOG','college'] },
+
+  // ── More Justice ─────────────────────────────────────────────────────────
+  { id:84, t:'Landlord-Tenant Mediation and Avoiding Court', c:'Justice', icon:'🤝', time:'6 min', v:2300, rating:4.7, reviews:212, diff:'Easy', updated:'Feb 2026',
+    summary:'How to resolve landlord-tenant disputes through mediation — faster, cheaper, and less stressful than going to court.',
+    steps:['Try direct negotiation first: put your request in writing (email or letter), be specific about the issue and resolution you want, and give a reasonable deadline.','Contact local mediation programs: many Illinois counties and cities offer free or low-cost landlord-tenant mediation through the court system or community organizations. Chicago has the Chicago Eviction Prevention Project.','File a complaint with your local housing authority: habitability violations (heat, plumbing, pests) can be reported to your city or county housing inspector, who can issue violations against the landlord.','Illinois Attorney General Consumer Protection Division: file complaints about lease violations, deposit disputes, and other landlord misconduct at illinoisattorneygeneral.gov.','Small claims court: for security deposit disputes under $10,000, small claims court is a practical option. Many deposit disputes are resolved through the mediation offered before the hearing.','Request a hearing with the Illinois Human Rights Commission if the dispute involves discrimination based on a protected class (race, sex, religion, national origin, disability, familial status).'],
+    tips:['Most housing disputes are resolved before court — a formal written complaint to the right agency often gets a quicker response than litigation.','Document everything: photos, dates, communications. This protects you whether you resolve the dispute informally or go to court.','A letter from a legal aid attorney (even if you never intend to sue) often motivates landlords to resolve issues quickly.','Community mediation centers (often free) can facilitate conversations when direct negotiation has broken down.'],
+    faq:[{q:'What is mediation?',a:'A voluntary, confidential process where a neutral third party helps both parties reach an agreement. It is not binding unless both parties sign an agreement. Much faster and cheaper than court.'},{q:'Do I need a lawyer for mediation?',a:'No, and lawyers are often not present. You represent yourself. Legal aid can advise you on your rights before mediation.'}],
+    related:[50,62,14], tags:['mediation','landlord','tenant','dispute','eviction','housing'] },
+
+  // ── More Business ─────────────────────────────────────────────────────────
+  { id:85, t:'Crowdfunding, Grants, and Alternative Funding for Small Businesses', c:'Business', icon:'🌟', time:'8 min', v:2600, rating:4.7, reviews:245, diff:'Medium', updated:'Feb 2026',
+    summary:'Beyond bank loans — equity crowdfunding, reward-based crowdfunding, business grants, and community development financial institutions that fund entrepreneurs banks won\'t.',
+    steps:['Crowdfunding platforms: Kickstarter and Indiegogo (reward-based, keep the money if funded by supporters through rewards/perks), Wefunder and Republic (equity-based, sell small equity stakes to many small investors under SEC Reg CF).','Business grants: unlike loans, grants don\'t need to be repaid. Grants.gov lists all federal business grants. SBIR/STTR grants fund R&D projects at small businesses. Many states, cities, and foundations offer small business grants.','Illinois-specific grants: the Illinois Department of Commerce and Economic Opportunity (DCEO) administers various business grants at commerce.illinois.gov. Check city and county economic development offices for hyperlocal grants.','CDFIs (Community Development Financial Institutions): nonprofits that provide loans to businesses that can\'t access traditional banking. In Illinois: Accion Chicago, Chicago Community Loan Fund, and IFF are key CDFIs.','Microloans: Accion (accionchicago.org) provides microloans $5,000-$100,000 to small businesses and startups in the Chicago area. Kiva U.S. offers 0% interest loans up to $15,000 through crowdfunded lending.','Women-, minority-, and veteran-owned business certifications: these designations unlock set-aside government contracts and specialized grant programs. Apply through the SBA (8(a), WOSB, VOSB programs) and DCEO.'],
+    tips:['A Kickstarter campaign is not just fundraising — it is a marketing exercise that validates your idea and builds a customer base.','Apply for SBIR/STTR grants early in your R&D process — they are highly competitive but provide non-dilutive funding without giving up equity.','Minority Business Development Agency (MBDA) centers provide free technical assistance for minority-owned businesses applying for grants and contracts — find yours at mbda.gov.','Many foundations (Knight Foundation, MacArthur Foundation, local community foundations) fund small business development in specific industries or communities — research foundations aligned with your work.'],
+    faq:[{q:'What\'s the difference between a grant and a loan?',a:'Grants are free money that don\'t need to be repaid — but they often have restrictions on how funds are used and require detailed reporting. Loans must be repaid with interest but have fewer restrictions.'},{q:'Is equity crowdfunding right for my business?',a:'It works best for consumer-facing businesses with a story that resonates with many small investors. It requires significant marketing effort and legal compliance. Not suited for service businesses with low growth potential.'}],
+    related:[6,36,56], tags:['crowdfunding','grant','CDFI','microloan','small business','funding'] },
+
+  // ── More Disability ───────────────────────────────────────────────────────
+  { id:86, t:'Guardianship Alternatives: Supported Decision-Making and Conservatorship', c:'Disability', icon:'🌿', time:'8 min', v:1900, rating:4.7, reviews:167, diff:'Hard', updated:'Jan 2026',
+    summary:'When full guardianship isn\'t necessary — less restrictive options that preserve autonomy for people with disabilities or cognitive impairments.',
+    steps:['Understand the spectrum: Full Guardianship (court removes almost all legal rights from the person and grants them to a guardian) → Plenary Guardianship of the Estate or Person → Limited Guardianship → Conservatorship → Representative Payee → Supported Decision-Making.','Supported Decision-Making Agreements (SDM): Illinois recognized SDM in 2019. A person with a disability chooses trusted supporters who help them understand information and communicate decisions — without any court process. Free to create.','Representative Payee: if someone receives SSI or SSDI but cannot manage finances, you can be designated as their representative payee by SSA to manage benefits on their behalf. No court required.','Limited Guardianship: rather than removing all rights, courts can grant guardianship only for specific decisions (medical, financial, housing) while preserving the person\'s right to vote, marry, or make other choices.','Conservatorship: court-appointed management of finances only (not personal decisions). Less restrictive than full guardianship of the person.','Illinois Guardianship: if full guardianship is truly necessary, petition the circuit court in the person\'s county of residence. An attorney guardian ad litem is appointed to investigate.'],
+    tips:['Disability rights advocates strongly encourage exploring Supported Decision-Making before pursuing any form of guardianship — SDM preserves more dignity and autonomy.','Illinois ARC (thearcofil.org) provides resources on SDM agreements and can connect families with advocates.','Guardianship is NOT a one-time decision — courts expect annual reporting and can modify or terminate guardianship if circumstances change.','A Special Needs Trust (SNT) can hold assets for a person with disabilities without disqualifying them from Medicaid or SSI — consult a special needs attorney.'],
+    faq:[{q:'Does my adult child with an intellectual disability automatically need a guardian at 18?',a:'No. Reaching adulthood automatically grants legal decision-making authority. Guardianship must be established through a court process and only if the person truly lacks capacity. Explore SDM first.'},{q:'What if the person with a disability objects to guardianship?',a:'The person has the right to contest guardianship in court and to have an attorney represent them. Courts must take seriously a respondent\'s objection.'}],
+    related:[32,33,34], tags:['guardianship','supported decision-making','conservatorship','disability','autonomy'] },
+
+  // ── More Immigration ──────────────────────────────────────────────────────
+  { id:87, t:'U Visa and T Visa: Protection for Crime and Trafficking Victims', c:'Immigration', icon:'🛡️', time:'9 min', v:2200, rating:4.8, reviews:198, diff:'Hard', updated:'Feb 2026',
+    summary:'Two special visas for undocumented immigrants who are victims of qualifying crimes or human trafficking — providing legal status and a path to a green card.',
+    steps:['U Visa (crime victims): for victims of qualifying crimes (domestic violence, sexual assault, trafficking, murder, robbery, felonious assault, and more) who have suffered physical or psychological abuse and are helpful to law enforcement.','T Visa (trafficking victims): for victims of severe sex or labor trafficking who are present in the U.S. due to trafficking, have complied with reasonable law enforcement requests, and would suffer extreme hardship if removed.','Get a law enforcement certification: for U visa, a law enforcement agency (police, prosecutor, judge, labor/social services) must sign a certification (Form I-918B) confirming you are helpful to the investigation.','File Form I-918 (U visa) or I-914 (T visa) with USCIS — the annual U visa cap is 10,000. There is a waiting list — USCIS grants deferred action to those waiting.','If approved: U visa provides 4 years of status and work authorization. After 3 years, you can apply for a green card. T visa provides up to 4 years of status and a path to a green card after 3 years.','Legal help is critical: find a nonprofit immigration legal services organization through immigrationadvocates.org — these cases are complex and must be handled carefully.'],
+    tips:['You do not need to have reported the crime before learning about the U visa — you can report now and cooperate going forward.','USCIS grants U visa applicants "bona fide determination" status while waiting on the cap, providing work authorization and deferred action on removal.','T visa applicants may be eligible for special benefits including Refugee Medical Assistance and Refugee Cash Assistance during the application period.','Derivatives: your spouse, children (under 21), parents (if you are under 21), and siblings can sometimes be included in your U or T visa petition.'],
+    faq:[{q:'What if the police won\'t certify my U visa?',a:'Other agencies can certify — prosecutors, labor departments, social service agencies, and some judges have certifying authority. Legal advocates can help identify the right certifying agency.'},{q:'Can I apply if I\'m already in removal proceedings?',a:'Yes. Filing a U or T visa petition can result in administrative closure or termination of removal proceedings — but you need an attorney to navigate this.'}],
+    related:[9,52,53], tags:['U visa','T visa','crime victim','trafficking','immigration','undocumented'] },
+
+  // ── More Mental Health ────────────────────────────────────────────────────
+  { id:88, t:'Mental Health and the Workplace: Accommodations, Leave, and Rights', c:'Mental Health', icon:'🧩', time:'8 min', v:2700, rating:4.8, reviews:256, diff:'Medium', updated:'Feb 2026',
+    summary:'How to get workplace accommodations for mental health conditions, use FMLA for mental health crises, and protect yourself from discrimination.',
+    steps:['Mental health conditions as disabilities: anxiety disorders, depression, bipolar disorder, PTSD, OCD, and many others qualify as disabilities under the ADA if they substantially limit a major life activity (including thinking, concentrating, working, sleeping).','Request a reasonable accommodation: notify HR or your manager in writing that you have a medical condition requiring accommodation. You do not need to name the diagnosis — just that you have a condition and need help.','Common mental health accommodations: flexible scheduling, permission to work from home, quiet workspace, modified break schedule, leave for therapy appointments, reduced workload during acute episodes.','FMLA for mental health: serious mental health conditions qualify for FMLA leave. Your therapist or psychiatrist can complete FMLA paperwork certifying your condition.','ADA interactive process: after requesting accommodation, your employer must engage in good-faith discussion about what would work. Document all communications.','If accommodations are denied or you face retaliation: file with the EEOC within 180 days (300 days in Illinois). You can also file with the Illinois Department of Human Rights.'],
+    tips:['You have the right to keep your diagnosis private — you only need to provide enough information for your employer to understand you have a condition requiring accommodation.','Employee Assistance Programs (EAPs) provide confidential counseling and can help you navigate workplace issues — use them without fear of employer knowledge.','Psychiatric disabilities are among the most common bases for ADA accommodation requests and are well-established legal territory.','If you take FMLA for a mental health hospitalization, your employer cannot discipline you for the absence — but you may need to provide proper notice.'],
+    faq:[{q:'Can my employer ask about my mental health diagnosis?',a:'Not directly. They can ask for documentation that you have a medical condition requiring accommodation. A healthcare provider\'s letter confirming functional limitations is sufficient — they cannot demand your full records.'},{q:'What if my performance is suffering due to my mental health?',a:'Address this proactively by requesting accommodations before you receive a performance warning. Once disciplinary action begins, it is harder (though still possible) to use ADA as a defense.'}],
+    related:[34,44,47], tags:['mental health workplace','ADA','accommodation','FMLA','disability','employment'] },
+
+  // ── More Reentry ──────────────────────────────────────────────────────────
+  { id:89, t:'Restoring Gun Rights and Other Collateral Consequences of Conviction', c:'Reentry', icon:'📋', time:'8 min', v:2100, rating:4.6, reviews:187, diff:'Hard', updated:'Jan 2026',
+    summary:'Beyond the sentence — the hidden legal consequences of a criminal conviction affecting voting, housing, employment, professional licensing, and more.',
+    steps:['Understand collateral consequences: these are legal penalties and restrictions beyond the criminal sentence itself. They affect employment licenses, public housing, voting rights, benefits eligibility, immigration status, and more.','Illinois Collateral Consequences: use the Collateral Consequences Calculator at ilconsequences.com to see all consequences of any Illinois conviction — by offense type and category.','Voting rights in Illinois: automatically restored upon release from incarceration — no petition or waiting period required. You can register immediately upon release.','Employment licenses: many professional boards can deny licenses for convictions, but Illinois law (License Restoration Act) requires they consider rehabilitation and the nature of the offense. Appeal license denials.','Public housing: PHA policies on conviction-based denials vary. The Obama-era "One Strike" policy was modified — automatic lifetime bans on most offenses are prohibited. Request individual consideration.','Restoring firearm rights in Illinois: if your Firearm Owner\'s Identification (FOID) card was revoked due to a disqualifying conviction, you must petition the circuit court after the disqualifying period has passed (varies by offense).'],
+    tips:['The National Inventory of Collateral Consequences of Conviction (NICCC) at niccc.csgjusticecenter.org lists every collateral consequence by state and conviction type.','Many states are reforming automatic license revocation laws — check current Illinois law, as reforms occur regularly.','Federal law bans from public housing, SNAP, and Pell Grants for drug convictions have been significantly limited — apply even if you were previously denied.','Reentry courts in Illinois provide a supportive legal environment with connections to services — check if your county has one.'],
+    faq:[{q:'Can I get Pell Grant with a drug conviction?',a:'Yes, as of 2021. The law eliminating Pell Grant eligibility for drug convictions was repealed — all students now qualify regardless of conviction history.'},{q:'Can I be denied an apartment because of my conviction?',a:'Private landlords can still consider convictions, but HUD guidance prohibits blanket bans and requires considering the nature, age, and severity of the offense. Arrest records alone cannot be used to deny housing.'}],
+    related:[69,24,25], tags:['collateral consequences','reentry','voting rights','FOID','professional license','conviction'] },
+
+  { id:90, t:'Navigating Government Agencies: Tips for Getting Results', c:'Benefits', icon:'🧭', time:'7 min', v:3400, rating:4.8, reviews:312, diff:'Easy', updated:'Feb 2026',
+    summary:'How to communicate effectively with government agencies, escalate when you\'re stuck, and get the help you need when the system seems designed to make you give up.',
+    steps:['Document everything: keep a log of every call and visit — date, time, name of person you spoke with, and what was said. Follow up verbal promises in writing with a confirmation email or letter.','Know your rights to appeal: virtually every government benefit denial is appealable. The denial letter must state your appeal rights and deadlines. Appeals are powerful — approval rates at hearing level are often 30-50%.','Escalate systematically: if front-line staff can\'t help, ask for a supervisor. If the supervisor can\'t help, ask for the agency\'s ombudsman or constituent services office. For state agencies, contact your state representative.','Use the Congressional office for federal agencies: your U.S. Senators and Representatives have caseworkers specifically for helping constituents navigate federal agencies (USCIS, SSA, VA, IRS, Medicare). This service is free and often dramatically speeds up stuck cases.','Contact your state legislator\'s office for state agencies: the same service exists for state benefits agencies (SNAP, Medicaid, IDES). Call or email your state representative or senator.','Legal aid and advocacy organizations: Illinois Legal Aid Online (illinoislegalaid.org), Prairie State Legal Services, and many issue-specific advocates can intervene when you\'re stuck.'],
+    tips:['Always get the case number, confirmation number, or document receipt for any application or request — this is your proof that you applied.','If an agency employee gives you incorrect information that causes you harm, document it and request a "good faith" exception when you appeal.','Request everything in writing — agencies are more careful when creating a written record.','FOIA requests: under the Freedom of Information Act, you can request your case file from any federal agency. This often reveals errors or missing documents that caused problems.'],
+    faq:[{q:'What if I just get endless runarounds and can\'t get anyone to help?',a:'Contact your U.S. Senator\'s or Representative\'s constituent services office. This is one of the most underused and effective tools for cutting through bureaucracy — and the service is completely free.'},{q:'Can a benefits advocate or caseworker help me for free?',a:'Yes. Legal aid organizations, community health workers, patient navigators, and benefits counselors are often available at no cost. Ask at your local library, community health center, or United Way office.'}],
+    related:[1,2,3], tags:['government agencies','appeals','advocacy','caseworker','bureaucracy','tips'] },
+
 ]
 
 // ── KB Config ─────────────────────────────────────────────────────────────────
-const KB_CATS = ['All','Benefits','Business','Healthcare','Taxes','Housing','Education','Immigration','Veterans','Childcare','Disability','Justice','Seniors']
+const KB_CATS = ['All','Benefits','Business','Healthcare','Taxes','Housing','Education','Immigration','Veterans','Childcare','Disability','Justice','Seniors','Consumer','Employment','Mental Health','Legal','Reentry']
 const DIFF_COLOR = {Easy:C.success, Medium:C.warn, Hard:C.danger}
 const CAT_META = {
   Benefits:  {icon:'🍎', color:C.success},
@@ -497,14 +877,118 @@ const CAT_META = {
   Disability:{icon:'♿', color:'#a78bfa'},
   Justice:   {icon:'⚖️', color:'#f43f5e'},
   Seniors:   {icon:'👴', color:'#fb923c'},
+  Consumer:  {icon:'💳', color:'#10b981'},
+  Employment:{icon:'💼', color:'#6366f1'},
+  'Mental Health':{icon:'🧠', color:'#8b5cf6'},
+  Legal:     {icon:'📜', color:'#0ea5e9'},
+  Reentry:   {icon:'🔓', color:'#f43f5e'},
 }
 const LEARNING_PATHS = [
-  { id:'job-loss', title:'Navigating a Job Loss', icon:'💼', desc:'From layoff to recovery', articles:[3,1,2,23,21], color:C.primary },
-  { id:'start-biz', title:'Starting a Business', icon:'🚀', desc:'From idea to LLC to first paycheck', articles:[6,7,8,35,36,21], color:C.success },
-  { id:'new-baby', title:'New Baby Essentials', icon:'👶', desc:'Benefits and support for new parents', articles:[29,19,31,5,2], color:'#ec4899' },
-  { id:'disability', title:'Applying for Disability', icon:'♿', desc:'SSDI, SSI, and workplace rights', articles:[32,33,34,4], color:'#a78bfa' },
-  { id:'senior-plan', title:'Senior Life Planning', icon:'👴', desc:'Medicare, Social Security, and long-term care', articles:[26,27,28,12], color:'#fb923c' },
-  { id:'immigration', title:'Path to Citizenship', icon:'🇺🇸', desc:'From arrival to naturalization', articles:[10,9,11], color:'#6366f1' },
+  { id:'job-loss', title:'Navigating a Job Loss', icon:'💼', desc:'From layoff to stable footing', articles:[3,1,2,23,21,44], color:C.primary },
+  { id:'start-biz', title:'Starting a Business', icon:'🚀', desc:'From idea to LLC to first paycheck', articles:[6,7,8,35,36,57], color:C.success },
+  { id:'new-baby', title:'New Baby Essentials', icon:'👶', desc:'Benefits and support for new parents', articles:[29,19,31,54,5,2], color:'#ec4899' },
+  { id:'disability', title:'Applying for Disability', icon:'♿', desc:'SSDI, SSI, ADA, and workplace rights', articles:[32,33,34,4,64], color:'#a78bfa' },
+  { id:'senior-plan', title:'Senior Life Planning', icon:'👴', desc:'Medicare, Social Security, and long-term care', articles:[26,27,28,55,61,12], color:'#fb923c' },
+  { id:'immigration', title:'Path to Citizenship', icon:'🇺🇸', desc:'From arrival to naturalization', articles:[10,9,52,11], color:'#6366f1' },
+  { id:'credit-repair', title:'Fix Your Credit & Finances', icon:'💳', desc:'Credit score, debt, and consumer rights', articles:[43,41,42,21,23], color:'#10b981' },
+  { id:'renter-rights', title:'Renter Survival Guide', icon:'🔑', desc:'Deposits, repairs, eviction, and housing aid', articles:[50,14,15,40,39,80], color:'#f97316' },
+  { id:'estate-plan', title:'Estate Planning Basics', icon:'📜', desc:'Wills, POAs, and advance directives', articles:[66,67,68], color:'#0ea5e9' },
+  { id:'reentry', title:'Life After Incarceration', icon:'🔓', desc:'Benefits, IDs, housing, and expungement', articles:[69,24,89,90], color:'#f43f5e' },
+  { id:'mental-health', title:'Mental Health Support', icon:'🧠', desc:'Finding care, workplace rights, and crisis resources', articles:[47,48,49,88,74], color:'#8b5cf6' },
+]
+
+const GLOSSARY = [
+  {term:'ADA',def:'Americans with Disabilities Act — prohibits discrimination against people with disabilities in employment, public accommodations, and more.'},
+  {term:'ADL (Activities of Daily Living)',def:'Basic self-care tasks (bathing, dressing, eating, toileting) used to assess need for long-term care services.'},
+  {term:'ALJ',def:'Administrative Law Judge — an independent hearing officer who decides Social Security disability appeals.'},
+  {term:'AnnualCreditReport.com',def:'The only federally authorized source for free credit reports from all three major bureaus (Equifax, Experian, TransUnion).'},
+  {term:'Area Agency on Aging (AAA)',def:'Local nonprofit organizations funded under the Older Americans Act to coordinate services for seniors — transportation, meals, caregiver support.'},
+  {term:'Automatic Stay',def:'An immediate halt to all collection actions (foreclosure, garnishment, repossession) that goes into effect the moment you file for bankruptcy.'},
+  {term:'BAH',def:'Basic Allowance for Housing — military pay used by VA to calculate the GI Bill housing stipend for student veterans.'},
+  {term:'C&P Exam',def:'Compensation & Pension Exam — a VA medical examination used to evaluate service-connected disabilities for rating purposes.'},
+  {term:'CCAP',def:'Child Care Assistance Program — Illinois state program subsidizing childcare costs for working low-income families.'},
+  {term:'CDFI',def:'Community Development Financial Institution — a nonprofit lender that provides affordable loans to underserved communities and small businesses.'},
+  {term:'COE',def:'Certificate of Eligibility — a VA document confirming you are eligible to use your GI Bill benefits.'},
+  {term:'COBRA',def:'Continuation of health insurance coverage after leaving an employer — you pay the full premium. Available for 18-36 months.'},
+  {term:'Collateral Consequences',def:'Legal penalties and restrictions that apply after a criminal conviction beyond the prison sentence — affecting jobs, housing, benefits, and voting.'},
+  {term:'Concurrent Benefit',def:'Receiving both SSDI and SSI simultaneously, which happens when your SSDI payment is low enough that SSI fills the gap.'},
+  {term:'CSR (Cost-Sharing Reduction)',def:'Subsidies that lower your deductible, copay, and out-of-pocket maximum on ACA Silver health plans for lower-income enrollees.'},
+  {term:'DACA',def:'Deferred Action for Childhood Arrivals — an executive program providing protection from deportation and work permits to certain immigrants brought to the U.S. as children.'},
+  {term:'Deed-in-Lieu',def:'Voluntarily transferring your home title to your mortgage lender to avoid foreclosure — less damaging to credit than a full foreclosure.'},
+  {term:'Deferred Action',def:'A discretionary decision by USCIS not to pursue removal proceedings against an individual — does not grant legal status but provides some protection.'},
+  {term:'Disability (ADA)',def:'A physical or mental impairment that substantially limits one or more major life activities, including working, thinking, concentrating, communicating.'},
+  {term:'Discretionary Income',def:'For student loan IDR plans: the difference between your annual income and 150-225% of the federal poverty guideline for your family size.'},
+  {term:'Durable POA',def:'A Power of Attorney that remains in effect if you become mentally incapacitated — essential for estate planning.'},
+  {term:'EAD',def:'Employment Authorization Document — a card issued by USCIS allowing non-citizens to legally work in the United States.'},
+  {term:'EBT Card',def:'Electronic Benefits Transfer — a debit card used to access SNAP (food stamp) and TANF benefits at grocery stores.'},
+  {term:'EITC',def:'Earned Income Tax Credit — a refundable federal tax credit for low-to-moderate income working individuals and families, worth up to $7,830.'},
+  {term:'EIN',def:'Employer Identification Number — a federal tax ID number for businesses, issued free by the IRS at irs.gov/ein.'},
+  {term:'ERA',def:'Emergency Rental Assistance — federal programs providing rent and utility relief to tenants at risk of eviction.'},
+  {term:'FAFSA',def:'Free Application for Federal Student Aid — the form used to determine eligibility for federal grants, loans, and work-study.'},
+  {term:'FCRA',def:'Fair Credit Reporting Act — federal law governing credit bureau practices and giving consumers the right to dispute errors.'},
+  {term:'FDCPA',def:'Fair Debt Collection Practices Act — prohibits abusive, deceptive, and unfair debt collection practices.'},
+  {term:'FICA',def:'Federal Insurance Contributions Act taxes — the payroll taxes that fund Social Security and Medicare.'},
+  {term:'FICO Score',def:'The most widely used credit score model, ranging from 300 to 850. Based on payment history, utilization, history length, credit mix, and new credit.'},
+  {term:'FMLA',def:'Family and Medical Leave Act — guarantees eligible employees up to 12 weeks of unpaid, job-protected leave per year for qualifying medical or family reasons.'},
+  {term:'Forbearance',def:'A temporary pause or reduction in mortgage or student loan payments agreed upon by your lender — interest typically continues to accrue.'},
+  {term:'FPL (Federal Poverty Level)',def:'Annual income benchmarks set by HHS used to determine eligibility for many federal and state benefit programs.'},
+  {term:'FUTA',def:'Federal Unemployment Tax Act — the employer-paid federal payroll tax that funds the federal unemployment insurance program.'},
+  {term:'GI Bill',def:'Post-9/11 GI Bill (Chapter 33) — provides veterans with education benefits including tuition, housing allowance, and a book stipend.'},
+  {term:'Green Card',def:'Lawful Permanent Resident status — allows a foreign national to live and work permanently in the United States.'},
+  {term:'HECM',def:'Home Equity Conversion Mortgage — the federally insured reverse mortgage product for homeowners 62+.'},
+  {term:'HUD',def:'U.S. Department of Housing and Urban Development — administers federal housing programs including Section 8, public housing, and Fair Housing enforcement.'},
+  {term:'IDR (Income-Driven Repayment)',def:'Federal student loan repayment plans (SAVE, PAYE, IBR, ICR) that cap monthly payments at a percentage of your discretionary income.'},
+  {term:'IEP',def:'Individualized Education Program — a legally binding document specifying special education services for an eligible student with a disability.'},
+  {term:'IHDA',def:'Illinois Housing Development Authority — the state agency that administers affordable housing programs and homebuyer assistance.'},
+  {term:'ILRPP',def:'Illinois Rental Payment Program — emergency rental assistance for Illinois tenants at risk of eviction.'},
+  {term:'IMR (Independent Medical Review)',def:'A free external review of a health insurance denial by an independent medical expert — a federal right for ACA plans.'},
+  {term:'IWCC',def:'Illinois Workers\' Compensation Commission — the state agency that resolves workers\' comp disputes between employees and employers.'},
+  {term:'Legal Status',def:'Authorization to be present in the United States — includes visas, green cards, asylum, DACA, and other categories. Unauthorized presence has serious legal consequences.'},
+  {term:'LIHTC',def:'Low-Income Housing Tax Credit — a federal program that funds affordable apartment construction. Resulting units rent at below-market rates to income-qualifying tenants.'},
+  {term:'LIS (Low Income Subsidy)',def:'Also called Extra Help — a Medicare program reducing Part D prescription drug costs for low-income beneficiaries.'},
+  {term:'MAT',def:'Medication-Assisted Treatment — FDA-approved medications (buprenorphine, methadone, naltrexone) combined with counseling to treat opioid and alcohol use disorders.'},
+  {term:'Means Test',def:'A financial eligibility test. For Chapter 7 bankruptcy: comparing your income to your state\'s median. For benefits: determining whether your income/assets are below program limits.'},
+  {term:'MHPAEA',def:'Mental Health Parity and Addiction Equity Act — federal law requiring insurers to cover mental health and substance use disorders no more restrictively than medical care.'},
+  {term:'NQTL',def:'Non-Quantitative Treatment Limitation — restrictions on mental health coverage like prior authorization, step therapy, or network composition that are harder to detect than visit limits.'},
+  {term:'NTA',def:'Notice to Appear — the charging document that initiates removal (deportation) proceedings in immigration court.'},
+  {term:'OIC (Offer in Compromise)',def:'An IRS program allowing certain taxpayers to settle their tax debt for less than the full amount owed.'},
+  {term:'OSHA',def:'Occupational Safety and Health Administration — federal agency that enforces workplace safety standards and investigates work-related injuries and hazards.'},
+  {term:'Paratransit',def:'Demand-responsive transportation service for individuals with disabilities who cannot use fixed-route public transit.'},
+  {term:'PELL Grant',def:'A federal grant of up to $7,395/year for undergraduate students with financial need — does not need to be repaid.'},
+  {term:'PHA',def:'Public Housing Authority — local government agency administering Section 8 vouchers and public housing communities.'},
+  {term:'PMI',def:'Private Mortgage Insurance — required for conventional mortgages with less than 20% down payment, adds 0.5-1.5% of loan amount annually.'},
+  {term:'POLST',def:'Physician Orders for Life-Sustaining Treatment — a medical order documenting a seriously ill patient\'s wishes about end-of-life care that travels across care settings.'},
+  {term:'Priority Date',def:'In immigration, the date your visa petition was filed — determines your place in the visa backlog queue.'},
+  {term:'Probate',def:'The court-supervised process of validating a will and distributing a deceased person\'s assets — can be avoided through trusts and beneficiary designations.'},
+  {term:'PSLF',def:'Public Service Loan Forgiveness — forgives remaining federal student loan balances after 120 qualifying payments while working for a government or nonprofit employer.'},
+  {term:'RAP Sheet',def:'Record of Arrests and Prosecutions — your official criminal history maintained by the state Bureau of Identification.'},
+  {term:'Representative Payee',def:'A person or organization approved by SSA to receive and manage Social Security or SSI benefits on behalf of someone who cannot manage their own funds.'},
+  {term:'SAVE Plan',def:'Saving on a Valuable Education — the newest federal IDR repayment plan, offering the lowest monthly payments (as low as $0) for eligible borrowers.'},
+  {term:'SDM',def:'Supported Decision-Making — an alternative to guardianship where a person with a disability chooses trusted supporters to help them understand and communicate decisions.'},
+  {term:'SGA',def:'Substantial Gainful Activity — the monthly earnings limit ($1,550 in 2024) above which you are generally not considered disabled for SSDI purposes.'},
+  {term:'SNAP',def:'Supplemental Nutrition Assistance Program — formerly food stamps. Provides monthly EBT benefits for groceries to income-eligible households.'},
+  {term:'Special Enrollment Period (SEP)',def:'A time outside Open Enrollment when you can sign up for ACA health insurance due to a qualifying life event (job loss, marriage, birth, move).'},
+  {term:'SSI',def:'Supplemental Security Income — a needs-based federal payment for disabled adults, disabled children, and people 65+ with limited income and resources.'},
+  {term:'SSDI',def:'Social Security Disability Insurance — monthly benefits for workers with disabilities who have sufficient work credits paid into Social Security.'},
+  {term:'TANF',def:'Temporary Assistance for Needy Families — provides time-limited cash assistance to low-income families with children, subject to work requirements.'},
+  {term:'TDIU',def:'Total Disability Individual Unemployability — VA compensation at the 100% rate for veterans whose service-connected disabilities prevent gainful employment.'},
+  {term:'USDA',def:'U.S. Department of Agriculture — administers SNAP, WIC, and the Rural Development loan program for homes in eligible rural and suburban areas.'},
+  {term:'VITA',def:'Volunteer Income Tax Assistance — IRS-sponsored free tax preparation sites for people earning under ~$67,000, operated by trained volunteers.'},
+  {term:'VAWA',def:'Violence Against Women Act — provides immigration protections and HUD program protections for survivors of domestic violence.'},
+  {term:'VSO',def:'Veterans Service Organization — nonprofit organizations (DAV, VFW, American Legion, etc.) providing free VA claims assistance to veterans.'},
+  {term:'WAP',def:'Weatherization Assistance Program — provides free home energy efficiency improvements to income-eligible households.'},
+  {term:'WIC',def:'Women, Infants, and Children — a federal nutrition program providing healthy food, nutrition education, and healthcare referrals for pregnant women, new mothers, and young children.'},
+]
+
+const FEATURED_ARTICLES = [47, 90, 43, 25, 3, 78, 50, 32, 21, 41]
+
+const COLLECTIONS = [
+  { id:'crisis', title:'In a Crisis Right Now', icon:'🆘', color:'#ef4444', articles:[48, 80, 3, 1, 39, 75] },
+  { id:'finances', title:'Get Your Finances on Track', icon:'💰', color:'#10b981', articles:[43, 41, 22, 23, 78, 73] },
+  { id:'health', title:'Get Covered: Healthcare Guide', icon:'💊', color:'#ec4899', articles:[18, 2, 19, 20, 74, 49] },
+  { id:'new-job', title:'Starting Over Professionally', icon:'💼', color:'#6366f1', articles:[3, 44, 45, 46, 70, 71] },
+  { id:'seniors-essentials', title:'Essential Senior Resources', icon:'👴', color:'#fb923c', articles:[26, 27, 28, 55, 81, 82] },
+  { id:'family', title:'Supporting Your Family', icon:'👨‍👩‍👧', color:'#14b8a6', articles:[54, 29, 31, 19, 5, 65] },
 ]
 
 function FaqSection({ faq, catColor }) {
@@ -673,7 +1157,7 @@ function ArticleView({ article, onBack, onViewArticle }) {
               <button onClick={()=>setHelpful('no')} className="btn" style={{ flex:1, background:helpful==='no'?`${C.danger}22`:C.surface, border:`1px solid ${helpful==='no'?C.danger:C.border}`, color:helpful==='no'?C.danger:C.muted }}>👎 Needs work</button>
             </div>
             {helpful==='yes' && <p style={{ marginTop:12, fontSize:14, color:C.success }}>✓ Thanks! Share this article with someone who might need it.</p>}
-            {helpful==='no' && <p style={{ marginTop:12, fontSize:14, color:C.muted }}>We'll use your feedback to improve this guide.</p>}
+            {helpful==='no' && <p style={{ marginTop:12, fontSize:14, color:C.muted }}>We\'ll use your feedback to improve this guide.</p>}
           </div>
         </div>
 
@@ -707,6 +1191,37 @@ function ArticleView({ article, onBack, onViewArticle }) {
   )
 }
 
+function GlossaryModal({ onClose }) {
+  const [q, setQ] = useState('')
+  const filtered = GLOSSARY.filter(g => g.term.toLowerCase().includes(q.toLowerCase()) || g.def.toLowerCase().includes(q.toLowerCase()))
+  return (
+    <div style={{ position:'fixed', inset:0, background:'rgba(0,0,0,.7)', zIndex:9999, display:'flex', alignItems:'center', justifyContent:'center', padding:20 }} onClick={onClose}>
+      <div style={{ background:C.card, borderRadius:16, border:`1px solid ${C.border}`, width:'100%', maxWidth:680, maxHeight:'80vh', display:'flex', flexDirection:'column' }} onClick={e=>e.stopPropagation()}>
+        <div style={{ padding:'20px 24px', borderBottom:`1px solid ${C.border}`, display:'flex', alignItems:'center', gap:12 }}>
+          <span style={{ fontSize:24 }}>📖</span>
+          <div style={{ flex:1 }}>
+            <div style={{ fontWeight:800, color:C.heading, fontSize:18 }}>Benefits & Legal Glossary</div>
+            <div style={{ fontSize:12, color:C.muted }}>{GLOSSARY.length} terms defined</div>
+          </div>
+          <button onClick={onClose} style={{ background:'none', border:`1px solid ${C.border}`, borderRadius:8, color:C.muted, cursor:'pointer', padding:'4px 10px', fontSize:16 }}>✕</button>
+        </div>
+        <div style={{ padding:'14px 24px', borderBottom:`1px solid ${C.border}` }}>
+          <input value={q} onChange={e=>setQ(e.target.value)} placeholder="Search terms…" style={{ padding:'10px 14px', fontSize:14 }} />
+        </div>
+        <div style={{ overflowY:'auto', padding:'0 24px 24px' }}>
+          {filtered.map((g,i) => (
+            <div key={i} style={{ padding:'14px 0', borderBottom:`1px solid ${C.border}` }}>
+              <div style={{ fontWeight:800, color:C.primary, fontSize:14, marginBottom:4 }}>{g.term}</div>
+              <div style={{ fontSize:13, color:C.text, lineHeight:1.6 }}>{g.def}</div>
+            </div>
+          ))}
+          {filtered.length===0 && <div style={{ padding:32, textAlign:'center', color:C.muted }}>No terms matching "{q}"</div>}
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function Knowledge() {
   const [search, setSearch] = useState('')
   const [cat, setCat] = useState('All')
@@ -717,10 +1232,13 @@ function Knowledge() {
   const [bookmarks, setBookmarks] = useState(new Set())
   const [recentlyViewed, setRecentlyViewed] = useState([])
   const [activePath, setActivePath] = useState(null)
+  const [activeCollection, setActiveCollection] = useState(null)
+  const [showGlossary, setShowGlossary] = useState(false)
+  const [featIdx, setFeatIdx] = useState(0)
 
   function openArticle(a) {
     setSelected(a)
-    setRecentlyViewed(rv => [a, ...rv.filter(x=>x.id!==a.id)].slice(0,5))
+    setRecentlyViewed(rv => [a, ...rv.filter(x=>x.id!==a.id)].slice(0,8))
     window.scrollTo(0,0)
   }
   function handleBack() { setSelected(null); window.scrollTo(0,0) }
@@ -738,19 +1256,28 @@ function Knowledge() {
     .sort((a,b) => sort==='popular'?b.v-a.v : sort==='rating'?b.rating-a.rating : sort==='newest'?b.id-a.id : a.t.localeCompare(b.t))
 
   const catCounts = Object.keys(CAT_META).map(c=>({ c, n:KB_ARTICLES.filter(a=>a.c===c).length, ...CAT_META[c] }))
-  const trending = [...KB_ARTICLES].sort((a,b)=>b.v-a.v).slice(0,5)
+  const trending = [...KB_ARTICLES].sort((a,b)=>b.v-a.v).slice(0,6)
   const totalViews = KB_ARTICLES.reduce((s,a)=>s+a.v,0)
   const avgRating = (KB_ARTICLES.reduce((s,a)=>s+a.rating,0)/KB_ARTICLES.length).toFixed(1)
+  const featuredArticle = KB_ARTICLES.find(a=>a.id===FEATURED_ARTICLES[featIdx % FEATURED_ARTICLES.length])
+  const newArticles = [...KB_ARTICLES].sort((a,b)=>b.id-a.id).slice(0,4)
 
   return (
     <div className="page">
-      <div className="ph">
-        <div className="pt">Phase 19 — Expanded</div>
+      {showGlossary && <GlossaryModal onClose={()=>setShowGlossary(false)} />}
+
+      <div className="ph" style={{ marginBottom:0, position:'relative', overflow:'hidden' }}>
+        <div className="pt">Phase 19 — Enhanced</div>
         <h1>Knowledge Base</h1>
-        <p>{KB_ARTICLES.length} in-depth guides across {Object.keys(CAT_META).length} categories — benefits, healthcare, taxes, disability, housing, and more.</p>
+        <p style={{ maxWidth:560 }}>{KB_ARTICLES.length} in-depth guides across {Object.keys(CAT_META).length} categories — benefits, healthcare, taxes, legal rights, and more.</p>
+        <div style={{ display:'flex', gap:10, marginTop:16, flexWrap:'wrap' }}>
+          <button onClick={()=>setShowGlossary(true)} className="btn btn-outline" style={{ fontSize:13 }}>📖 Glossary ({GLOSSARY.length} terms)</button>
+          <button onClick={()=>{setSearch('');setCat('All');setDiff('All')}} className="btn btn-outline" style={{ fontSize:13 }}>🔀 Random Guide</button>
+        </div>
       </div>
 
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:12, marginBottom:32 }}>
+      {/* Stats Bar */}
+      <div style={{ display:'grid', gridTemplateColumns:'repeat(4,1fr)', gap:12, margin:'20px 0 28px' }}>
         {[[KB_ARTICLES.length,'📚','Guides'],[Object.keys(CAT_META).length,'🗂️','Categories'],[avgRating,'⭐','Avg Rating'],[(totalViews/1000).toFixed(0)+'K','👁️','Monthly Views']].map(([v,i,l])=>(
           <div key={l} style={{ padding:'14px 16px', background:C.card, borderRadius:12, border:`1px solid ${C.border}`, textAlign:'center' }}>
             <div style={{ fontSize:22, marginBottom:4 }}>{i}</div>
@@ -760,21 +1287,24 @@ function Knowledge() {
         ))}
       </div>
 
-      <div style={{ position:'relative', marginBottom:20 }}>
+      {/* Search */}
+      <div style={{ position:'relative', marginBottom:16 }}>
         <span style={{ position:'absolute', left:14, top:'50%', transform:'translateY(-50%)', fontSize:18 }}>🔍</span>
-        <input value={search} onChange={e=>{setSearch(e.target.value);setCat('All')}} placeholder={`Search ${KB_ARTICLES.length} guides — try "disability", "SNAP", "taxes", "LLC", "Medicare"…`} style={{ padding:'14px 44px', fontSize:15 }} />
+        <input value={search} onChange={e=>{setSearch(e.target.value);setCat('All');setActivePath(null);setActiveCollection(null)}} placeholder={`Search ${KB_ARTICLES.length} guides — try "disability", "SNAP", "credit", "FMLA", "Medicare"…`} style={{ padding:'14px 44px', fontSize:15 }} />
         {search && <button onClick={()=>setSearch('')} style={{ position:'absolute', right:14, top:'50%', transform:'translateY(-50%)', background:'none', border:'none', color:C.muted, cursor:'pointer', fontSize:18 }}>✕</button>}
       </div>
 
-      <div style={{ display:'flex', gap:8, marginBottom:20, flexWrap:'wrap' }}>
-        <button onClick={()=>{setCat('All');setActivePath(null)}} style={{ padding:'6px 14px', borderRadius:20, border:`1px solid ${cat==='All'?C.primary:C.border}`, background:cat==='All'?`${C.primary}22`:'transparent', color:cat==='All'?C.primary:C.muted, cursor:'pointer', fontSize:12, fontWeight:cat==='All'?700:400 }}>All ({KB_ARTICLES.length})</button>
+      {/* Category Pills */}
+      <div style={{ display:'flex', gap:8, marginBottom:16, flexWrap:'wrap' }}>
+        <button onClick={()=>{setCat('All');setActivePath(null);setActiveCollection(null)}} style={{ padding:'6px 14px', borderRadius:20, border:`1px solid ${cat==='All'?C.primary:C.border}`, background:cat==='All'?`${C.primary}22`:'transparent', color:cat==='All'?C.primary:C.muted, cursor:'pointer', fontSize:12, fontWeight:cat==='All'?700:400 }}>All ({KB_ARTICLES.length})</button>
         {catCounts.map(({c,n,icon,color})=>(
-          <button key={c} onClick={()=>{setCat(c);setActivePath(null)}} style={{ padding:'6px 12px', borderRadius:20, border:`1px solid ${cat===c?color:C.border}`, background:cat===c?`${color}22`:'transparent', color:cat===c?color:C.muted, cursor:'pointer', fontSize:12, fontWeight:cat===c?700:400 }}>
+          <button key={c} onClick={()=>{setCat(c);setActivePath(null);setActiveCollection(null)}} style={{ padding:'6px 12px', borderRadius:20, border:`1px solid ${cat===c?color:C.border}`, background:cat===c?`${color}22`:'transparent', color:cat===c?color:C.muted, cursor:'pointer', fontSize:12, fontWeight:cat===c?700:400 }}>
             {icon} {c} ({n})
           </button>
         ))}
       </div>
 
+      {/* Filter Row */}
       <div style={{ display:'flex', gap:8, marginBottom:28, alignItems:'center', flexWrap:'wrap' }}>
         <select value={diff} onChange={e=>setDiff(e.target.value)} style={{ width:'auto', padding:'7px 12px', fontSize:13 }}>
           <option value="All">All Levels</option><option>Easy</option><option>Medium</option><option>Hard</option>
@@ -783,6 +1313,7 @@ function Knowledge() {
           <option value="popular">Most Popular</option><option value="rating">Highest Rated</option>
           <option value="newest">Newest</option><option value="alpha">A–Z</option>
         </select>
+        <span style={{ color:C.muted, fontSize:13 }}>{filtered.length} guides</span>
         <div style={{ marginLeft:'auto', display:'flex', gap:6 }}>
           {['list','grid'].map(v=>(
             <button key={v} onClick={()=>setView(v)} style={{ padding:'7px 12px', borderRadius:8, border:`1px solid ${view===v?C.primary:C.border}`, background:view===v?`${C.primary}22`:'transparent', color:view===v?C.primary:C.muted, cursor:'pointer', fontSize:13 }}>{v==='grid'?'⊞ Grid':'≡ List'}</button>
@@ -790,6 +1321,7 @@ function Knowledge() {
         </div>
       </div>
 
+      {/* ── SEARCH RESULTS ── */}
       {search ? (
         <div>
           <div style={{ marginBottom:16, fontSize:14, color:C.muted }}>{filtered.length} result{filtered.length!==1?'s':''} for <strong style={{ color:C.text }}>"{search}"</strong></div>
@@ -797,111 +1329,218 @@ function Knowledge() {
             <div className="card" style={{ textAlign:'center', padding:48 }}>
               <div style={{ fontSize:48, marginBottom:16 }}>🔍</div>
               <div style={{ fontWeight:700, color:C.heading, fontSize:18, marginBottom:8 }}>No articles found</div>
-              <div style={{ color:C.muted, marginBottom:16 }}>Try "SNAP", "LLC", "Medicare", "disability", or "taxes"</div>
+              <div style={{ color:C.muted, marginBottom:16 }}>Try "SNAP", "disability", "credit", "Medicare", or "eviction"</div>
               <button className="btn btn-primary" onClick={()=>setSearch('')}>Clear Search</button>
             </div>
           ) : <ArticleList articles={filtered} view={view} onOpen={openArticle} bookmarks={bookmarks} setBookmarks={setBookmarks} />}
         </div>
+
+      /* ── CATEGORY VIEW ── */
       ) : cat!=='All' ? (
         <div>
           <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:20 }}>
-            <span style={{ fontSize:36 }}>{CAT_META[cat]?.icon}</span>
-            <div><h2 style={{ color:C.heading, fontSize:22, fontWeight:800 }}>{cat}</h2><div style={{ color:C.muted, fontSize:14 }}>{filtered.length} guides</div></div>
+            <span style={{ fontSize:40 }}>{CAT_META[cat]?.icon}</span>
+            <div>
+              <h2 style={{ color:C.heading, fontSize:22, fontWeight:800 }}>{cat}</h2>
+              <div style={{ color:C.muted, fontSize:14 }}>{filtered.length} guides</div>
+            </div>
           </div>
           <ArticleList articles={filtered} view={view} onOpen={openArticle} bookmarks={bookmarks} setBookmarks={setBookmarks} />
         </div>
-      ) : (
+
+      /* ── COLLECTION VIEW ── */
+      ) : activeCollection ? (() => {
+        const col = COLLECTIONS.find(c=>c.id===activeCollection)
+        const colArticles = col.articles.map(id=>KB_ARTICLES.find(a=>a.id===id)).filter(Boolean)
+        return (
+          <div>
+            <div style={{ display:'flex', alignItems:'center', gap:16, padding:'16px 20px', background:`${col.color}11`, border:`1px solid ${col.color}33`, borderRadius:14, marginBottom:20 }}>
+              <span style={{ fontSize:32 }}>{col.icon}</span>
+              <div style={{ flex:1 }}>
+                <div style={{ fontWeight:800, color:C.heading, fontSize:18 }}>{col.title}</div>
+                <div style={{ fontSize:13, color:C.muted }}>{col.articles.length} curated guides</div>
+              </div>
+              <button onClick={()=>setActiveCollection(null)} style={{ background:'none', border:`1px solid ${C.border}`, borderRadius:8, color:C.muted, cursor:'pointer', padding:'5px 10px', fontSize:12 }}>✕ Back</button>
+            </div>
+            <ArticleList articles={colArticles} view={view} onOpen={openArticle} bookmarks={bookmarks} setBookmarks={setBookmarks} />
+          </div>
+        )
+      })()
+
+      /* ── PATH VIEW ── */
+      : activePath ? (() => {
+        const path = LEARNING_PATHS.find(p=>p.id===activePath)
+        const pathArticles = path.articles.map(id=>KB_ARTICLES.find(a=>a.id===id)).filter(Boolean)
+        return (
+          <div>
+            <div style={{ display:'flex', alignItems:'center', gap:16, padding:'14px 20px', background:`${path.color}11`, border:`1px solid ${path.color}33`, borderRadius:12, marginBottom:16 }}>
+              <span style={{ fontSize:28 }}>{path.icon}</span>
+              <div style={{ flex:1 }}><div style={{ fontWeight:700, color:C.heading }}>{path.title}</div><div style={{ fontSize:13, color:C.muted }}>{path.desc}</div></div>
+              <button onClick={()=>setActivePath(null)} style={{ background:'none', border:`1px solid ${C.border}`, borderRadius:8, color:C.muted, cursor:'pointer', padding:'5px 10px', fontSize:12 }}>✕ Back</button>
+            </div>
+            <div style={{ display:'grid', gap:10 }}>
+              {pathArticles.map((a,i)=>(
+                <div key={a.id} onClick={()=>openArticle(a)} style={{ display:'flex', alignItems:'center', gap:14, padding:'14px 18px', background:C.card, border:`1px solid ${C.border}`, borderRadius:12, cursor:'pointer' }}>
+                  <div style={{ width:30, height:30, borderRadius:'50%', background:`${path.color}22`, border:`2px solid ${path.color}`, display:'flex', alignItems:'center', justifyContent:'center', fontWeight:800, color:path.color, flexShrink:0, fontSize:13 }}>{i+1}</div>
+                  <span style={{ fontSize:22 }}>{a.icon}</span>
+                  <div style={{ flex:1 }}><div style={{ fontWeight:600, color:C.heading, fontSize:14 }}>{a.t}</div><div style={{ fontSize:12, color:C.muted }}>{a.time} · {a.diff}</div></div>
+                  <span style={{ color:C.muted }}>›</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )
+      })()
+
+      /* ── HOME VIEW ── */
+      : (
         <div>
-          {/* Learning Paths */}
-          <div style={{ marginBottom:36 }}>
-            <h2 style={{ color:C.heading, fontSize:18, fontWeight:700, marginBottom:6 }}>🗺️ Learning Paths</h2>
-            <p style={{ color:C.muted, fontSize:13, marginBottom:16 }}>Curated article sequences for common life situations</p>
-            {activePath ? (() => {
-              const path = LEARNING_PATHS.find(p=>p.id===activePath)
-              const pathArticles = path.articles.map(id=>KB_ARTICLES.find(a=>a.id===id)).filter(Boolean)
-              return (
+
+          {/* Featured Article Hero */}
+          {featuredArticle && (
+            <div style={{ marginBottom:32, position:'relative' }}>
+              <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:12 }}>
+                <span style={{ fontSize:13, fontWeight:700, color:C.warn, letterSpacing:'.05em' }}>⭐ FEATURED GUIDE</span>
+                <div style={{ flex:1, height:1, background:C.border }} />
+                <div style={{ display:'flex', gap:6 }}>
+                  {FEATURED_ARTICLES.slice(0,6).map((id,i)=>(
+                    <button key={id} onClick={()=>setFeatIdx(i)} style={{ width:8, height:8, borderRadius:'50%', border:'none', cursor:'pointer', background:featIdx%FEATURED_ARTICLES.length===i?C.primary:C.border }} />
+                  ))}
+                </div>
+              </div>
+              <div onClick={()=>openArticle(featuredArticle)} className="card" style={{ cursor:'pointer', display:'grid', gridTemplateColumns:'1fr auto', gap:24, alignItems:'center', borderLeft:`4px solid ${CAT_META[featuredArticle.c]?.color||C.primary}` }}>
                 <div>
-                  <div style={{ display:'flex', alignItems:'center', gap:16, padding:'14px 20px', background:`${path.color}11`, border:`1px solid ${path.color}33`, borderRadius:12, marginBottom:16 }}>
-                    <span style={{ fontSize:28 }}>{path.icon}</span>
-                    <div style={{ flex:1 }}><div style={{ fontWeight:700, color:C.heading }}>{path.title}</div><div style={{ fontSize:13, color:C.muted }}>{path.desc}</div></div>
-                    <button onClick={()=>setActivePath(null)} style={{ background:'none', border:`1px solid ${C.border}`, borderRadius:8, color:C.muted, cursor:'pointer', padding:'5px 10px', fontSize:12 }}>✕ Close</button>
+                  <div style={{ display:'flex', gap:8, marginBottom:10, flexWrap:'wrap' }}>
+                    <span className="badge badge-blue">{featuredArticle.c}</span>
+                    <span style={{ fontSize:11, padding:'2px 8px', borderRadius:4, background:`${DIFF_COLOR[featuredArticle.diff]}22`, color:DIFF_COLOR[featuredArticle.diff], fontWeight:700 }}>{featuredArticle.diff}</span>
+                    <span style={{ fontSize:12, color:C.muted }}>⏱ {featuredArticle.time}</span>
                   </div>
-                  <div style={{ display:'grid', gap:10 }}>
-                    {pathArticles.map((a,i)=>(
-                      <div key={a.id} onClick={()=>openArticle(a)} style={{ display:'flex', alignItems:'center', gap:14, padding:'14px 18px', background:C.card, border:`1px solid ${C.border}`, borderRadius:12, cursor:'pointer' }}>
-                        <div style={{ width:30, height:30, borderRadius:'50%', background:`${path.color}22`, border:`2px solid ${path.color}`, display:'flex', alignItems:'center', justifyContent:'center', fontWeight:800, color:path.color, flexShrink:0, fontSize:13 }}>{i+1}</div>
-                        <span style={{ fontSize:22 }}>{a.icon}</span>
-                        <div style={{ flex:1 }}><div style={{ fontWeight:600, color:C.heading, fontSize:14 }}>{a.t}</div><div style={{ fontSize:12, color:C.muted }}>{a.time} · {a.diff}</div></div>
-                        <span style={{ color:C.muted }}>›</span>
-                      </div>
-                    ))}
+                  <h2 style={{ color:C.heading, fontSize:22, fontWeight:800, marginBottom:10, lineHeight:1.3 }}>{featuredArticle.icon} {featuredArticle.t}</h2>
+                  <p style={{ color:C.muted, fontSize:14, lineHeight:1.7, marginBottom:14 }}>{featuredArticle.summary}</p>
+                  <div style={{ display:'flex', gap:12, fontSize:13, color:C.muted }}>
+                    <span style={{ color:C.warn }}>★ {featuredArticle.rating}</span>
+                    <span>·</span><span>{featuredArticle.v.toLocaleString()} views</span>
                   </div>
                 </div>
-              )
-            })() : (
-              <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(240px,1fr))', gap:12 }}>
-                {LEARNING_PATHS.map(path=>(
-                  <div key={path.id} onClick={()=>setActivePath(path.id)} style={{ padding:16, background:C.card, border:`1px solid ${C.border}`, borderRadius:12, cursor:'pointer' }}>
-                    <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:10 }}>
-                      <div style={{ width:40, height:40, borderRadius:10, background:`${path.color}22`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:20 }}>{path.icon}</div>
-                      <div><div style={{ fontWeight:700, color:C.heading, fontSize:14 }}>{path.title}</div><div style={{ fontSize:12, color:C.muted }}>{path.articles.length} guides</div></div>
-                    </div>
-                    <div style={{ fontSize:13, color:C.muted }}>{path.desc}</div>
-                    <div style={{ marginTop:10, display:'flex', gap:6 }}>
-                      {path.articles.slice(0,4).map(id=>{ const a=KB_ARTICLES.find(x=>x.id===id); return a?<span key={id} style={{ fontSize:16 }}>{a.icon}</span>:null })}
-                    </div>
-                  </div>
-                ))}
+                <div style={{ fontSize:72, opacity:.15 }}>{featuredArticle.icon}</div>
               </div>
-            )}
-          </div>
+            </div>
+          )}
 
-          {/* Trending */}
-          <div style={{ marginBottom:36 }}>
-            <h2 style={{ color:C.heading, fontSize:18, fontWeight:700, marginBottom:14 }}>🔥 Trending This Week</h2>
-            <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(220px,1fr))', gap:10 }}>
-              {trending.map((a,i)=>(
-                <div key={a.id} onClick={()=>openArticle(a)} style={{ padding:'12px 16px', background:C.card, border:`1px solid ${C.border}`, borderRadius:12, cursor:'pointer', display:'flex', gap:12, alignItems:'center' }}>
-                  <div style={{ fontWeight:900, fontSize:20, color:i<3?C.warn:C.muted, minWidth:26 }}>#{i+1}</div>
-                  <div style={{ flex:1 }}><div style={{ fontSize:13, fontWeight:600, color:C.heading }}>{a.icon} {a.t}</div><div style={{ fontSize:11, color:C.muted, marginTop:3 }}>{a.v.toLocaleString()} views</div></div>
+          {/* Quick-Start Collections */}
+          <div style={{ marginBottom:32 }}>
+            <h2 style={{ color:C.heading, fontSize:18, fontWeight:700, marginBottom:6 }}>⚡ Quick-Start Collections</h2>
+            <p style={{ color:C.muted, fontSize:13, marginBottom:14 }}>Curated sets for common urgent situations</p>
+            <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(200px,1fr))', gap:10 }}>
+              {COLLECTIONS.map(col=>(
+                <div key={col.id} onClick={()=>setActiveCollection(col.id)} style={{ padding:'14px 16px', background:C.card, border:`2px solid ${col.color}33`, borderRadius:12, cursor:'pointer' }}>
+                  <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:8 }}>
+                    <div style={{ width:36, height:36, borderRadius:10, background:`${col.color}22`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:18 }}>{col.icon}</div>
+                    <div style={{ fontWeight:700, color:C.heading, fontSize:13, lineHeight:1.3 }}>{col.title}</div>
+                  </div>
+                  <div style={{ fontSize:11, color:C.muted }}>{col.articles.length} guides</div>
                 </div>
               ))}
             </div>
           </div>
 
+          {/* Learning Paths */}
+          <div style={{ marginBottom:32 }}>
+            <h2 style={{ color:C.heading, fontSize:18, fontWeight:700, marginBottom:6 }}>🗺️ Learning Paths</h2>
+            <p style={{ color:C.muted, fontSize:13, marginBottom:14 }}>Step-by-step article sequences for common life situations</p>
+            <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(220px,1fr))', gap:10 }}>
+              {LEARNING_PATHS.map(path=>(
+                <div key={path.id} onClick={()=>setActivePath(path.id)} style={{ padding:16, background:C.card, border:`1px solid ${C.border}`, borderRadius:12, cursor:'pointer' }}>
+                  <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:10 }}>
+                    <div style={{ width:40, height:40, borderRadius:10, background:`${path.color}22`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:20 }}>{path.icon}</div>
+                    <div><div style={{ fontWeight:700, color:C.heading, fontSize:13 }}>{path.title}</div><div style={{ fontSize:11, color:C.muted }}>{path.articles.length} guides</div></div>
+                  </div>
+                  <div style={{ fontSize:12, color:C.muted }}>{path.desc}</div>
+                  <div style={{ marginTop:10, display:'flex', gap:5 }}>
+                    {path.articles.slice(0,5).map(id=>{ const a=KB_ARTICLES.find(x=>x.id===id); return a?<span key={id} style={{ fontSize:15 }}>{a.icon}</span>:null })}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Trending + New Split */}
+          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:20, marginBottom:32 }}>
+            <div>
+              <h2 style={{ color:C.heading, fontSize:16, fontWeight:700, marginBottom:12 }}>🔥 Trending</h2>
+              <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+                {trending.map((a,i)=>(
+                  <div key={a.id} onClick={()=>openArticle(a)} style={{ padding:'11px 14px', background:C.card, border:`1px solid ${C.border}`, borderRadius:10, cursor:'pointer', display:'flex', gap:12, alignItems:'center' }}>
+                    <div style={{ fontWeight:900, fontSize:16, color:i<3?C.warn:C.muted, minWidth:22, flexShrink:0 }}>#{i+1}</div>
+                    <div style={{ flex:1 }}><div style={{ fontSize:13, fontWeight:600, color:C.heading }}>{a.icon} {a.t.length>42?a.t.slice(0,42)+'…':a.t}</div><div style={{ fontSize:11, color:C.muted, marginTop:2 }}>{a.v.toLocaleString()} views</div></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div>
+              <h2 style={{ color:C.heading, fontSize:16, fontWeight:700, marginBottom:12 }}>🆕 Recently Added</h2>
+              <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+                {newArticles.map(a=>(
+                  <div key={a.id} onClick={()=>openArticle(a)} style={{ padding:'11px 14px', background:C.card, border:`1px solid ${C.border}`, borderRadius:10, cursor:'pointer' }}>
+                    <div style={{ display:'flex', gap:8, marginBottom:4 }}>
+                      <span className="badge badge-blue">{a.c}</span>
+                      <span style={{ fontSize:11, padding:'2px 6px', borderRadius:4, background:`${C.success}22`, color:C.success, fontWeight:700 }}>NEW</span>
+                    </div>
+                    <div style={{ fontSize:13, fontWeight:600, color:C.heading }}>{a.icon} {a.t.length>50?a.t.slice(0,50)+'…':a.t}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
           {/* Recently Viewed */}
           {recentlyViewed.length > 0 && (
-            <div style={{ marginBottom:36 }}>
-              <h2 style={{ color:C.heading, fontSize:18, fontWeight:700, marginBottom:14 }}>👁️ Recently Viewed</h2>
-              <div style={{ display:'flex', gap:12, overflowX:'auto', paddingBottom:8 }}>
+            <div style={{ marginBottom:32 }}>
+              <h2 style={{ color:C.heading, fontSize:16, fontWeight:700, marginBottom:12 }}>👁️ Recently Viewed</h2>
+              <div style={{ display:'flex', gap:10, overflowX:'auto', paddingBottom:8 }}>
                 {recentlyViewed.map(a=>(
-                  <div key={a.id} onClick={()=>openArticle(a)} style={{ padding:'12px 16px', background:C.card, border:`1px solid ${C.border}`, borderRadius:12, cursor:'pointer', flexShrink:0, display:'flex', alignItems:'center', gap:10, minWidth:200 }}>
-                    <span style={{ fontSize:22 }}>{a.icon}</span>
-                    <div><div style={{ fontSize:13, fontWeight:600, color:C.heading }}>{a.t}</div><span className="badge badge-blue">{a.c}</span></div>
+                  <div key={a.id} onClick={()=>openArticle(a)} style={{ padding:'10px 14px', background:C.card, border:`1px solid ${C.border}`, borderRadius:10, cursor:'pointer', flexShrink:0, display:'flex', alignItems:'center', gap:10, minWidth:180 }}>
+                    <span style={{ fontSize:20 }}>{a.icon}</span>
+                    <div><div style={{ fontSize:12, fontWeight:600, color:C.heading, lineHeight:1.3 }}>{a.t.length>35?a.t.slice(0,35)+'…':a.t}</div><span className="badge badge-blue" style={{ marginTop:3 }}>{a.c}</span></div>
                   </div>
                 ))}
               </div>
             </div>
           )}
 
-          {/* Categories */}
-          <div style={{ marginBottom:36 }}>
-            <h2 style={{ color:C.heading, fontSize:18, fontWeight:700, marginBottom:14 }}>📂 Browse by Category</h2>
-            <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(140px,1fr))', gap:10 }}>
+          {/* Bookmarks */}
+          {bookmarks.size > 0 && (
+            <div style={{ marginBottom:32 }}>
+              <h2 style={{ color:C.heading, fontSize:16, fontWeight:700, marginBottom:12 }}>🔖 Saved ({bookmarks.size})</h2>
+              <div style={{ display:'flex', gap:10, overflowX:'auto', paddingBottom:8 }}>
+                {KB_ARTICLES.filter(a=>bookmarks.has(a.id)).map(a=>(
+                  <div key={a.id} onClick={()=>openArticle(a)} style={{ padding:'10px 14px', background:C.card, border:`1px solid ${C.warn}44`, borderRadius:10, cursor:'pointer', flexShrink:0, display:'flex', alignItems:'center', gap:10, minWidth:180 }}>
+                    <span style={{ fontSize:20 }}>{a.icon}</span>
+                    <div><div style={{ fontSize:12, fontWeight:600, color:C.heading, lineHeight:1.3 }}>{a.t.length>35?a.t.slice(0,35)+'…':a.t}</div><span className="badge badge-blue" style={{ marginTop:3 }}>{a.c}</span></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Categories Grid */}
+          <div style={{ marginBottom:32 }}>
+            <h2 style={{ color:C.heading, fontSize:16, fontWeight:700, marginBottom:12 }}>📂 Browse by Category</h2>
+            <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(120px,1fr))', gap:8 }}>
               {catCounts.map(({c,n,icon,color})=>(
-                <div key={c} onClick={()=>setCat(c)} style={{ padding:'14px 12px', background:C.card, border:`1px solid ${C.border}`, borderRadius:12, cursor:'pointer', textAlign:'center' }}>
-                  <div style={{ fontSize:26, marginBottom:6 }}>{icon}</div>
-                  <div style={{ fontWeight:700, color:C.heading, fontSize:13 }}>{c}</div>
+                <div key={c} onClick={()=>setCat(c)} style={{ padding:'12px 10px', background:C.card, border:`1px solid ${C.border}`, borderRadius:10, cursor:'pointer', textAlign:'center' }}>
+                  <div style={{ fontSize:24, marginBottom:4 }}>{icon}</div>
+                  <div style={{ fontWeight:700, color:C.heading, fontSize:12, lineHeight:1.3 }}>{c}</div>
                   <div style={{ fontSize:11, color:C.muted, marginTop:2 }}>{n} guides</div>
                 </div>
               ))}
             </div>
           </div>
 
-          {/* All articles */}
+          {/* All Articles */}
           <div>
-            <h2 style={{ color:C.heading, fontSize:18, fontWeight:700, marginBottom:16 }}>
-              All Guides <span style={{ color:C.muted, fontWeight:400, fontSize:14 }}>({filtered.length})</span>
+            <h2 style={{ color:C.heading, fontSize:16, fontWeight:700, marginBottom:16 }}>
+              All Guides <span style={{ color:C.muted, fontWeight:400, fontSize:13 }}>({filtered.length})</span>
             </h2>
             <ArticleList articles={filtered} view={view} onOpen={openArticle} bookmarks={bookmarks} setBookmarks={setBookmarks} />
           </div>
@@ -914,7 +1553,7 @@ function Knowledge() {
 
 // ── PHASE 21: AI ASSISTANT ────────────────────────────────────────────────────
 function AIAssistant() {
-  const [msgs, setMsgs] = useState([{ role:'ai', text:"Hi! I\'m CLARA — your government process assistant. Ask me anything about benefits, permits, applications, or any government process." }])
+  const [msgs, setMsgs] = useState([{ role:'ai', text:"Hi! I'm CLARA — your government process assistant. Ask me anything about benefits, permits, applications, or any government process." }])
   const [inp, setInp] = useState('')
   const [loading, setLoading] = useState(false)
 
@@ -980,7 +1619,7 @@ function Voice() {
     if(status!=='idle'){setStatus('idle');setTranscript('');setResponse('');return}
     setStatus('listening')
     setTimeout(()=>{setTranscript('How do I apply for unemployment benefits?');setStatus('processing')},2000)
-    setTimeout(()=>{setResponse("To apply for unemployment in Illinois: Visit ides.illinois.gov, click 'File a Claim', and complete the online application. You'll need your SSN, 18 months of work history, and banking info. Claims process in 3-4 weeks.");setStatus('speaking')},3500)
+    setTimeout(()=>{setResponse("To apply for unemployment in Illinois: Visit ides.illinois.gov, click 'File a Claim', and complete the online application. You\'ll need your SSN, 18 months of work history, and banking info. Claims process in 3-4 weeks.");setStatus('speaking')},3500)
     setTimeout(()=>setStatus('idle'),7500)
   }
 
@@ -1201,7 +1840,7 @@ function Blockchain() {
 
   const recent = [
     {id:'IL-BIZ-2024-9921',type:'Business License',status:'VALID',d:'Mar 15'},
-    {id:'IL-DRV-2024-4401',type:"Driver's License",status:'VALID',d:'Feb 28'},
+    {id:'IL-DRV-2024-4401',type:"Driver\'s License",status:'VALID',d:'Feb 28'},
     {id:'IL-SNAP-2024-7712',type:'Benefits Letter',status:'VALID',d:'Feb 10'},
     {id:'IL-TAX-2023-1189',type:'Tax Certificate',status:'EXPIRED',d:'Jan 01'},
   ]

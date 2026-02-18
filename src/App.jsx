@@ -1365,10 +1365,7 @@ function Knowledge() {
             <ArticleList articles={colArticles} view={view} onOpen={openArticle} bookmarks={bookmarks} setBookmarks={setBookmarks} />
           </div>
         )
-      })()
-
-      /* ── PATH VIEW ── */
-      : activePath ? (() => {
+      })() : activePath ? (() => {
         const path = LEARNING_PATHS.find(p=>p.id===activePath)
         const pathArticles = path.articles.map(id=>KB_ARTICLES.find(a=>a.id===id)).filter(Boolean)
         return (

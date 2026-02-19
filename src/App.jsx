@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom'
 
 const C = {
@@ -6,6 +6,173 @@ const C = {
   primary: '#3b82f6', accent: '#06b6d4', success: '#10b981', warn: '#f59e0b',
   danger: '#ef4444', muted: '#6b7280', text: '#e2e8f0', heading: '#f8fafc',
 }
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// CASE STORE — localStorage-backed persistent state, shared across all components
+// ═══════════════════════════════════════════════════════════════════════════════
+
+const CASE_CATEGORIES = {
+  benefits:   { label:'Benefits',   icon:'🍎', color:'#10b981' },
+  housing:    { label:'Housing',    icon:'🏠', color:'#3b82f6' },
+  legal:      { label:'Legal',      icon:'⚖️', color:'#8b5cf6' },
+  employment: { label:'Employment', icon:'💼', color:'#f59e0b' },
+  business:   { label:'Business',  icon:'🏢', color:'#06b6d4' },
+  healthcare: { label:'Healthcare', icon:'💊', color:'#ec4899' },
+  education:  { label:'Education', icon:'🎓', color:'#14b8a6' },
+  immigration:{ label:'Immigration',icon:'🌍', color:'#fb923c' },
+  reentry:    { label:'Reentry',   icon:'🔄', color:'#a855f7' },
+  other:      { label:'Other',     icon:'📁', color:'#6b7280' },
+}
+
+const CASE_STATUSES = {
+  active:    { label:'Active',     color:'#3b82f6', icon:'🔵' },
+  pending:   { label:'Waiting',    color:'#f59e0b', icon:'🟡' },
+  urgent:    { label:'Urgent',     color:'#ef4444', icon:'🔴' },
+  completed: { label:'Completed',  color:'#10b981', icon:'✅' },
+  paused:    { label:'On Hold',    color:'#6b7280', icon:'⏸️' },
+}
+
+function loadCases() {
+  try { return JSON.parse(localStorage.getItem('clear_cases') || '[]') } catch { return [] }
+}
+function saveCases(cases) {
+  try { localStorage.setItem('clear_cases', JSON.stringify(cases)) } catch {}
+}
+function loadDeadlines() {
+  try { return JSON.parse(localStorage.getItem('clear_deadlines') || '[]') } catch { return [] }
+}
+function saveDeadlines(deadlines) {
+  try { localStorage.setItem('clear_deadlines', JSON.stringify(deadlines)) } catch {}
+}
+
+function newId() { return Date.now().toString(36) + Math.random().toString(36).slice(2,6) }
+
+function deadlineUrgency(dateStr) {
+  if (!dateStr) return 'none'
+  const diff = Math.ceil((new Date(dateStr) - new Date()) / 86400000)
+  if (diff < 0) return 'overdue'
+  if (diff === 0) return 'today'
+  if (diff <= 3) return 'soon'
+  if (diff <= 7) return 'week'
+  return 'upcoming'
+}
+
+function urgencyColor(u) {
+  return {overdue:'#ef4444',today:'#f97316',soon:'#f59e0b',week:'#3b82f6',upcoming:'#6b7280',none:'#6b7280'}[u]||'#6b7280'
+}
+
+function daysUntil(dateStr) {
+  if (!dateStr) return null
+  const diff = Math.ceil((new Date(dateStr) - new Date()) / 86400000)
+  if (diff < 0) return `${Math.abs(diff)}d overdue`
+  if (diff === 0) return 'Due today'
+  if (diff === 1) return 'Due tomorrow'
+  return `${diff} days`
+}
+
+// Global event bus for cross-component case updates
+const caseListeners = new Set()
+function notifyCaseUpdate() { caseListeners.forEach(fn => fn()) }
+
+function useCaseStore() {
+  const [cases, setCasesState] = useState(loadCases)
+  const [deadlines, setDeadlinesState] = useState(loadDeadlines)
+
+  useEffect(() => {
+    const refresh = () => {
+      setCasesState(loadCases())
+      setDeadlinesState(loadDeadlines())
+    }
+    caseListeners.add(refresh)
+    return () => caseListeners.delete(refresh)
+  }, [])
+
+  const addCase = useCallback((caseData) => {
+    const newCase = {
+      id: newId(),
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString(),
+      status: 'active',
+      steps: [],
+      completedSteps: [],
+      notes: '',
+      ...caseData,
+    }
+    const updated = [newCase, ...loadCases()]
+    saveCases(updated)
+    setCasesState(updated)
+    notifyCaseUpdate()
+    return newCase
+  }, [])
+
+  const updateCase = useCallback((id, patch) => {
+    const updated = loadCases().map(c => c.id === id ? { ...c, ...patch, updatedAt: new Date().toISOString() } : c)
+    saveCases(updated)
+    setCasesState(updated)
+    notifyCaseUpdate()
+  }, [])
+
+  const deleteCase = useCallback((id) => {
+    const updated = loadCases().filter(c => c.id !== id)
+    const dl = loadDeadlines().filter(d => d.caseId !== id)
+    saveCases(updated)
+    saveDeadlines(dl)
+    setCasesState(updated)
+    setDeadlinesState(dl)
+    notifyCaseUpdate()
+  }, [])
+
+  const addDeadline = useCallback((deadlineData) => {
+    const newDl = { id: newId(), createdAt: new Date().toISOString(), ...deadlineData }
+    const updated = [newDl, ...loadDeadlines()]
+    saveDeadlines(updated)
+    setDeadlinesState(updated)
+    notifyCaseUpdate()
+    return newDl
+  }, [])
+
+  const deleteDeadline = useCallback((id) => {
+    const updated = loadDeadlines().filter(d => d.id !== id)
+    saveDeadlines(updated)
+    setDeadlinesState(updated)
+    notifyCaseUpdate()
+  }, [])
+
+  const toggleStep = useCallback((caseId, stepIdx) => {
+    const c = loadCases().find(x => x.id === caseId)
+    if (!c) return
+    const done = new Set(c.completedSteps || [])
+    done.has(stepIdx) ? done.delete(stepIdx) : done.add(stepIdx)
+    updateCase(caseId, { completedSteps: [...done] })
+  }, [updateCase])
+
+  // Computed
+  const urgentCount = [...cases.filter(c=>c.status==='urgent'&&c.status!=='completed'),
+    ...deadlines.filter(d=>['overdue','today'].includes(deadlineUrgency(d.date)))
+  ].length
+
+  return { cases, deadlines, addCase, updateCase, deleteCase, addDeadline, deleteDeadline, toggleStep, urgentCount }
+}
+
+// Global accessor for non-hook contexts (toast, CLARA, etc.)
+function addCaseGlobal(caseData) {
+  const existing = loadCases()
+  const newCase = {
+    id: newId(), createdAt: new Date().toISOString(), updatedAt: new Date().toISOString(),
+    status: 'active', steps: [], completedSteps: [], notes: '', ...caseData,
+  }
+  saveCases([newCase, ...existing])
+  notifyCaseUpdate()
+  return newCase
+}
+function addDeadlineGlobal(data) {
+  const existing = loadDeadlines()
+  const newDl = { id: newId(), createdAt: new Date().toISOString(), ...data }
+  saveDeadlines([newDl, ...existing])
+  notifyCaseUpdate()
+  return newDl
+}
+
 
 const css = `
   @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
@@ -101,12 +268,13 @@ const css = `
 const NAVGROUPS = [
   { label:'Core', items:[
     { label:'Home', path:'/', icon:'🏠' },
+    { label:'My Cases', path:'/cases', icon:'📋', badge:'cases' },
     { label:'Process Map', path:'/processmap', icon:'🗺️' },
     { label:'Knowledge Base', path:'/knowledge', icon:'📚' },
   ]},
   { label:'Tools', items:[
     { label:'Documents', path:'/documents', icon:'📄' },
-    { label:'Notifications', path:'/notifications', icon:'🔔' },
+    { label:'My Cases', path:'/cases', icon:'📋' },
     { label:'Achievements', path:'/achievements', icon:'⭐' },
   ]},
   { label:'AI & Voice', badge:'NEW', items:[
@@ -160,12 +328,13 @@ function ToastContainer() {
 function Layout({ children }) {
   const [open, setOpen] = useState(true)
   const loc = useLocation()
+  const { urgentCount } = useCaseStore()
   const mobileNavItems = [
     { label:'Home', path:'/', icon:'🏠' },
-    { label:'Map', path:'/processmap', icon:'🗺️' },
+    { label:'Cases', path:'/cases', icon:'📋' },
     { label:'Knowledge', path:'/knowledge', icon:'📚' },
-    { label:'AI', path:'/ai-assistant', icon:'🤖' },
-    { label:'Tools', path:'/premium', icon:'👑' },
+    { label:'CLARA', path:'/ai-assistant', icon:'🤖' },
+    { label:'More', path:'/premium', icon:'👑' },
   ]
   return (
     <div style={{ display:'flex', minHeight:'100vh', flexDirection:'column' }}>
@@ -214,7 +383,10 @@ function Layout({ children }) {
                       <Link to={item.path}
                         style={{ display:'flex', alignItems:'center', gap:10, padding:'7px 8px', borderRadius:8, marginBottom:2, color:active?C.primary:C.muted, background:active?`${C.primary}15`:'transparent', transition:'all .15s', fontSize:13, fontWeight:active?600:400, whiteSpace:'nowrap', borderLeft:active?`2px solid ${C.primary}`:'2px solid transparent' }}>
                         <span style={{ fontSize:16, flexShrink:0 }}>{item.icon}</span>
-                        {open && <><span style={{ flex:1 }}>{item.label}</span>{item.tag&&<span className="tn">NEW</span>}</>}
+                        {open && <><span style={{ flex:1 }}>{item.label}</span>
+                          {item.badge==='cases' && urgentCount>0 && <span style={{ background:C.danger, color:'#fff', borderRadius:10, fontSize:10, fontWeight:800, padding:'1px 6px', minWidth:18, textAlign:'center' }}>{urgentCount}</span>}
+                          {item.tag&&<span className="tn">NEW</span>}
+                        </>}
                       </Link>
                       {!open && <div className="nav-tooltip">{item.label}</div>}
                     </div>
@@ -1571,6 +1743,31 @@ function ArticleView({ article, onBack, onViewArticle }) {
             <FaqSection faq={article.faq} catColor={catColor} />
           </div>
 
+          {/* Track This Process */}
+          <div className="card fade-up" style={{ marginBottom:16, borderLeft:`3px solid ${catColor}` }}>
+            <div style={{ display:'flex', alignItems:'center', gap:12 }}>
+              <div style={{ width:40, height:40, borderRadius:10, background:`${catColor}15`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:20, flexShrink:0 }}>📋</div>
+              <div style={{ flex:1 }}>
+                <div style={{ fontWeight:700, color:C.heading, fontSize:14 }}>Track this process</div>
+                <div style={{ fontSize:12, color:C.muted, marginTop:2 }}>Save to My Cases with all steps and set deadline reminders</div>
+              </div>
+              <button onClick={()=>{
+                const cat = Object.entries(CASE_CATEGORIES).find(([k])=>article.c?.toLowerCase().includes(k))
+                addCaseGlobal({
+                  title: article.t,
+                  category: cat?cat[0]:'other',
+                  status:'active',
+                  notes: article.summary,
+                  steps: article.steps.map(s=>({ text: s.slice(0,120), done:false })),
+                  articleId: article.id,
+                })
+                showToast(`"${article.t}" added to My Cases`, 'success')
+              }} className="btn btn-primary" style={{ flexShrink:0, fontSize:13, padding:'8px 16px' }}>
+                + Track This
+              </button>
+            </div>
+          </div>
+
           {/* Helpful */}
           <div className="card" style={{ marginBottom:0 }}>
             <h3 style={{ color:C.heading, marginBottom:6, fontSize:15 }}>Was this guide helpful?</h3>
@@ -2250,9 +2447,25 @@ function MessageBubble({ msg }) {
             })}
           </div>
         )}
-        <button onClick={copyText} style={{ background:'none', border:'none', color:C.muted, cursor:'pointer', fontSize:10, padding:'2px 4px', opacity:.6 }}>
-          {copied ? '✓ copied' : '⎘'}
-        </button>
+        <div style={{ display:'flex', gap:6, alignItems:'center' }}>
+          <button onClick={copyText} style={{ background:'none', border:'none', color:C.muted, cursor:'pointer', fontSize:10, padding:'2px 4px', opacity:.6 }}>
+            {copied ? '✓ copied' : '⎘'}
+          </button>
+          {!isUser && msg.text?.length > 80 && (
+            <button onClick={()=>{
+              addCaseGlobal({
+                title: msg.text.slice(0,60).replace(/[\n\r]+/g,' ').trim() + '…',
+                category: 'other',
+                status:'active',
+                notes: msg.text.slice(0,500),
+                steps: msg.text.split('\n').filter(l=>/^\d+\./.test(l.trim())).map(l=>({ text:l.replace(/^\d+\.\s*/,'').trim(), done:false })),
+              })
+              showToast('Added to My Cases','success')
+            }} style={{ background:'none', border:`1px solid ${C.primary}44`, borderRadius:4, color:C.primary, cursor:'pointer', fontSize:10, padding:'2px 7px', opacity:.8 }}>
+              + Track
+            </button>
+          )}
+        </div>
       </div>
       {isUser && (
         <div style={{ width:32, height:32, borderRadius:'50%', background:`${C.success}22`, border:`1px solid ${C.success}44`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, fontSize:13 }}>👤</div>
@@ -3031,6 +3244,405 @@ function AnnualReports() {
   )
 }
 
+// ═══════════════════════════════════════════════════════════════════════════════
+// CASE TRACKER — Persistent case management with deadline reminders
+// ═══════════════════════════════════════════════════════════════════════════════
+
+function AddCaseModal({ onClose, onAdd, prefill = null }) {
+  const [form, setForm] = useState({
+    title: prefill?.title || '',
+    category: prefill?.category || 'benefits',
+    status: 'active',
+    notes: prefill?.notes || '',
+    steps: prefill?.steps || [],
+  })
+  const [stepInput, setStepInput] = useState('')
+  const [deadlines, setDeadlines] = useState(prefill?.deadlines || [])
+  const [dlInput, setDlInput] = useState({ label:'', date:'' })
+
+  const set = (k, v) => setForm(f => ({ ...f, [k]: v }))
+
+  const addStep = () => {
+    if (!stepInput.trim()) return
+    set('steps', [...form.steps, { text: stepInput.trim(), done: false }])
+    setStepInput('')
+  }
+
+  const addDl = () => {
+    if (!dlInput.label || !dlInput.date) return
+    setDeadlines(d => [...d, dlInput])
+    setDlInput({ label:'', date:'' })
+  }
+
+  const submit = () => {
+    if (!form.title.trim()) return
+    onAdd({ ...form, deadlines })
+    onClose()
+  }
+
+  return (
+    <div className="modal-overlay" onClick={onClose}>
+      <div className="modal-content" style={{ maxWidth:520 }} onClick={e => e.stopPropagation()}>
+        <div style={{ padding:'18px 24px', borderBottom:`1px solid ${C.border}`, display:'flex', alignItems:'center', gap:12 }}>
+          <div style={{ fontSize:22 }}>📋</div>
+          <div style={{ flex:1, fontWeight:800, color:C.heading, fontSize:16 }}>{prefill ? 'Add Case from CLARA' : 'New Case'}</div>
+          <button onClick={onClose} style={{ background:'none', border:'none', color:C.muted, cursor:'pointer', fontSize:20 }}>✕</button>
+        </div>
+        <div style={{ padding:'20px 24px', overflowY:'auto', maxHeight:'65vh', display:'flex', flexDirection:'column', gap:14 }}>
+          <div>
+            <label>Case title *</label>
+            <input value={form.title} onChange={e=>set('title',e.target.value)} placeholder="e.g. SNAP Application, LLC Formation, Eviction Response" autoFocus />
+          </div>
+          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}>
+            <div>
+              <label>Category</label>
+              <select value={form.category} onChange={e=>set('category',e.target.value)}>
+                {Object.entries(CASE_CATEGORIES).map(([k,v]) => <option key={k} value={k}>{v.icon} {v.label}</option>)}
+              </select>
+            </div>
+            <div>
+              <label>Status</label>
+              <select value={form.status} onChange={e=>set('status',e.target.value)}>
+                {Object.entries(CASE_STATUSES).map(([k,v]) => <option key={k} value={k}>{v.icon} {v.label}</option>)}
+              </select>
+            </div>
+          </div>
+
+          {/* Steps */}
+          <div>
+            <label>Steps / tasks</label>
+            {form.steps.map((s,i) => (
+              <div key={i} style={{ display:'flex', gap:8, alignItems:'center', padding:'6px 10px', background:C.surface, borderRadius:6, marginBottom:4 }}>
+                <span style={{ color:C.success, fontSize:12 }}>●</span>
+                <span style={{ flex:1, fontSize:13, color:C.text }}>{s.text}</span>
+                <button onClick={()=>set('steps', form.steps.filter((_,j)=>j!==i))} style={{ background:'none', border:'none', color:C.muted, cursor:'pointer' }}>✕</button>
+              </div>
+            ))}
+            <div style={{ display:'flex', gap:8, marginTop:4 }}>
+              <input value={stepInput} onChange={e=>setStepInput(e.target.value)} onKeyDown={e=>e.key==='Enter'&&addStep()} placeholder="Add a step… (Enter to add)" style={{ flex:1 }} />
+              <button onClick={addStep} className="btn btn-outline" style={{ flexShrink:0, padding:'8px 14px' }}>+</button>
+            </div>
+          </div>
+
+          {/* Deadlines */}
+          <div>
+            <label>Deadlines</label>
+            {deadlines.map((d,i) => (
+              <div key={i} style={{ display:'flex', gap:8, alignItems:'center', padding:'6px 10px', background:C.surface, borderRadius:6, marginBottom:4 }}>
+                <span style={{ color:urgencyColor(deadlineUrgency(d.date)), fontSize:12 }}>⏰</span>
+                <span style={{ flex:1, fontSize:13, color:C.text }}>{d.label}</span>
+                <span style={{ fontSize:11, color:C.muted }}>{new Date(d.date).toLocaleDateString()}</span>
+                <button onClick={()=>setDeadlines(dl=>dl.filter((_,j)=>j!==i))} style={{ background:'none', border:'none', color:C.muted, cursor:'pointer' }}>✕</button>
+              </div>
+            ))}
+            <div style={{ display:'grid', gridTemplateColumns:'1fr auto auto', gap:8, marginTop:4 }}>
+              <input value={dlInput.label} onChange={e=>setDlInput(d=>({...d,label:e.target.value}))} placeholder="Deadline label…" />
+              <input type="date" value={dlInput.date} onChange={e=>setDlInput(d=>({...d,date:e.target.value}))} style={{ width:140 }} />
+              <button onClick={addDl} className="btn btn-outline" style={{ padding:'8px 14px' }}>+</button>
+            </div>
+          </div>
+
+          <div>
+            <label>Notes</label>
+            <textarea value={form.notes} onChange={e=>set('notes',e.target.value)} placeholder="Any extra context, reference numbers, contact info…" rows={3} />
+          </div>
+        </div>
+        <div style={{ padding:'16px 24px', borderTop:`1px solid ${C.border}`, display:'flex', gap:10, justifyContent:'flex-end' }}>
+          <button onClick={onClose} className="btn" style={{ background:C.surface, border:`1px solid ${C.border}`, color:C.muted }}>Cancel</button>
+          <button onClick={submit} className="btn btn-primary" disabled={!form.title.trim()} style={{ opacity:form.title.trim()?1:0.5 }}>Create Case</button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function CaseCard({ c, deadlines, onUpdate, onDelete, onToggleStep }) {
+  const [expanded, setExpanded] = useState(false)
+  const [editing, setEditing] = useState(false)
+  const [noteVal, setNoteVal] = useState(c.notes || '')
+  const cat = CASE_CATEGORIES[c.category] || CASE_CATEGORIES.other
+  const status = CASE_STATUSES[c.status] || CASE_STATUSES.active
+  const cDl = deadlines.filter(d => d.caseId === c.id)
+  const nextDl = cDl.sort((a,b) => new Date(a.date)-new Date(b.date))[0]
+  const urgency = nextDl ? deadlineUrgency(nextDl.date) : 'none'
+  const progress = c.steps?.length > 0 ? Math.round(((c.completedSteps||[]).length / c.steps.length) * 100) : null
+  const isComplete = c.status === 'completed'
+
+  return (
+    <div className="card fade-up" style={{ marginBottom:10, borderLeft:`3px solid ${cat.color}`, opacity:isComplete?0.65:1, transition:'all .2s' }}>
+      <div style={{ display:'flex', alignItems:'flex-start', gap:12 }}>
+        <div style={{ width:38, height:38, borderRadius:10, background:`${cat.color}20`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:18, flexShrink:0 }}>{cat.icon}</div>
+        <div style={{ flex:1, minWidth:0 }}>
+          <div style={{ display:'flex', alignItems:'center', gap:8, flexWrap:'wrap', marginBottom:4 }}>
+            <span style={{ fontWeight:700, color:C.heading, fontSize:15 }}>{c.title}</span>
+            <span style={{ fontSize:11, padding:'2px 8px', borderRadius:10, background:`${status.color}20`, color:status.color, fontWeight:700 }}>{status.icon} {status.label}</span>
+            {nextDl && urgency !== 'none' && (
+              <span style={{ fontSize:11, padding:'2px 8px', borderRadius:10, background:`${urgencyColor(urgency)}20`, color:urgencyColor(urgency), fontWeight:700 }}>
+                ⏰ {daysUntil(nextDl.date)}: {nextDl.label}
+              </span>
+            )}
+          </div>
+          <div style={{ display:'flex', gap:12, fontSize:12, color:C.muted, flexWrap:'wrap' }}>
+            <span>{cat.label}</span>
+            {progress !== null && <span style={{ color:progress===100?C.success:C.primary }}>{'▓'.repeat(Math.round(progress/10))}{'░'.repeat(10-Math.round(progress/10))} {progress}%</span>}
+            <span>Updated {new Date(c.updatedAt).toLocaleDateString()}</span>
+          </div>
+        </div>
+        <div style={{ display:'flex', gap:6, flexShrink:0 }}>
+          <select value={c.status} onChange={e=>onUpdate(c.id,{status:e.target.value})}
+            style={{ fontSize:11, padding:'4px 8px', borderRadius:6, background:C.surface, border:`1px solid ${C.border}`, color:C.text, cursor:'pointer', width:'auto' }}>
+            {Object.entries(CASE_STATUSES).map(([k,v])=><option key={k} value={k}>{v.icon} {v.label}</option>)}
+          </select>
+          <button onClick={()=>setExpanded(v=>!v)} style={{ background:C.surface, border:`1px solid ${C.border}`, borderRadius:6, color:C.muted, cursor:'pointer', padding:'4px 10px', fontSize:12 }}>
+            {expanded ? '▲' : '▼'}
+          </button>
+          <button onClick={()=>{ if(confirm('Delete this case?')) onDelete(c.id) }} style={{ background:'none', border:'none', color:C.muted, cursor:'pointer', fontSize:16, padding:'4px' }}>🗑️</button>
+        </div>
+      </div>
+
+      {expanded && (
+        <div className="fade-up" style={{ marginTop:16, paddingTop:16, borderTop:`1px solid ${C.border}` }}>
+          {/* Steps */}
+          {c.steps?.length > 0 && (
+            <div style={{ marginBottom:16 }}>
+              <div style={{ fontSize:12, fontWeight:700, color:C.muted, letterSpacing:'.08em', textTransform:'uppercase', marginBottom:8 }}>Steps</div>
+              {c.steps.map((step, i) => {
+                const done = (c.completedSteps||[]).includes(i)
+                return (
+                  <div key={i} onClick={()=>onToggleStep(c.id, i)} style={{ display:'flex', gap:10, alignItems:'flex-start', padding:'8px 10px', borderRadius:6, marginBottom:4, background:done?`${C.success}08`:C.surface, border:`1px solid ${done?C.success+'33':C.border}`, cursor:'pointer', transition:'all .15s' }}>
+                    <div style={{ width:18, height:18, borderRadius:'50%', border:`2px solid ${done?C.success:C.border}`, background:done?C.success:'transparent', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, marginTop:1, transition:'all .2s' }}>
+                      {done && <span style={{ color:'#fff', fontSize:9 }}>✓</span>}
+                    </div>
+                    <span style={{ fontSize:13, color:done?C.muted:C.text, textDecoration:done?'line-through':'none', lineHeight:1.5 }}>{step.text}</span>
+                  </div>
+                )
+              })}
+            </div>
+          )}
+
+          {/* Deadlines */}
+          {cDl.length > 0 && (
+            <div style={{ marginBottom:16 }}>
+              <div style={{ fontSize:12, fontWeight:700, color:C.muted, letterSpacing:'.08em', textTransform:'uppercase', marginBottom:8 }}>Deadlines</div>
+              {cDl.map(d => {
+                const u = deadlineUrgency(d.date)
+                return (
+                  <div key={d.id} style={{ display:'flex', gap:10, alignItems:'center', padding:'8px 12px', borderRadius:6, marginBottom:4, background:`${urgencyColor(u)}10`, border:`1px solid ${urgencyColor(u)}33` }}>
+                    <span style={{ color:urgencyColor(u), fontSize:16 }}>⏰</span>
+                    <span style={{ flex:1, fontSize:13, color:C.text, fontWeight:600 }}>{d.label}</span>
+                    <span style={{ fontSize:12, color:urgencyColor(u), fontWeight:700 }}>{daysUntil(d.date)}</span>
+                    <span style={{ fontSize:11, color:C.muted }}>{new Date(d.date).toLocaleDateString()}</span>
+                  </div>
+                )
+              })}
+            </div>
+          )}
+
+          {/* Notes */}
+          <div>
+            <div style={{ fontSize:12, fontWeight:700, color:C.muted, letterSpacing:'.08em', textTransform:'uppercase', marginBottom:8 }}>Notes</div>
+            {editing ? (
+              <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+                <textarea value={noteVal} onChange={e=>setNoteVal(e.target.value)} rows={3} style={{ fontSize:13 }} autoFocus />
+                <div style={{ display:'flex', gap:8 }}>
+                  <button onClick={()=>{onUpdate(c.id,{notes:noteVal});setEditing(false)}} className="btn btn-primary" style={{ fontSize:12, padding:'6px 14px' }}>Save</button>
+                  <button onClick={()=>{setNoteVal(c.notes||'');setEditing(false)}} className="btn" style={{ fontSize:12, padding:'6px 14px', background:C.surface, border:`1px solid ${C.border}`, color:C.muted }}>Cancel</button>
+                </div>
+              </div>
+            ) : (
+              <div onClick={()=>setEditing(true)} style={{ fontSize:13, color:c.notes?C.text:C.muted, padding:'8px 10px', background:C.surface, borderRadius:6, border:`1px solid ${C.border}`, cursor:'text', lineHeight:1.6, minHeight:36 }}>
+                {c.notes || 'Click to add notes, reference numbers, contact info…'}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+function DeadlineCalendar({ deadlines, cases }) {
+  const sorted = [...deadlines].sort((a,b) => new Date(a.date)-new Date(b.date))
+  const upcoming = sorted.filter(d => {
+    const u = deadlineUrgency(d.date)
+    return u !== 'none'
+  }).slice(0,8)
+
+  if (upcoming.length === 0) return (
+    <div style={{ textAlign:'center', padding:'24px 16px', color:C.muted, fontSize:13 }}>
+      <div style={{ fontSize:32, marginBottom:8 }}>📅</div>
+      No upcoming deadlines
+    </div>
+  )
+
+  return (
+    <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
+      {upcoming.map(d => {
+        const u = deadlineUrgency(d.date)
+        const relCase = cases.find(c => c.id === d.caseId)
+        return (
+          <div key={d.id} style={{ display:'flex', gap:10, alignItems:'center', padding:'10px 12px', borderRadius:8, background:`${urgencyColor(u)}10`, border:`1px solid ${urgencyColor(u)}33` }}>
+            <div style={{ width:8, height:8, borderRadius:'50%', background:urgencyColor(u), flexShrink:0 }} />
+            <div style={{ flex:1, minWidth:0 }}>
+              <div style={{ fontSize:13, fontWeight:600, color:C.text }}>{d.label}</div>
+              {relCase && <div style={{ fontSize:11, color:C.muted }}>{relCase.title}</div>}
+            </div>
+            <div style={{ fontSize:11, fontWeight:700, color:urgencyColor(u), flexShrink:0 }}>{daysUntil(d.date)}</div>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+function CaseTracker() {
+  const { cases, deadlines, addCase, updateCase, deleteCase, addDeadline, deleteDeadline, toggleStep, urgentCount } = useCaseStore()
+  const [showAdd, setShowAdd] = useState(false)
+  const [filter, setFilter] = useState('active')
+  const [catFilter, setCatFilter] = useState('all')
+  const [sortBy, setSortBy] = useState('updated')
+  const [search, setSearch] = useState('')
+
+  const handleAdd = (data) => {
+    const newCase = addCase(data)
+    // Add case-linked deadlines
+    if (data.deadlines?.length > 0) {
+      data.deadlines.forEach(d => addDeadline({ ...d, caseId: newCase.id }))
+    }
+    showToast(`Case "${data.title}" created`, 'success')
+  }
+
+  let filtered = cases
+    .filter(c => filter === 'all' ? true : filter === 'active' ? ['active','urgent','pending'].includes(c.status) : c.status === filter)
+    .filter(c => catFilter === 'all' || c.category === catFilter)
+    .filter(c => !search || c.title.toLowerCase().includes(search.toLowerCase()) || c.notes?.toLowerCase().includes(search.toLowerCase()))
+    .sort((a,b) => sortBy === 'updated' ? new Date(b.updatedAt)-new Date(a.updatedAt) : sortBy === 'created' ? new Date(b.createdAt)-new Date(a.createdAt) : a.title.localeCompare(b.title))
+
+  const statCounts = {
+    active: cases.filter(c=>['active','urgent','pending'].includes(c.status)).length,
+    completed: cases.filter(c=>c.status==='completed').length,
+    overdue: deadlines.filter(d=>deadlineUrgency(d.date)==='overdue').length,
+  }
+
+  // Sample starter cases for empty state
+  const addSampleCase = () => {
+    const sample = addCase({ title:'SNAP Application', category:'benefits', status:'active', notes:'Need to gather: ID, proof of income, utility bills', steps:[{text:'Gather documents: ID, proof of income, utility bills'},{text:'Apply at abe.illinois.gov or local IDHS office'},{text:'Complete phone interview (within 30 days of applying)'},{text:'Receive decision letter (allow 30 days)'},{text:'Set up EBT card if approved'}] })
+    addDeadline({ caseId: sample.id, label:'Initial application deadline', date: new Date(Date.now() + 14*86400000).toISOString().split('T')[0] })
+    showToast('Sample case added!', 'success')
+  }
+
+  return (
+    <div className="page">
+      <div style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between', marginBottom:24, flexWrap:'wrap', gap:12 }}>
+        <div>
+          <div style={{ fontSize:11, fontWeight:700, color:C.primary, letterSpacing:'.1em', textTransform:'uppercase', marginBottom:4 }}>Case Tracker</div>
+          <h1 style={{ color:C.heading, fontSize:28, fontWeight:800, marginBottom:4 }}>My Cases</h1>
+          <p style={{ color:C.muted, fontSize:14 }}>Track applications, deadlines, and next steps — all in one place.</p>
+        </div>
+        <button onClick={()=>setShowAdd(true)} className="btn btn-primary" style={{ flexShrink:0 }}>+ New Case</button>
+      </div>
+
+      {/* Stats row */}
+      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(160px,1fr))', gap:12, marginBottom:24 }}>
+        {[
+          { label:'Active Cases', val:statCounts.active, color:C.primary, icon:'📋' },
+          { label:'Completed', val:statCounts.completed, color:C.success, icon:'✅' },
+          { label:'Overdue', val:statCounts.overdue, color:C.danger, icon:'🚨' },
+          { label:'Total Deadlines', val:deadlines.length, color:C.warn, icon:'⏰' },
+        ].map(s => (
+          <div key={s.label} className="card" style={{ padding:'14px 18px', display:'flex', gap:12, alignItems:'center', borderLeft:`3px solid ${s.color}` }}>
+            <span style={{ fontSize:22 }}>{s.icon}</span>
+            <div>
+              <div style={{ fontSize:22, fontWeight:800, color:s.color }}>{s.val}</div>
+              <div style={{ fontSize:12, color:C.muted }}>{s.label}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div style={{ display:'grid', gridTemplateColumns:'1fr 260px', gap:20, alignItems:'start' }}>
+        {/* Cases list */}
+        <div>
+          {/* Filters */}
+          <div style={{ display:'flex', gap:8, marginBottom:16, flexWrap:'wrap', alignItems:'center' }}>
+            <div style={{ position:'relative', flex:1, minWidth:200 }}>
+              <span style={{ position:'absolute', left:12, top:'50%', transform:'translateY(-50%)', color:C.muted, fontSize:14 }}>🔍</span>
+              <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search cases…" style={{ paddingLeft:36 }} />
+            </div>
+            <div style={{ display:'flex', gap:4 }}>
+              {[['active','Active'],['completed','Done'],['all','All']].map(([v,l])=>(
+                <button key={v} onClick={()=>setFilter(v)} style={{ padding:'6px 12px', borderRadius:6, border:`1px solid ${filter===v?C.primary:C.border}`, background:filter===v?`${C.primary}20`:C.surface, color:filter===v?C.primary:C.muted, cursor:'pointer', fontSize:12, fontWeight:700 }}>{l}</button>
+              ))}
+            </div>
+            <select value={catFilter} onChange={e=>setCatFilter(e.target.value)} style={{ padding:'6px 10px', borderRadius:6, fontSize:12, width:'auto' }}>
+              <option value="all">All Categories</option>
+              {Object.entries(CASE_CATEGORIES).map(([k,v])=><option key={k} value={k}>{v.icon} {v.label}</option>)}
+            </select>
+          </div>
+
+          {/* Empty state */}
+          {cases.length === 0 && (
+            <div className="card fade-in" style={{ textAlign:'center', padding:48 }}>
+              <div style={{ fontSize:56, marginBottom:16 }}>📋</div>
+              <h2 style={{ color:C.heading, fontSize:20, fontWeight:800, marginBottom:8 }}>No cases yet</h2>
+              <p style={{ color:C.muted, marginBottom:24, lineHeight:1.6, maxWidth:360, margin:'0 auto 24px' }}>
+                Create a case to track any government process — benefits applications, legal matters, business filings, and more.
+              </p>
+              <div style={{ display:'flex', gap:10, justifyContent:'center', flexWrap:'wrap' }}>
+                <button onClick={()=>setShowAdd(true)} className="btn btn-primary">+ Create First Case</button>
+                <button onClick={addSampleCase} className="btn" style={{ background:C.surface, border:`1px solid ${C.border}`, color:C.text }}>Try Sample Case</button>
+              </div>
+            </div>
+          )}
+
+          {cases.length > 0 && filtered.length === 0 && (
+            <div className="card" style={{ textAlign:'center', padding:32, color:C.muted }}>
+              No cases match your filters.
+              <button onClick={()=>{setFilter('all');setCatFilter('all');setSearch('')}} style={{ display:'block', margin:'12px auto 0', background:'none', border:'none', color:C.primary, cursor:'pointer', fontSize:13 }}>Clear filters</button>
+            </div>
+          )}
+
+          {filtered.map(c => (
+            <CaseCard key={c.id} c={c} deadlines={deadlines} onUpdate={updateCase} onDelete={id=>{deleteCase(id);showToast('Case deleted','success')}} onToggleStep={toggleStep} />
+          ))}
+        </div>
+
+        {/* Sidebar — Deadlines calendar */}
+        <div style={{ position:'sticky', top:20, display:'flex', flexDirection:'column', gap:14 }}>
+          <div className="card" style={{ padding:'16px' }}>
+            <div style={{ fontSize:11, fontWeight:700, color:C.muted, letterSpacing:'.08em', textTransform:'uppercase', marginBottom:12 }}>Upcoming Deadlines</div>
+            <DeadlineCalendar deadlines={deadlines} cases={cases} />
+          </div>
+
+          <div className="card" style={{ padding:'16px', background:`${C.primary}06` }}>
+            <div style={{ fontSize:13, fontWeight:700, color:C.heading, marginBottom:8 }}>💡 Quick Add</div>
+            <p style={{ fontSize:12, color:C.muted, marginBottom:12, lineHeight:1.6 }}>CLARA can create cases automatically after a conversation. Visit <strong>Ask CLARA</strong> and describe your situation.</p>
+            <a href="/ai-assistant" className="btn btn-primary" style={{ display:'block', textAlign:'center', fontSize:13, padding:'8px 14px' }}>🤖 Ask CLARA</a>
+          </div>
+
+          <div className="card" style={{ padding:'16px' }}>
+            <div style={{ fontSize:11, fontWeight:700, color:C.muted, letterSpacing:'.08em', textTransform:'uppercase', marginBottom:10 }}>Common Case Types</div>
+            {[
+              ['🍎','SNAP Application','benefits'],
+              ['🏠','Eviction Response','housing'],
+              ['💊','Medicaid Enrollment','healthcare'],
+              ['⚖️','Expungement','legal'],
+              ['🏢','LLC Formation','business'],
+            ].map(([icon,title,cat]) => (
+              <button key={title} onClick={()=>{ setShowAdd(true) }} style={{ display:'flex', alignItems:'center', gap:8, width:'100%', background:'none', border:'none', color:C.text, cursor:'pointer', padding:'6px 4px', fontSize:12, textAlign:'left', borderBottom:`1px solid ${C.border}` }}>
+                <span>{icon}</span><span style={{ flex:1 }}>{title}</span><span style={{ color:C.muted }}>›</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {showAdd && <AddCaseModal onClose={()=>setShowAdd(false)} onAdd={handleAdd} />}
+    </div>
+  )
+}
+
+
 function Placeholder({title,phase}) {
   return (
     <div className="page">
@@ -3054,7 +3666,8 @@ export default function App() {
           <Route path="/processmap" element={<ProcessMap />} />
           <Route path="/knowledge" element={<Knowledge />} />
           <Route path="/documents" element={<Placeholder title="Document Generator" phase="Phase 16" />} />
-          <Route path="/notifications" element={<Placeholder title="Notification Center" phase="Phase 17" />} />
+          <Route path="/cases" element={<CaseTracker />} />
+          <Route path="/notifications" element={<CaseTracker />} />
           <Route path="/achievements" element={<Placeholder title="Achievements" phase="Phase 18" />} />
           <Route path="/ai-assistant" element={<AIAssistant />} />
           <Route path="/voice" element={<Voice />} />

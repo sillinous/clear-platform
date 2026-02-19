@@ -2,9 +2,41 @@ import { useState, useEffect, useCallback, useRef } from 'react'
 import { BrowserRouter, Routes, Route, Link, useLocation } from 'react-router-dom'
 
 const C = {
-  bg: '#0a0f1e', surface: '#111827', card: '#1a2235', border: '#1e3a5f',
-  primary: '#3b82f6', accent: '#06b6d4', success: '#10b981', warn: '#f59e0b',
-  danger: '#ef4444', muted: '#6b7280', text: '#e2e8f0', heading: '#f8fafc',
+  // Depth layers — 4-level dark system inspired by Vercel/Linear dark aesthetics
+  bg:      '#05080f',   // true deep base
+  surface: '#0a0f1c',   // raised surface 
+  card:    '#0f1624',   // card layer
+  raised:  '#141e30',   // elevated panel
+  border:  '#1c2d45',   // subtle divider
+  borderBright: '#263d5c', // hover border
+
+  // Brand
+  primary: '#3b82f6',   // blue
+  accent:  '#22d3ee',   // cyan — brighter
+  success: '#10b981',
+  warn:    '#f59e0b',
+  danger:  '#ef4444',
+  purple:  '#8b5cf6',
+
+  // Text
+  text:    '#c8d6e8',   // slightly cooler body text
+  muted:   '#4d6680',   // muted — tinted not grey
+  heading: '#eef2f8',   // near-white with hint of blue
+
+  // Glass
+  glass:       'rgba(255,255,255,0.03)',
+  glassBorder: 'rgba(255,255,255,0.07)',
+  glassMd:     'rgba(255,255,255,0.06)',
+
+  // Shadows
+  shadow1: '0 1px 4px rgba(0,0,0,.5)',
+  shadow2: '0 4px 16px rgba(0,0,0,.55)',
+  shadow3: '0 8px 40px rgba(0,0,0,.65)',
+
+  // Gradients (as strings)
+  grad1: 'linear-gradient(135deg, #3b82f6, #22d3ee)',
+  grad2: 'linear-gradient(135deg, #8b5cf6, #3b82f6)',
+  grad3: 'linear-gradient(135deg, #10b981, #22d3ee)',
 }
 
 // ═══════════════════════════════════════════════════════════════════════════════
@@ -175,94 +207,422 @@ function addDeadlineGlobal(data) {
 
 
 const css = `
-  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
-  * { box-sizing:border-box;margin:0;padding:0; }
-  body { background:${C.bg};color:${C.text};font-family:'Inter',system-ui,sans-serif;min-height:100vh; }
-  a { color:inherit;text-decoration:none; }
-  ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:${C.border};border-radius:4px}::-webkit-scrollbar-thumb:hover{background:${C.muted}}
-  .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:8px;border:none;cursor:pointer;font-size:14px;font-weight:600;transition:all .18s cubic-bezier(.4,0,.2,1)}
-  .btn-primary{background:${C.primary};color:#fff;box-shadow:0 1px 3px rgba(59,130,246,.3)}.btn-primary:hover{background:#2563eb;transform:translateY(-1px);box-shadow:0 4px 12px rgba(59,130,246,.35)}
-  .btn-outline{background:transparent;color:${C.primary};border:1px solid ${C.primary}}.btn-outline:hover{background:${C.primary}18;transform:translateY(-1px)}
-  .btn-ghost{background:transparent;color:${C.muted};border:1px solid ${C.border}}.btn-ghost:hover{background:${C.surface};border-color:${C.muted};color:${C.text}}
-  .btn-success{background:${C.success};color:#fff;box-shadow:0 1px 3px rgba(16,185,129,.3)}.btn-success:hover{background:#059669;transform:translateY(-1px)}
-  .btn-sm{padding:6px 12px;font-size:12px;border-radius:6px}
-  .card{background:${C.card};border:1px solid ${C.border};border-radius:14px;padding:24px;transition:border-color .18s,box-shadow .18s,transform .18s}
-  .card-sm{padding:16px}
-  .card-hover:hover{border-color:${C.primary}44;box-shadow:0 4px 20px rgba(59,130,246,.08);transform:translateY(-1px);cursor:pointer}
-  .badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;letter-spacing:.01em}
-  .badge-blue{background:#1e40af22;color:#60a5fa}.badge-green{background:#064e3b22;color:#34d399}
-  .badge-gold{background:#78350f22;color:#fbbf24}.badge-purple{background:#4c1d9522;color:#a78bfa}
-  .badge-red{background:#7f1d1d22;color:#f87171}
-  .g2{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px}
-  .g3{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
-  input,textarea,select{background:${C.surface};border:1px solid ${C.border};border-radius:10px;color:${C.text};padding:10px 14px;font-size:14px;width:100%;outline:none;transition:border-color .18s,box-shadow .18s;font-family:inherit}
-  input:focus,textarea:focus,select:focus{border-color:${C.primary};box-shadow:0 0 0 3px ${C.primary}18}
-  label{display:block;font-size:13px;color:${C.muted};margin-bottom:6px;font-weight:500}
-  .page{max-width:1200px;margin:0 auto;padding:32px 24px}
-  .ph{margin-bottom:36px}.ph h1{font-size:32px;font-weight:800;color:${C.heading};margin-bottom:8px;letter-spacing:-.02em}
-  .ph p{color:${C.muted};font-size:16px;line-height:1.6}
-  .pt{font-size:11px;font-weight:700;letter-spacing:.08em;color:${C.accent};text-transform:uppercase;margin-bottom:6px}
-  .tn{background:#0891b222;color:#22d3ee;padding:3px 8px;border-radius:4px;font-size:11px;font-weight:700}
-  .toggle{width:44px;height:24px;border-radius:12px;cursor:pointer;position:relative;transition:background .2s;flex-shrink:0}
-  .tknob{position:absolute;width:18px;height:18px;border-radius:50%;background:#fff;top:3px;transition:left .2s}
-  .row{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid ${C.border}}
-  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
-  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-  @keyframes slideIn{from{opacity:0;transform:translateX(-12px)}to{opacity:1;transform:none}}
-  @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
-  @keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
-  @keyframes pop{0%{transform:scale(1)}50%{transform:scale(1.18)}100%{transform:scale(1)}}
-  @keyframes confetti-fall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(100px) rotate(360deg);opacity:0}}
-  .fade-up{animation:fadeUp .35s cubic-bezier(.22,.61,.36,1) both}
-  .fade-in{animation:fadeIn .25s ease both}
-  .slide-in{animation:slideIn .3s ease both}
-  .card{background:${C.card};border:1px solid ${C.border};border-radius:12px;padding:24px;transition:border-color .2s,box-shadow .2s}
-  .card-hover:hover{border-color:${C.primary}44;box-shadow:0 4px 24px rgba(59,130,246,.08);cursor:pointer}
-  .progress-bar-track{height:3px;background:${C.border};border-radius:2px;overflow:hidden}
-  .progress-bar-fill{height:100%;border-radius:2px;transition:width .4s ease}
-  .step-done{background:${C.success}!important;border-color:${C.success}!important;color:#fff!important}
-  .step-done-text{color:${C.muted}!important;text-decoration:line-through;text-decoration-color:${C.success}66}
-  .tag-pill{padding:3px 9px;border-radius:20px;font-size:11px;cursor:pointer;transition:all .15s;border:1px solid transparent}
-  .tag-pill:hover{border-color:${C.primary};color:${C.primary}!important}
-  .kbd{display:inline-block;padding:1px 6px;background:${C.surface};border:1px solid ${C.border};border-bottom-width:2px;border-radius:4px;font-size:10px;font-family:monospace;color:${C.muted}}
-  .copy-btn{padding:2px 8px;border-radius:4px;border:1px solid ${C.border};background:transparent;color:${C.muted};cursor:pointer;font-size:10px;transition:all .15s}
-  .copy-btn:hover{border-color:${C.success};color:${C.success}}
-  .toc-link{display:block;padding:6px 10px;border-radius:6px;font-size:12px;color:${C.muted};cursor:pointer;border:none;background:none;width:100%;text-align:left;transition:all .15s}
-  .toc-link:hover,.toc-link.active{background:${C.primary}15;color:${C.primary}}
-  .reading-progress{position:fixed;top:0;left:0;right:0;height:3px;z-index:9999;pointer-events:none}
-  .highlight{background:#fbbf2433;color:#fbbf24;border-radius:2px;padding:0 1px}
-  input::placeholder{color:${C.muted}44}
-  .modal-overlay{position:fixed;inset:0;background:#00000088;backdrop-filter:blur(4px);z-index:1000;display:flex;align-items:center;justify-content:center;animation:fadeIn .2s ease}
-  .modal-content{background:${C.card};border:1px solid ${C.border};border-radius:16px;width:min(640px,95vw);max-height:85vh;overflow:hidden;display:flex;flex-direction:column;animation:fadeUp .25s ease}
-  @keyframes toast-in{from{opacity:0;transform:translateY(20px) scale(.95)}to{opacity:1;transform:none}}
-  @keyframes toast-out{from{opacity:1;transform:none}to{opacity:0;transform:translateY(10px) scale(.95)}}
-  .toast{pointer-events:none;padding:12px 18px;background:${C.card};border:1px solid ${C.border};border-radius:12px;font-size:13px;font-weight:600;color:${C.heading};box-shadow:0 8px 32px #00000060;display:flex;align-items:center;gap:10;animation:toast-in .25s ease;backdrop-filter:blur(12px);min-width:220px;max-width:340px}
-  .filter-chip{display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:600;cursor:pointer;border:1px solid;transition:all .15s}
-  .stat-card{background:${C.card};border:1px solid ${C.border};border-radius:14px;padding:18px 20px;display:flex;align-items:center;gap:14;transition:all .18s}
-  .stat-card:hover{border-color:${C.primary}44;box-shadow:0 4px 20px rgba(59,130,246,.06)}
-  .section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-  .section-title{font-size:15px;font-weight:700;color:${C.heading};display:flex;align-items:center;gap:8px}
-  .see-all-btn{font-size:12px;color:${C.primary};background:none;border:none;cursor:pointer;font-weight:600;padding:4px 8px;border-radius:6px;transition:background .15s}
-  .see-all-btn:hover{background:${C.primary}15}
-  .nav-tooltip{position:absolute;left:100%;top:50%;transform:translateY(-50%);margin-left:10px;background:${C.card};border:1px solid ${C.border};border-radius:8px;padding:6px 12px;font-size:12px;font-weight:600;color:${C.heading};white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .15s;box-shadow:0 4px 16px #00000040;z-index:100}
-  .nav-item:hover .nav-tooltip{opacity:1}
-  .topbar{height:52px;background:${C.surface};border-bottom:1px solid ${C.border};display:flex;align-items:center;padding:0 20px;gap:14;position:sticky;top:0;z-index:200;backdrop-filter:blur(12px)}
-  .search-pill{display:flex;align-items:center;gap:8px;background:${C.card};border:1px solid ${C.border};border-radius:8px;padding:7px 14px;cursor:text;transition:all .15s;flex:1;max-width:400px}
-  .search-pill:hover{border-color:${C.primary}44}
-  .search-pill input{background:none;border:none;outline:none;font-size:13px;color:${C.text};flex:1;min-width:0;font-family:inherit}
-  .preview-popup{position:absolute;z-index:300;width:280px;background:${C.card};border:1px solid ${C.border};border-radius:12px;padding:16px;box-shadow:0 8px 32px #00000060;pointer-events:none;animation:fadeUp .18s ease}
-  @media(max-width:900px){
-    .page{padding:16px 14px}
-    .kb-layout{grid-template-columns:1fr!important}
-    .kb-sidebar{display:none!important}
-    .article-2col{grid-template-columns:1fr!important}
-    .article-sidebar{position:static!important;display:none!important}
-    .hide-mobile{display:none!important}
-    .show-mobile{display:flex!important}
-    .mobile-bottom-nav{display:flex!important}
-    .topbar-search{display:none!important}
+  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap');
+
+  *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+
+  body {
+    background:${C.bg};
+    color:${C.text};
+    font-family:'Outfit', system-ui, sans-serif;
+    font-size:15px;
+    line-height:1.6;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+    background-image:
+      radial-gradient(ellipse 80% 50% at 50% -10%, rgba(59,130,246,.07) 0%, transparent 70%),
+      radial-gradient(ellipse 60% 40% at 90% 80%, rgba(34,211,238,.04) 0%, transparent 60%);
+    background-attachment:fixed;
   }
-  .mobile-bottom-nav{display:none;position:fixed;bottom:0;left:0;right:0;background:${C.surface};border-top:1px solid ${C.border};z-index:500;padding:8px 0 env(safe-area-inset-bottom)}
+  a { color:inherit; text-decoration:none; }
+  
+  /* ── Scrollbars ── */
+  ::-webkit-scrollbar { width:4px; height:4px; }
+  ::-webkit-scrollbar-track { background:transparent; }
+  ::-webkit-scrollbar-thumb { background:${C.border}; border-radius:4px; }
+  ::-webkit-scrollbar-thumb:hover { background:${C.borderBright}; }
+
+  /* ── Typography ── */
+  .display { font-size:clamp(32px,5vw,52px); font-weight:900; letter-spacing:-.03em; line-height:1.1; color:${C.heading}; }
+  .heading-lg { font-size:28px; font-weight:800; letter-spacing:-.02em; color:${C.heading}; }
+  .heading-md { font-size:20px; font-weight:700; letter-spacing:-.01em; color:${C.heading}; }
+  .label-sm { font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:${C.muted}; }
+  .mono { font-family:'JetBrains Mono', monospace; }
+  .gradient-text { background:${C.grad1}; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+  .gradient-text-2 { background:${C.grad2}; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; }
+
+  /* ── Buttons ── */
+  .btn { display:inline-flex; align-items:center; gap:8px; padding:10px 20px; border-radius:10px; border:none; cursor:pointer; font-size:14px; font-weight:600; font-family:inherit; transition:all .18s cubic-bezier(.4,0,.2,1); }
+  .btn-primary { background:${C.primary}; color:#fff; box-shadow:0 0 0 0 ${C.primary}40; }
+  .btn-primary:hover { background:#2563eb; transform:translateY(-1px); box-shadow:0 4px 16px ${C.primary}40, 0 0 0 0 transparent; }
+  .btn-primary:active { transform:translateY(0); }
+  .btn-outline { background:transparent; color:${C.primary}; border:1px solid ${C.primary}55; }
+  .btn-outline:hover { background:${C.primary}10; border-color:${C.primary}; transform:translateY(-1px); }
+  .btn-ghost { background:transparent; color:${C.muted}; border:1px solid ${C.border}; }
+  .btn-ghost:hover { background:${C.raised}; border-color:${C.borderBright}; color:${C.text}; transform:translateY(-1px); }
+  .btn-success { background:${C.success}; color:#fff; }
+  .btn-success:hover { background:#059669; transform:translateY(-1px); }
+  .btn-danger { background:transparent; color:${C.danger}; border:1px solid ${C.danger}44; }
+  .btn-danger:hover { background:${C.danger}10; }
+  .btn-sm { padding:6px 12px; font-size:12px; border-radius:8px; }
+  .btn-xs { padding:4px 10px; font-size:11px; border-radius:6px; }
+  .btn:disabled { opacity:.45; cursor:not-allowed; transform:none !important; }
+
+  /* ── Card system — 3-level elevation ── */
+  .card {
+    background:${C.card};
+    border:1px solid ${C.border};
+    border-radius:16px;
+    padding:24px;
+    transition:border-color .18s, box-shadow .18s, transform .18s;
+  }
+  .card-sm { padding:16px; }
+  .card-xs { padding:12px 14px; }
+  .card-raised { background:${C.raised}; border-color:${C.borderBright}; }
+  .card-glass {
+    background:${C.glass};
+    border:1px solid ${C.glassBorder};
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+  }
+  .card-hover { cursor:pointer; }
+  .card-hover:hover {
+    border-color:${C.primary}55;
+    box-shadow:0 4px 24px rgba(59,130,246,.1), 0 1px 0 rgba(255,255,255,.04) inset;
+    transform:translateY(-2px);
+  }
+  .card-glow { box-shadow:0 0 0 1px ${C.primary}30, 0 4px 24px ${C.primary}15; }
+
+  /* ── Glassmorphism panel ── */
+  .glass-panel {
+    background:${C.glass};
+    border:1px solid ${C.glassBorder};
+    backdrop-filter:blur(24px);
+    -webkit-backdrop-filter:blur(24px);
+  }
+
+  /* ── Badges ── */
+  .badge { display:inline-flex; align-items:center; gap:4px; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:700; letter-spacing:.02em; }
+  .badge-blue  { background:rgba(59,130,246,.15); color:#60a5fa; border:1px solid rgba(59,130,246,.2); }
+  .badge-green { background:rgba(16,185,129,.15); color:#34d399; border:1px solid rgba(16,185,129,.2); }
+  .badge-gold  { background:rgba(245,158,11,.15); color:#fbbf24; border:1px solid rgba(245,158,11,.2); }
+  .badge-purple{ background:rgba(139,92,246,.15); color:#a78bfa; border:1px solid rgba(139,92,246,.2); }
+  .badge-red   { background:rgba(239,68,68,.15);  color:#f87171; border:1px solid rgba(239,68,68,.2); }
+  .badge-cyan  { background:rgba(34,211,238,.12); color:#22d3ee; border:1px solid rgba(34,211,238,.2); }
+  .badge-live  { background:rgba(16,185,129,.12); color:#10b981; border:1px solid rgba(16,185,129,.2); }
+
+  /* ── Forms ── */
+  input, textarea, select {
+    background:${C.surface};
+    border:1px solid ${C.border};
+    border-radius:10px;
+    color:${C.text};
+    padding:10px 14px;
+    font-size:14px;
+    font-family:inherit;
+    width:100%;
+    outline:none;
+    transition:border-color .18s, box-shadow .18s;
+  }
+  input:focus, textarea:focus, select:focus {
+    border-color:${C.primary};
+    box-shadow:0 0 0 3px ${C.primary}18;
+    background:${C.card};
+  }
+  input::placeholder { color:${C.muted}66; }
+  label { display:block; font-size:12px; font-weight:600; color:${C.muted}; margin-bottom:5px; letter-spacing:.02em; }
+
+  /* ── Layout ── */
+  .page { max-width:1200px; margin:0 auto; padding:32px 24px; }
+  .ph { margin-bottom:32px; }
+  .ph h1 { font-size:30px; font-weight:800; color:${C.heading}; margin-bottom:6px; letter-spacing:-.025em; }
+  .ph p { color:${C.muted}; font-size:15px; line-height:1.65; }
+  .pt { font-size:10px; font-weight:800; letter-spacing:.12em; color:${C.accent}; text-transform:uppercase; margin-bottom:8px; }
+
+  /* ── Bento grid ── */
+  .bento { display:grid; gap:14px; }
+  .bento-2 { grid-template-columns:1fr 1fr; }
+  .bento-3 { grid-template-columns:1fr 1fr 1fr; }
+  .bento-span2 { grid-column:span 2; }
+  .bento-span3 { grid-column:span 3; }
+
+  /* ── Progress ── */
+  .progress-bar-track { height:3px; background:${C.border}; border-radius:3px; overflow:hidden; }
+  .progress-bar-fill  { height:100%; border-radius:3px; transition:width .5s cubic-bezier(.4,0,.2,1); }
+  .progress-thick { height:6px; }
+
+  /* ── Utility ── */
+  .tn { background:rgba(34,211,238,.12); color:#22d3ee; padding:2px 8px; border-radius:4px; font-size:10px; font-weight:800; letter-spacing:.05em; border:1px solid rgba(34,211,238,.2); }
+  .toggle { width:44px; height:24px; border-radius:12px; cursor:pointer; position:relative; transition:background .2s; flex-shrink:0; }
+  .tknob { position:absolute; width:18px; height:18px; border-radius:50%; background:#fff; top:3px; transition:left .2s; box-shadow:0 1px 3px rgba(0,0,0,.3); }
+  .row { display:flex; align-items:center; justify-content:space-between; padding:10px 0; border-bottom:1px solid ${C.border}; }
+  .kbd { display:inline-block; padding:1px 6px; background:${C.raised}; border:1px solid ${C.border}; border-bottom-width:2px; border-radius:5px; font-size:10px; font-family:'JetBrains Mono',monospace; color:${C.muted}; }
+  .copy-btn { padding:2px 8px; border-radius:4px; border:1px solid ${C.border}; background:transparent; color:${C.muted}; cursor:pointer; font-size:10px; font-family:inherit; transition:all .15s; }
+  .copy-btn:hover { border-color:${C.success}; color:${C.success}; }
+  .tag-pill { padding:3px 9px; border-radius:20px; font-size:11px; cursor:pointer; transition:all .15s; border:1px solid transparent; }
+  .tag-pill:hover { border-color:${C.primary}55; color:${C.primary}; background:${C.primary}0d; }
+  .section-title { font-size:15px; font-weight:700; color:${C.heading}; display:flex; align-items:center; gap:8px; }
+  .section-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+  .see-all-btn { font-size:12px; color:${C.primary}; background:none; border:none; cursor:pointer; font-weight:600; padding:4px 8px; border-radius:6px; transition:background .15s; font-family:inherit; }
+  .see-all-btn:hover { background:${C.primary}15; }
+  .divider { height:1px; background:${C.border}; margin:16px 0; }
+  .highlight { background:rgba(251,191,36,.2); color:#fbbf24; border-radius:2px; padding:0 2px; }
+  .mono-num { font-family:'JetBrains Mono',monospace; font-weight:600; }
+
+  /* ── Toc / sidebar links ── */
+  .toc-link { display:block; padding:6px 10px; border-radius:6px; font-size:12px; color:${C.muted}; cursor:pointer; border:none; background:none; width:100%; text-align:left; transition:all .15s; font-family:inherit; }
+  .toc-link:hover, .toc-link.active { background:${C.primary}14; color:${C.primary}; }
+
+  /* ── Stat cards ── */
+  .stat-card { background:${C.card}; border:1px solid ${C.border}; border-radius:14px; padding:18px 20px; display:flex; align-items:center; gap:14px; transition:all .18s; }
+  .stat-card:hover { border-color:${C.borderBright}; box-shadow:${C.shadow1}; }
+
+  /* ── Nav ── */
+  .nav-tooltip { position:absolute; left:100%; top:50%; transform:translateY(-50%); margin-left:10px; background:${C.raised}; border:1px solid ${C.border}; border-radius:8px; padding:6px 12px; font-size:12px; font-weight:600; color:${C.heading}; white-space:nowrap; pointer-events:none; opacity:0; transition:opacity .15s; box-shadow:${C.shadow2}; z-index:100; }
+  .nav-item:hover .nav-tooltip { opacity:1; }
+  .nav-link { display:flex; align-items:center; gap:10px; padding:7px 10px; border-radius:8px; margin-bottom:2px; transition:all .15s; font-size:13px; white-space:nowrap; border:1px solid transparent; }
+  .nav-link:hover { background:${C.glass}; border-color:${C.glassBorder}; }
+  .nav-link.active { background:${C.primary}15; color:${C.primary}; border-color:${C.primary}25; }
+
+  /* ── Topbar ── */
+  .topbar { height:52px; background:${C.glass}; border-bottom:1px solid ${C.glassBorder}; display:flex; align-items:center; padding:0 20px; gap:14px; position:sticky; top:0; z-index:200; backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); }
+  .search-pill { display:flex; align-items:center; gap:8px; background:${C.surface}; border:1px solid ${C.border}; border-radius:10px; padding:7px 14px; cursor:text; transition:all .18s; }
+  .search-pill:hover { border-color:${C.borderBright}; }
+  .search-pill:focus-within { border-color:${C.primary}66; box-shadow:0 0 0 3px ${C.primary}10; }
+  .search-pill input { background:none; border:none; outline:none; font-size:13px; color:${C.text}; flex:1; min-width:0; font-family:inherit; }
+
+  /* ── Modals ── */
+  .modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,.7); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); z-index:1000; display:flex; align-items:center; justify-content:center; animation:fadeIn .2s ease; }
+  .modal-content { background:${C.card}; border:1px solid ${C.glassBorder}; border-radius:20px; width:min(640px,95vw); max-height:88vh; overflow:hidden; display:flex; flex-direction:column; animation:fadeUp .22s cubic-bezier(.22,.61,.36,1); box-shadow:${C.shadow3}, 0 0 0 1px ${C.glassBorder}; }
+
+  /* ── Preview popup ── */
+  .preview-popup { position:absolute; z-index:300; width:280px; background:${C.raised}; border:1px solid ${C.borderBright}; border-radius:14px; padding:16px; box-shadow:${C.shadow3}; pointer-events:none; animation:fadeUp .18s ease; }
+
+  /* ── Filter chips ── */
+  .filter-chip { display:inline-flex; align-items:center; gap:6px; padding:5px 12px; border-radius:20px; font-size:12px; font-weight:600; cursor:pointer; border:1px solid; transition:all .15s; font-family:inherit; }
+
+  /* ── Animations ── */
+  @keyframes fadeUp { from { opacity:0; transform:translateY(14px) } to { opacity:1; transform:none } }
+  @keyframes fadeIn { from { opacity:0 } to { opacity:1 } }
+  @keyframes slideIn { from { opacity:0; transform:translateX(-10px) } to { opacity:1; transform:none } }
+  @keyframes slideRight { from { opacity:0; transform:translateX(10px) } to { opacity:1; transform:none } }
+  @keyframes pulse { 0%,100%{ opacity:1 } 50%{ opacity:.4 } }
+  @keyframes glow-pulse { 0%,100%{ box-shadow:0 0 8px rgba(59,130,246,.3) } 50%{ box-shadow:0 0 20px rgba(59,130,246,.6) } }
+  @keyframes spin { to { transform:rotate(360deg) } }
+  @keyframes confetti-fall { 0%{ transform:translateY(-20px) rotate(0deg);opacity:1 } 100%{ transform:translateY(120px) rotate(360deg);opacity:0 } }
+  @keyframes shimmer { 0%{ background-position:-200% 0 } 100%{ background-position:200% 0 } }
+  @keyframes toast-in { from{ opacity:0;transform:translateY(16px) scale(.96) } to{ opacity:1;transform:none } }
+  @keyframes toast-out { from{ opacity:1;transform:none } to{ opacity:0;transform:translateY(8px) scale(.96) } }
+
+  .fade-up   { animation:fadeUp .32s cubic-bezier(.22,.61,.36,1) both; }
+  .fade-in   { animation:fadeIn .22s ease both; }
+  .slide-in  { animation:slideIn .28s ease both; }
+
+  /* ── Reading progress ── */
+  .reading-progress { position:fixed; top:0; left:0; right:0; height:2px; z-index:9999; pointer-events:none; }
+
+  /* ── Toast ── */
+  .toast { pointer-events:none; padding:11px 18px; background:${C.raised}; border:1px solid ${C.glassBorder}; border-radius:12px; font-size:13px; font-weight:600; color:${C.heading}; box-shadow:${C.shadow3}; display:flex; align-items:center; gap:10px; animation:toast-in .22s ease; backdrop-filter:blur(16px); min-width:200px; max-width:320px; }
+
+  /* ── Mobile nav ── */
+  .mobile-bottom-nav { display:none; position:fixed; bottom:0; left:0; right:0; background:${C.glass}; border-top:1px solid ${C.glassBorder}; z-index:500; padding:8px 0 env(safe-area-inset-bottom); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); }
+
+  /* ── Step tracking ── */
+  .step-done { background:${C.success} !important; border-color:${C.success} !important; color:#fff !important; }
+
+  /* ── Category glow accents ── */
+  .cat-glow-blue   { box-shadow:0 0 20px rgba(59,130,246,.12); }
+  .cat-glow-green  { box-shadow:0 0 20px rgba(16,185,129,.12); }
+  .cat-glow-purple { box-shadow:0 0 20px rgba(139,92,246,.12); }
+  .cat-glow-pink   { box-shadow:0 0 20px rgba(236,72,153,.12); }
+
+  /* ── Responsive ── */
+  @media(max-width:900px) {
+    .page { padding:16px 14px; }
+    .kb-layout { grid-template-columns:1fr !important; }
+    .kb-sidebar { display:none !important; }
+    .article-2col { grid-template-columns:1fr !important; }
+    .article-sidebar { position:static !important; display:none !important; }
+    .hide-mobile { display:none !important; }
+    .show-mobile { display:flex !important; }
+    .mobile-bottom-nav { display:flex !important; }
+    .topbar-search { display:none !important; }
+    .bento-2 { grid-template-columns:1fr !important; }
+    .bento-3 { grid-template-columns:1fr 1fr !important; }
+    .bento-span2 { grid-column:span 1 !important; }
+    .bento-span3 { grid-column:span 2 !important; }
+  }
+  @media(max-width:600px) {
+    .bento-3 { grid-template-columns:1fr !important; }
+    .bento-span3 { grid-column:span 1 !important; }
+  }
+
+  /* ── Enhanced micro-interactions ── */
+  @keyframes count-up { from { opacity:0; transform:translateY(8px) } to { opacity:1; transform:none } }
+  @keyframes reveal { from { opacity:0; transform:translateY(20px) } to { opacity:1; transform:none } }
+  @keyframes float { 0%,100%{ transform:translateY(0) } 50%{ transform:translateY(-4px) } }
+  @keyframes shimmer-sweep {
+    0% { background-position: -200% 0 }
+    100% { background-position: 200% 0 }
+  }
+  @keyframes dot-bounce {
+    0%,80%,100%{ transform:scale(0.6); opacity:.4 }
+    40%{ transform:scale(1); opacity:1 }
+  }
+  @keyframes status-glow {
+    0%,100%{ box-shadow:0 0 4px rgba(16,185,129,.4) }
+    50%{ box-shadow:0 0 10px rgba(16,185,129,.8), 0 0 20px rgba(16,185,129,.3) }
+  }
+  @keyframes slide-up-stagger {
+    from { opacity:0; transform:translateY(24px) scale(.98) }
+    to { opacity:1; transform:none }
+  }
+
+  .reveal { animation:reveal .4s cubic-bezier(.22,.61,.36,1) both; }
+  .float  { animation:float 3s ease-in-out infinite; }
+  .count-up { animation:count-up .3s ease both; }
+
+  /* ── Skeleton / shimmer ── */
+  .skeleton {
+    background: linear-gradient(90deg, ${C.card} 25%, ${C.raised} 50%, ${C.card} 75%);
+    background-size: 200% 100%;
+    animation: shimmer-sweep 1.5s infinite;
+    border-radius: 8px;
+  }
+
+  /* ── Accessible focus rings ── */
+  *:focus-visible {
+    outline: 2px solid ${C.primary};
+    outline-offset: 2px;
+    border-radius: 6px;
+  }
+  button:focus-visible, a:focus-visible { border-radius: 8px; }
+
+  /* ── Link hover underline effect ── */
+  .link-underline {
+    position: relative;
+    display: inline-block;
+  }
+  .link-underline::after {
+    content: '';
+    position: absolute;
+    bottom: -1px; left: 0; right: 0;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .2s ease;
+  }
+  .link-underline:hover::after { transform: scaleX(1); }
+
+  /* ── Better mobile nav active state ── */
+  .mobile-nav-active-pill {
+    position: absolute;
+    bottom: -2px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 18px; height: 2px;
+    background: ${C.primary};
+    border-radius: 2px;
+    transition: all .2s;
+  }
+
+  /* ── Topic tile shimmer on hover ── */
+  .topic-tile {
+    position: relative;
+    overflow: hidden;
+    transition: all .2s cubic-bezier(.4,0,.2,1);
+  }
+  .topic-tile::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,.04) 50%, transparent 60%);
+    transform: translateX(-100%);
+    transition: transform .4s ease;
+  }
+  .topic-tile:hover::before { transform: translateX(100%); }
+  .topic-tile:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(0,0,0,.4);
+  }
+
+  /* ── Stat number ── */
+  .stat-num {
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: -.03em;
+    line-height: 1;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ── Hero gradient mesh overlay ── */
+  .hero-mesh {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 50% 60% at 20% 50%, rgba(59,130,246,.06) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 50% at 80% 30%, rgba(34,211,238,.04) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  /* ── Bento tall cell ── */
+  .bento-tall { grid-row: span 2; }
+
+  /* ── Category icon circle with gradient ── */
+  .cat-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 12px;
+    font-size: 22px;
+    flex-shrink: 0;
+    transition: transform .2s ease;
+  }
+  .cat-icon:hover { transform: scale(1.1) rotate(-4deg); }
+
+  /* ── Step circle animation ── */
+  .step-circle {
+    transition: all .25s cubic-bezier(.34,1.56,.64,1);
+  }
+  .step-circle.done {
+    background: ${C.success};
+    border-color: ${C.success};
+    box-shadow: 0 0 10px rgba(16,185,129,.4);
+  }
+  .step-circle:hover { transform: scale(1.15); }
+
+  /* ── Article card on KB list ── */
+  .article-card {
+    transition: all .18s cubic-bezier(.4,0,.2,1);
+    cursor: pointer;
+  }
+  .article-card:hover {
+    border-color: ${C.borderBright};
+    background: ${C.raised};
+    transform: translateX(2px);
+  }
+
+  /* ── Process tag pill ── */
+  .process-pill {
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    cursor: pointer;
+    border: 1px solid ${C.border};
+    background: ${C.surface};
+    color: ${C.text};
+    transition: all .15s;
+  }
+  .process-pill:hover {
+    background: var(--cat-color, ${C.primary})12;
+    border-color: var(--cat-color, ${C.primary})66;
+    color: var(--cat-color, ${C.primary});
+    transform: translateY(-1px);
+  }
+
+  /* ── Chat bubble entrance ── */
+  .msg-bubble {
+    animation: slide-up-stagger .25s cubic-bezier(.22,.61,.36,1) both;
+  }
+
+  /* ── Notification dot ── */
+  .notif-dot {
+    width: 7px; height: 7px;
+    border-radius: 50%;
+    background: ${C.danger};
+    animation: glow-pulse 2s infinite;
+  }
 `
 
 const NAVGROUPS = [
@@ -325,6 +685,22 @@ function ToastContainer() {
   )
 }
 
+// ── PAGE HEADER COMPONENT ───────────────────────────────────────────────────
+function PageHeader({ eyebrow, title, subtitle, action }) {
+  return (
+    <div className="ph fade-up" style={{ marginBottom:32 }}>
+      {eyebrow && <div className="pt">{eyebrow}</div>}
+      <div style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between', gap:16, flexWrap:'wrap' }}>
+        <div>
+          <h1 style={{ fontSize:28, fontWeight:900, color:C.heading, letterSpacing:'-.025em', marginBottom:eyebrow?6:0 }}>{title}</h1>
+          {subtitle && <p style={{ color:C.muted, fontSize:15, lineHeight:1.65, marginTop:6 }}>{subtitle}</p>}
+        </div>
+        {action && <div style={{ flexShrink:0, paddingTop:2 }}>{action}</div>}
+      </div>
+    </div>
+  )
+}
+
 function Layout({ children }) {
   const [open, setOpen] = useState(true)
   const loc = useLocation()
@@ -340,52 +716,88 @@ function Layout({ children }) {
     <div style={{ display:'flex', minHeight:'100vh', flexDirection:'column' }}>
       <ToastContainer />
 
-      {/* Top bar */}
-      <div className="topbar" style={{ marginLeft: open ? 240 : 52, transition:'margin .2s' }}>
-        <div style={{ fontSize:11, fontWeight:800, color:C.primary, letterSpacing:'.1em', marginRight:8, display:'flex', alignItems:'center', gap:6 }}>
-          <span style={{ background:`${C.primary}22`, padding:'2px 8px', borderRadius:4 }}>CLEAR</span>
-        </div>
-        <div className="search-pill topbar-search" style={{ flex:1, maxWidth:380 }}>
-          <span style={{ fontSize:14, color:C.muted }}>🔍</span>
-          <input placeholder="Search guides… (⌘K)" onFocus={()=>{ if(loc.pathname!=='/knowledge') window.location.href='/knowledge' }} style={{ fontSize:13 }} readOnly />
+      {/* Topbar */}
+      <div className="topbar" style={{ marginLeft: open ? 240 : 56, transition:'margin .22s cubic-bezier(.4,0,.2,1)' }}>
+        <div className="search-pill topbar-search" style={{ flex:1, maxWidth:400 }}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={C.muted} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input placeholder="Search 90 guides…" onFocus={()=>{ if(loc.pathname!=='/knowledge') window.location.href='/knowledge' }} style={{ fontSize:13 }} readOnly />
           <span className="kbd">⌘K</span>
         </div>
         <div style={{ flex:1 }} />
-        <Link to="/knowledge" style={{ padding:'6px 12px', borderRadius:8, background:`${C.primary}15`, color:C.primary, fontSize:12, fontWeight:700, display:'flex', alignItems:'center', gap:6 }}>
-          📚 Knowledge Base
+        {urgentCount > 0 && (
+          <Link to="/cases">
+            <div style={{ display:'flex', alignItems:'center', gap:6, padding:'5px 12px', borderRadius:8, background:`${C.danger}12`, border:`1px solid ${C.danger}30`, cursor:'pointer' }}>
+              <span style={{ width:7, height:7, borderRadius:'50%', background:C.danger, animation:'pulse 1.5s infinite' }} />
+              <span style={{ fontSize:12, fontWeight:700, color:C.danger }}>{urgentCount} urgent</span>
+            </div>
+          </Link>
+        )}
+        <Link to="/knowledge">
+          <div style={{ display:'flex', alignItems:'center', gap:6, padding:'5px 12px', borderRadius:8, background:`${C.primary}10`, border:`1px solid ${C.primary}22`, cursor:'pointer', transition:'all .15s' }}
+            onMouseEnter={e=>e.currentTarget.style.background=`${C.primary}1a`}
+            onMouseLeave={e=>e.currentTarget.style.background=`${C.primary}10`}>
+            <span style={{ fontSize:13, color:C.primary, fontWeight:600 }}>📚 Guides</span>
+          </div>
         </Link>
-        <Link to="/ai-assistant" style={{ padding:'6px 12px', borderRadius:8, background:`${C.success}15`, color:C.success, fontSize:12, fontWeight:700, display:'flex', alignItems:'center', gap:6 }}>
-          🤖 Ask CLARA
+        <Link to="/ai-assistant">
+          <div style={{ display:'flex', alignItems:'center', gap:6, padding:'5px 14px', borderRadius:8, background:C.grad1, cursor:'pointer', transition:'all .15s', boxShadow:`0 2px 12px ${C.primary}30` }}
+            onMouseEnter={e=>e.currentTarget.style.opacity='.9'}
+            onMouseLeave={e=>e.currentTarget.style.opacity='1'}>
+            <span style={{ fontSize:13, fontWeight:700, color:'#fff' }}>✦ CLARA</span>
+          </div>
         </Link>
       </div>
 
       <div style={{ display:'flex', flex:1, minHeight:0 }}>
         {/* Sidebar */}
-        <aside style={{ width:open?240:52, background:C.surface, borderRight:`1px solid ${C.border}`, display:'flex', flexDirection:'column', transition:'width .2s', overflow:'hidden', position:'sticky', top:52, height:'calc(100vh - 52px)', flexShrink:0 }} className="hide-mobile">
-          <div style={{ padding:'12px 10px', borderBottom:`1px solid ${C.border}`, display:'flex', alignItems:'center', gap:10 }}>
-            {open && <Link to="/" style={{ fontWeight:900, fontSize:17, color:C.primary, flex:1, letterSpacing:'.02em' }}>CLEAR</Link>}
-            <button onClick={()=>setOpen(v=>!v)} style={{ background:`${C.border}44`, border:'none', color:C.muted, cursor:'pointer', fontSize:13, padding:'5px 7px', borderRadius:6, transition:'all .15s' }}
-              onMouseEnter={e=>e.currentTarget.style.background=C.border}
-              onMouseLeave={e=>e.currentTarget.style.background=`${C.border}44`}
-            >{open?'◀':'▶'}</button>
+        <aside style={{ width:open?240:56, background:'rgba(10,15,28,0.85)', borderRight:`1px solid ${C.glassBorder}`, backdropFilter:'blur(24px)', WebkitBackdropFilter:'blur(24px)', display:'flex', flexDirection:'column', transition:'width .22s cubic-bezier(.4,0,.2,1)', overflow:'hidden', position:'sticky', top:52, height:'calc(100vh - 52px)', flexShrink:0 }} className="hide-mobile">
+          {/* Wordmark */}
+          <div style={{ padding:'14px 10px', borderBottom:`1px solid ${C.glassBorder}`, display:'flex', alignItems:'center', gap:10, minHeight:52 }}>
+            {open && (
+              <Link to="/" style={{ flex:1, display:'flex', alignItems:'center', gap:10 }}>
+                <div style={{ width:28, height:28, borderRadius:8, background:C.grad1, display:'flex', alignItems:'center', justifyContent:'center', fontSize:14, fontWeight:900, color:'#fff', flexShrink:0, boxShadow:`0 2px 8px ${C.primary}50` }}>C</div>
+                <span style={{ fontWeight:800, fontSize:15, color:C.heading, letterSpacing:'-.01em' }}>CLEAR</span>
+                <span style={{ fontSize:9, fontWeight:700, letterSpacing:'.06em', color:C.muted, paddingTop:2 }}>v3</span>
+              </Link>
+            )}
+            {!open && <div style={{ width:28, height:28, borderRadius:8, background:C.grad1, display:'flex', alignItems:'center', justifyContent:'center', fontSize:14, fontWeight:900, color:'#fff', margin:'0 auto' }}>C</div>}
+            <button onClick={()=>setOpen(v=>!v)} style={{ background:'transparent', border:`1px solid ${C.glassBorder}`, color:C.muted, cursor:'pointer', fontSize:11, padding:'4px 6px', borderRadius:6, transition:'all .15s', lineHeight:1, flexShrink:0 }}
+              onMouseEnter={e=>{e.currentTarget.style.borderColor=C.borderBright;e.currentTarget.style.color=C.text}}
+              onMouseLeave={e=>{e.currentTarget.style.borderColor=C.glassBorder;e.currentTarget.style.color=C.muted}}
+            >{open?'‹':'›'}</button>
           </div>
-          <nav style={{ flex:1, padding:'10px 6px', overflowY:'auto' }}>
+          {/* Nav */}
+          <nav style={{ flex:1, padding:'8px 6px', overflowY:'auto' }}>
             {NAVGROUPS.map(g=>(
-              <div key={g.label} style={{ marginBottom:14 }}>
-                {open && <div style={{ display:'flex', alignItems:'center', gap:8, padding:'0 6px', marginBottom:4 }}>
-                  <span style={{ fontSize:10, fontWeight:700, letterSpacing:'.1em', color:C.muted, textTransform:'uppercase' }}>{g.label}</span>
-                  {g.badge && <span className="tn">{g.badge}</span>}
+              <div key={g.label} style={{ marginBottom:10 }}>
+                {open && <div style={{ padding:'6px 8px 4px', display:'flex', alignItems:'center', gap:6 }}>
+                  <span style={{ fontSize:9, fontWeight:800, letterSpacing:'.12em', color:C.muted, textTransform:'uppercase' }}>{g.label}</span>
+                  {g.badge && <span className="tn" style={{ fontSize:8, padding:'1px 5px' }}>{g.badge}</span>}
                 </div>}
+                {!open && <div style={{ height:1, background:C.glassBorder, margin:'4px 6px 6px' }} />}
                 {g.items.map(item=>{
                   const active = loc.pathname===item.path
                   return (
                     <div key={item.path} className="nav-item" style={{ position:'relative' }}>
-                      <Link to={item.path}
-                        style={{ display:'flex', alignItems:'center', gap:10, padding:'7px 8px', borderRadius:8, marginBottom:2, color:active?C.primary:C.muted, background:active?`${C.primary}15`:'transparent', transition:'all .15s', fontSize:13, fontWeight:active?600:400, whiteSpace:'nowrap', borderLeft:active?`2px solid ${C.primary}`:'2px solid transparent' }}>
-                        <span style={{ fontSize:16, flexShrink:0 }}>{item.icon}</span>
-                        {open && <><span style={{ flex:1 }}>{item.label}</span>
-                          {item.badge==='cases' && urgentCount>0 && <span style={{ background:C.danger, color:'#fff', borderRadius:10, fontSize:10, fontWeight:800, padding:'1px 6px', minWidth:18, textAlign:'center' }}>{urgentCount}</span>}
-                          {item.tag&&<span className="tn">NEW</span>}
+                      <Link to={item.path} style={{
+                        display:'flex', alignItems:'center', gap:9, padding: open ? '6px 8px' : '8px 0',
+                        justifyContent: open ? 'flex-start' : 'center',
+                        borderRadius:8, marginBottom:1,
+                        color: active ? C.primary : C.muted,
+                        background: active ? `${C.primary}12` : 'transparent',
+                        transition:'all .14s',
+                        fontSize:13, fontWeight: active ? 600 : 400,
+                        whiteSpace:'nowrap',
+                        borderLeft: active && open ? `2px solid ${C.primary}` : '2px solid transparent',
+                      }}
+                        onMouseEnter={e=>{ if(!active){ e.currentTarget.style.background=C.glass; e.currentTarget.style.color=C.text } }}
+                        onMouseLeave={e=>{ if(!active){ e.currentTarget.style.background='transparent'; e.currentTarget.style.color=C.muted } }}
+                      >
+                        <span style={{ fontSize:15, flexShrink:0, opacity: active ? 1 : 0.7 }}>{item.icon}</span>
+                        {open && <>
+                          <span style={{ flex:1, fontSize:13 }}>{item.label}</span>
+                          {item.badge==='cases' && urgentCount>0 && <span style={{ background:C.danger, color:'#fff', borderRadius:10, fontSize:9, fontWeight:800, padding:'1px 6px', minWidth:16, textAlign:'center', lineHeight:'16px' }}>{urgentCount}</span>}
+                          {item.tag && <span className="tn" style={{ fontSize:9, padding:'1px 5px' }}>NEW</span>}
                         </>}
                       </Link>
                       {!open && <div className="nav-tooltip">{item.label}</div>}
@@ -396,11 +808,9 @@ function Layout({ children }) {
             ))}
           </nav>
           {open && (
-            <div style={{ padding:'12px 10px', borderTop:`1px solid ${C.border}` }}>
-              <div style={{ fontSize:11, color:C.muted, lineHeight:1.5 }}>
-                CLEAR Platform v3.0<br />
-                <span style={{ color:C.success }}>● All systems operational</span>
-              </div>
+            <div style={{ padding:'12px 14px', borderTop:`1px solid ${C.glassBorder}`, display:'flex', alignItems:'center', gap:8 }}>
+              <span style={{ width:6, height:6, borderRadius:'50%', background:C.success, flexShrink:0, boxShadow:`0 0 6px ${C.success}` }} />
+              <span style={{ fontSize:11, color:C.muted }}>All systems operational</span>
             </div>
           )}
         </aside>
@@ -413,9 +823,22 @@ function Layout({ children }) {
         {mobileNavItems.map(item => {
           const active = loc.pathname===item.path
           return (
-            <Link key={item.path} to={item.path} style={{ flex:1, display:'flex', flexDirection:'column', alignItems:'center', gap:3, padding:'6px 4px', color:active?C.primary:C.muted, fontSize:10, fontWeight:active?700:400, transition:'color .15s' }}>
-              <span style={{ fontSize:20 }}>{item.icon}</span>
-              <span>{item.label}</span>
+            <Link key={item.path} to={item.path} style={{
+              flex:1, display:'flex', flexDirection:'column', alignItems:'center',
+              gap:2, padding:'6px 4px', color:active?C.primary:C.muted,
+              fontSize:10, fontWeight:active?700:400, transition:'color .15s',
+              position:'relative',
+            }}>
+              <span style={{
+                fontSize:20,
+                transition:'transform .2s cubic-bezier(.34,1.56,.64,1)',
+                transform: active ? 'translateY(-1px) scale(1.1)' : 'none',
+              }}>{item.icon}</span>
+              <span style={{ fontSize:9 }}>{item.label}</span>
+              {active && <span style={{
+                position:'absolute', bottom:2, left:'50%', transform:'translateX(-50%)',
+                width:16, height:2, borderRadius:2, background:C.primary,
+              }} />}
             </Link>
           )
         })}
@@ -425,101 +848,248 @@ function Layout({ children }) {
 }
 
 // ── HOME ──────────────────────────────────────────────────────────────────────
-function AnimatedStat({ value, label, icon, color }) {
+function AnimatedStat({ value, label, icon, color, delay=0 }) {
+  const [shown, setShown] = useState(false)
+  const [display, setDisplay] = useState('0')
+  const ref = useRef(null)
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting && !shown) {
+        setShown(true)
+        // Extract numeric part
+        const numStr = value.replace(/[^0-9.]/g, '')
+        const suffix = value.replace(/[0-9.]/g, '')
+        const num = parseFloat(numStr)
+        if (!isNaN(num)) {
+          let start = 0
+          const duration = 900
+          const step = 16
+          const timer = setInterval(() => {
+            start += step
+            const progress = Math.min(start / duration, 1)
+            const ease = 1 - Math.pow(1 - progress, 3)
+            const current = Math.round(ease * num)
+            setDisplay(current + suffix)
+            if (progress >= 1) clearInterval(timer)
+          }, step)
+        } else {
+          setDisplay(value)
+        }
+      }
+    }, { threshold: 0.5 })
+    if (ref.current) observer.observe(ref.current)
+    return () => observer.disconnect()
+  }, [shown, value])
+
   return (
-    <div className="stat-card" style={{ flex:1, minWidth:140 }}>
-      <div style={{ width:44, height:44, borderRadius:12, background:`${color}18`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:22, flexShrink:0 }}>{icon}</div>
+    <div ref={ref} className="stat-card fade-up" style={{ flex:1, minWidth:140, animationDelay:`${delay}ms`, position:'relative', overflow:'hidden' }}>
+      <div style={{ width:44, height:44, borderRadius:12, background:`${color}18`, border:`1px solid ${color}25`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:22, flexShrink:0 }}>{icon}</div>
       <div>
-        <div style={{ fontSize:26, fontWeight:900, color:C.heading, letterSpacing:'-.02em', lineHeight:1 }}>{value}</div>
-        <div style={{ fontSize:12, color:C.muted, marginTop:4, fontWeight:500 }}>{label}</div>
+        <div className="stat-num" style={{ color:C.heading }}>{shown ? display : '0'}</div>
+        <div style={{ fontSize:12, color:C.muted, marginTop:5, fontWeight:500, letterSpacing:'.01em' }}>{label}</div>
       </div>
+      {/* Subtle color accent line */}
+      <div style={{ position:'absolute', bottom:0, left:0, right:0, height:2, background:`linear-gradient(90deg, ${color}60, transparent)`, borderRadius:'0 0 14px 14px' }} />
     </div>
   )
 }
 
 function Home() {
-  const phases = [
-    { n:'1-5', t:'Core Navigation', d:'Process maps, search, plain-language guides', s:'live', icon:'🗺️' },
-    { n:'6-10', t:'Community & APIs', d:'Forums, government API integrations', s:'live', icon:'🔗' },
-    { n:'11-15', t:'Intelligence', d:'ML recommendations, regional deployment', s:'live', icon:'🧠' },
-    { n:'16-20', t:'UX Enhancements', d:'Doc generator, notifications, achievements', s:'live', icon:'✨' },
-    { n:'21-25', t:'AI & Voice', d:'CLARA chatbot, voice UI, SMS, OCR, tax tools', s:'new', icon:'🤖' },
-    { n:'26-30', t:'Platform Maturity', d:'Blockchain, social auth, referrals, premium', s:'new', icon:'🚀' },
-  ]
   const quickLinks = [
-    { label:'Apply for SNAP', path:'/knowledge', icon:'🍎', color:C.success },
-    { label:'Start a Business', path:'/knowledge', icon:'🏢', color:C.primary },
-    { label:'Veterans Benefits', path:'/knowledge', icon:'🏅', color:'#06b6d4' },
-    { label:'Housing Help', path:'/knowledge', icon:'🏠', color:'#f97316' },
-    { label:'Medical Insurance', path:'/knowledge', icon:'💊', color:'#ec4899' },
-    { label:'Tax Filing', path:'/knowledge', icon:'📊', color:'#f59e0b' },
+    { label:'Apply for SNAP', path:'/knowledge', icon:'🍎', color:'#10b981', desc:'Food assistance program' },
+    { label:'Start a Business', path:'/knowledge', icon:'🏢', color:'#3b82f6', desc:'LLC, EIN & licenses' },
+    { label:'Veterans Benefits', path:'/knowledge', icon:'🏅', color:'#06b6d4', desc:'VA healthcare & GI Bill' },
+    { label:'Housing Help', path:'/knowledge', icon:'🏠', color:'#f97316', desc:'Section 8 & rental aid' },
+    { label:'Medicaid / ACA', path:'/knowledge', icon:'💊', color:'#ec4899', desc:'Health insurance coverage' },
+    { label:'Reentry Support', path:'/knowledge', icon:'🔄', color:'#8b5cf6', desc:'Post-incarceration guides' },
   ]
+  const activeCases = loadCases().filter(c => ['active','urgent','pending'].includes(c.status))
+  const overdueCount = loadDeadlines().filter(d => deadlineUrgency(d.date) === 'overdue').length
+
   return (
-    <div className="page">
-      {/* Hero */}
-      <div style={{ padding:'32px 0 40px', borderBottom:`1px solid ${C.border}`, marginBottom:36 }}>
-        <div style={{ display:'inline-flex', alignItems:'center', gap:8, padding:'4px 12px', background:`${C.primary}15`, borderRadius:20, marginBottom:20 }}>
-          <span style={{ width:6, height:6, borderRadius:'50%', background:C.success, animation:'pulse 2s infinite' }} />
-          <span style={{ fontSize:12, fontWeight:700, color:C.primary, letterSpacing:'.06em' }}>ALL 30 PHASES COMPLETE</span>
-        </div>
-        <h1 style={{ fontSize:42, fontWeight:900, color:C.heading, letterSpacing:'-.03em', lineHeight:1.15, marginBottom:14 }}>
-          Making Government<br />
-          <span style={{ background:`linear-gradient(135deg, ${C.primary}, ${C.accent})`, WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>Simple for Everyone</span>
-        </h1>
-        <p style={{ color:C.muted, fontSize:17, lineHeight:1.7, maxWidth:500, marginBottom:28 }}>
-          90 in-depth guides, AI assistance, and step-by-step tools for every government process — built for real people.
-        </p>
-        <div style={{ display:'flex', gap:12, flexWrap:'wrap' }}>
-          <Link to="/knowledge"><button className="btn btn-primary" style={{ fontSize:15, padding:'12px 24px' }}>📚 Browse All 90 Guides</button></Link>
-          <Link to="/ai-assistant"><button className="btn btn-outline" style={{ fontSize:15, padding:'12px 24px' }}>🤖 Ask CLARA Anything</button></Link>
-          <Link to="/processmap"><button className="btn btn-ghost" style={{ fontSize:15, padding:'12px 24px' }}>🗺️ Process Map</button></Link>
-        </div>
-      </div>
+    <div className="page" style={{ paddingTop:40 }}>
 
-      {/* Stats */}
-      <div style={{ display:'flex', gap:12, marginBottom:36, flexWrap:'wrap' }}>
-        <AnimatedStat value="90" label="In-Depth Guides" icon="📚" color={C.primary} />
-        <AnimatedStat value="18" label="Categories" icon="🗂️" color={C.accent} />
-        <AnimatedStat value="4.8★" label="Avg Guide Rating" icon="⭐" color={C.warn} />
-        <AnimatedStat value="33" label="Interactive Tools" icon="⚡" color={C.success} />
-      </div>
-
-      {/* Quick Topic Links */}
-      <div style={{ marginBottom:36 }}>
-        <div className="section-header">
-          <div className="section-title">⚡ Popular Topics</div>
-          <Link to="/knowledge"><button className="see-all-btn">See all 90 guides →</button></Link>
+      {/* ── HERO ─────────────────────────────────────────────────── */}
+      <div style={{ position:'relative', marginBottom:48 }}>
+        {/* Status pill */}
+        <div style={{ display:'inline-flex', alignItems:'center', gap:8, padding:'5px 14px', background:`${C.primary}12`, border:`1px solid ${C.primary}25`, borderRadius:20, marginBottom:22 }}>
+          <span style={{ width:6, height:6, borderRadius:'50%', background:C.success, flexShrink:0, animation:'status-glow 2.5s infinite' }} />
+          <span style={{ fontSize:11, fontWeight:700, color:C.primary, letterSpacing:'.08em', textTransform:'uppercase' }}>Live · Illinois Platform · 30 Phases Complete</span>
         </div>
-        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(160px,1fr))', gap:10 }}>
-          {quickLinks.map(q=>(
-            <Link key={q.label} to={q.path}>
-              <div className="card card-hover" style={{ padding:'16px 14px', borderLeft:`3px solid ${q.color}`, display:'flex', alignItems:'center', gap:12 }}>
-                <span style={{ fontSize:24 }}>{q.icon}</span>
-                <span style={{ fontSize:13, fontWeight:600, color:C.heading, lineHeight:1.3 }}>{q.label}</span>
+
+        <div style={{ display:'grid', gridTemplateColumns:'1fr auto', gap:32, alignItems:'flex-start' }}>
+          <div>
+            <h1 style={{ fontSize:'clamp(32px,4.5vw,52px)', fontWeight:900, color:C.heading, letterSpacing:'-.03em', lineHeight:1.1, marginBottom:16 }}>
+              Government Made<br />
+              <span style={{ background:C.grad1, WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>Clear for Everyone</span>
+            </h1>
+            <p style={{ fontSize:16, color:C.muted, lineHeight:1.7, maxWidth:480, marginBottom:28 }}>
+              90 plain-language guides, AI-powered help from CLARA, and step-by-step tools for every Illinois government process — free, always.
+            </p>
+            <div style={{ display:'flex', gap:10, flexWrap:'wrap' }}>
+              <Link to="/knowledge">
+                <button className="btn btn-primary" style={{ fontSize:14, padding:'11px 22px', gap:8 }}>
+                  <span>Browse 90 Guides</span>
+                  <span style={{ opacity:.75 }}>→</span>
+                </button>
+              </Link>
+              <Link to="/ai-assistant">
+                <button className="btn btn-outline" style={{ fontSize:14, padding:'11px 22px', background:`${C.primary}08` }}>
+                  <span>✦</span>
+                  <span>Ask CLARA</span>
+                </button>
+              </Link>
+              <Link to="/processmap">
+                <button className="btn btn-ghost" style={{ fontSize:14, padding:'11px 18px' }}>
+                  🗺️ Map
+                </button>
+              </Link>
+            </div>
+          </div>
+
+          {/* Decorative stat cluster — desktop only */}
+          <div className="hide-mobile" style={{ display:'flex', flexDirection:'column', gap:10, minWidth:160, paddingTop:8 }}>
+            {[
+              { num:'90', label:'Guides', color:C.primary },
+              { num:'18', label:'Categories', color:C.accent },
+              { num:'33+', label:'Tools', color:C.success },
+            ].map((s,i) => (
+              <div key={s.label} className="fade-up" style={{ padding:'10px 16px', background:C.card, border:`1px solid ${C.border}`, borderRadius:12, display:'flex', alignItems:'center', gap:12, animationDelay:`${i*80}ms` }}>
+                <span style={{ fontFamily:"'JetBrains Mono',monospace", fontSize:20, fontWeight:800, color:s.color, letterSpacing:'-.02em' }}>{s.num}</span>
+                <span style={{ fontSize:12, color:C.muted, fontWeight:500 }}>{s.label}</span>
               </div>
-            </Link>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
 
-      {/* Platform Phases */}
+      {/* ── STATS ROW ─────────────────────────────────────────────── */}
+      <div style={{ display:'flex', gap:12, marginBottom:40, flexWrap:'wrap' }}>
+        <AnimatedStat value="90"   label="In-Depth Guides"    icon="📚" color={C.primary}  delay={0}   />
+        <AnimatedStat value="18"   label="Categories"         icon="🗂️" color={C.accent}   delay={80}  />
+        <AnimatedStat value="33"   label="Interactive Tools"  icon="⚡" color={C.success}  delay={160} />
+        <AnimatedStat value="4.8★" label="Avg Guide Rating"   icon="⭐" color={C.warn}     delay={240} />
+      </div>
+
+      {/* ── BENTO GRID ───────────────────────────────────────────── */}
+      <div style={{ display:'grid', gridTemplateColumns:'repeat(3, 1fr)', gap:14, marginBottom:40 }}
+           className="bento-3">
+
+        {/* Cell 1 — CLARA AI (span 2, tall) */}
+        <Link to="/ai-assistant" style={{ gridColumn:'span 2' }} className="bento-span2">
+          <div className="card card-hover topic-tile" style={{
+            height:180, position:'relative', overflow:'hidden',
+            background:`linear-gradient(135deg, ${C.card} 0%, rgba(59,130,246,.06) 100%)`,
+            borderColor:`${C.primary}30`,
+          }}>
+            <div style={{ position:'absolute', inset:0, background:'radial-gradient(ellipse 60% 80% at 100% 50%, rgba(59,130,246,.07), transparent)', pointerEvents:'none' }} />
+            <div style={{ position:'relative', height:'100%', display:'flex', flexDirection:'column', justifyContent:'space-between' }}>
+              <div style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between' }}>
+                <div>
+                  <div style={{ fontSize:10, fontWeight:800, letterSpacing:'.1em', color:C.accent, textTransform:'uppercase', marginBottom:8 }}>AI Assistant</div>
+                  <div style={{ fontSize:22, fontWeight:800, color:C.heading, lineHeight:1.2 }}>Ask CLARA<br /><span style={{ background:C.grad1, WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}>Anything</span></div>
+                </div>
+                <div style={{ width:48, height:48, borderRadius:14, background:C.grad1, display:'flex', alignItems:'center', justifyContent:'center', fontSize:22, boxShadow:`0 4px 16px ${C.primary}40`, flexShrink:0 }}>✦</div>
+              </div>
+              <div style={{ fontSize:13, color:C.muted }}>SNAP eligibility · eviction rights · business setup · español</div>
+            </div>
+          </div>
+        </Link>
+
+        {/* Cell 2 — Cases (1 cell tall) */}
+        <Link to="/cases">
+          <div className="card card-hover topic-tile" style={{
+            height:180, display:'flex', flexDirection:'column', justifyContent:'space-between', overflow:'hidden',
+            background:`linear-gradient(135deg, ${C.card}, rgba(139,92,246,.05))`,
+            borderColor:`${C.purple}25`,
+          }}>
+            <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between' }}>
+              <div style={{ fontSize:10, fontWeight:800, letterSpacing:'.1em', color:C.purple, textTransform:'uppercase' }}>Case Tracker</div>
+              {overdueCount > 0 && <span style={{ background:`${C.danger}15`, color:C.danger, border:`1px solid ${C.danger}30`, borderRadius:8, fontSize:10, fontWeight:800, padding:'2px 8px' }}>🚨 {overdueCount} overdue</span>}
+            </div>
+            <div>
+              <div style={{ fontSize:24, fontWeight:800, color:C.heading }}>{activeCases.length > 0 ? activeCases.length : '0'}</div>
+              <div style={{ fontSize:13, color:C.muted }}>{activeCases.length > 0 ? 'Active cases' : 'Track your cases →'}</div>
+            </div>
+          </div>
+        </Link>
+
+        {/* Cells 3-8 — Topic quick links */}
+        {quickLinks.map((q, i) => (
+          <Link key={q.label} to={q.path}>
+            <div className="card card-hover topic-tile" style={{
+              padding:'18px 20px', height:110, display:'flex', flexDirection:'column', justifyContent:'space-between', overflow:'hidden',
+              borderLeft:`3px solid ${q.color}`,
+            }}>
+              <div style={{ display:'flex', alignItems:'center', gap:10 }}>
+                <div style={{ width:34, height:34, borderRadius:10, background:`${q.color}15`, border:`1px solid ${q.color}25`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:17, flexShrink:0 }}>{q.icon}</div>
+                <span style={{ fontSize:13, fontWeight:700, color:C.heading, lineHeight:1.3 }}>{q.label}</span>
+              </div>
+              <div style={{ fontSize:11, color:C.muted }}>{q.desc}</div>
+            </div>
+          </Link>
+        ))}
+      </div>
+
+      {/* ── ACTIVE CASES WIDGET (shows only if cases exist) ──────── */}
+      {activeCases.length > 0 && (
+        <div style={{ marginBottom:40 }}>
+          <div className="section-header">
+            <div className="section-title">📋 Active Cases</div>
+            <Link to="/cases"><button className="see-all-btn">View all →</button></Link>
+          </div>
+          <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(220px, 1fr))', gap:12 }}>
+            {activeCases.slice(0,4).map(c => {
+              const cat = CASE_CATEGORIES[c.category] || CASE_CATEGORIES.other
+              const cDl = loadDeadlines().filter(d => d.caseId === c.id).sort((a,b) => new Date(a.date)-new Date(b.date))[0]
+              const prog = c.steps?.length > 0 ? Math.round(((c.completedSteps||[]).length / c.steps.length) * 100) : null
+              return (
+                <Link to="/cases" key={c.id}>
+                  <div className="card card-hover article-card" style={{ padding:'14px 16px', borderLeft:`3px solid ${cat.color}` }}>
+                    <div style={{ display:'flex', gap:8, alignItems:'center', marginBottom:8 }}>
+                      <span style={{ fontSize:18 }}>{cat.icon}</span>
+                      <span style={{ fontWeight:700, color:C.heading, fontSize:13, flex:1, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{c.title}</span>
+                    </div>
+                    {prog !== null && (
+                      <>
+                        <div className="progress-bar-track progress-thick" style={{ marginBottom:4 }}>
+                          <div className="progress-bar-fill" style={{ width:`${prog}%`, background:prog===100?C.success:cat.color }} />
+                        </div>
+                        <div style={{ fontSize:11, color:C.muted }}>{prog}% complete</div>
+                      </>
+                    )}
+                    {cDl && <div style={{ fontSize:11, color:urgencyColor(deadlineUrgency(cDl.date)), fontWeight:600, marginTop:4 }}>⏰ {daysUntil(cDl.date)}</div>}
+                  </div>
+                </Link>
+              )
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* ── PLATFORM PHASES (condensed table) ────────────────────── */}
       <div className="card">
         <div className="section-header" style={{ marginBottom:16 }}>
-          <div className="section-title">🚀 Platform Phases</div>
-          <span style={{ fontSize:12, color:C.success, fontWeight:700 }}>6/6 Complete</span>
+          <div className="section-title">🚀 Platform</div>
+          <span className="badge badge-green">30/30 Complete</span>
         </div>
-        <div style={{ display:'grid', gap:8 }}>
-          {phases.map((p,i)=>(
-            <div key={p.n} className="fade-up" style={{ display:'flex', alignItems:'center', gap:14, padding:'12px 14px', background:C.surface, borderRadius:10, border:`1px solid ${C.border}`, animationDelay:`${i*50}ms` }}>
-              <div style={{ width:40, height:40, borderRadius:10, background:p.s==='new'?`${C.accent}18`:`${C.success}18`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, fontSize:18 }}>{p.icon}</div>
-              <div style={{ flex:1 }}>
-                <div style={{ fontWeight:700, color:C.heading, fontSize:14 }}>{p.t}</div>
-                <div style={{ color:C.muted, fontSize:12, marginTop:2 }}>{p.d}</div>
+        <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(260px, 1fr))', gap:8 }}>
+          {[
+            { n:'1–5',   t:'Core Navigation',   d:'Process maps, search, plain-language guides',    icon:'🗺️', live:true },
+            { n:'6–10',  t:'Community & APIs',   d:'Forums, government API integrations',            icon:'🔗', live:true },
+            { n:'11–15', t:'Intelligence',        d:'ML recommendations, regional deployment',        icon:'🧠', live:true },
+            { n:'16–20', t:'UX Enhancements',     d:'Case tracker, knowledge base, AI assistant',     icon:'✨', live:true },
+            { n:'21–25', t:'AI & Voice',          d:'CLARA, voice UI, SMS, OCR, tax tools',           icon:'🤖', live:true },
+            { n:'26–30', t:'Platform Maturity',   d:'Blockchain, social auth, referrals, premium',   icon:'🚀', live:true },
+          ].map((p, i) => (
+            <div key={p.n} className="fade-up" style={{ display:'flex', alignItems:'center', gap:12, padding:'10px 14px', background:C.surface, borderRadius:10, border:`1px solid ${C.border}`, animationDelay:`${i*60}ms` }}>
+              <div style={{ width:36, height:36, borderRadius:10, background:`${C.success}12`, border:`1px solid ${C.success}20`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:16, flexShrink:0 }}>{p.icon}</div>
+              <div style={{ flex:1, minWidth:0 }}>
+                <div style={{ fontWeight:700, color:C.heading, fontSize:13 }}>{p.t}</div>
+                <div style={{ color:C.muted, fontSize:11, marginTop:2, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{p.d}</div>
               </div>
-              <div style={{ display:'flex', alignItems:'center', gap:8 }}>
-                <span style={{ fontSize:11, color:C.muted }}>Phase {p.n}</span>
-                <span className={`badge ${p.s==='new'?'badge-blue':'badge-green'}`}>{p.s==='new'?'⚡ New':'✓ Live'}</span>
-              </div>
+              <span style={{ fontSize:9, fontWeight:700, letterSpacing:'.05em', color:C.muted, flexShrink:0 }}>{p.n}</span>
             </div>
           ))}
         </div>
@@ -527,6 +1097,7 @@ function Home() {
     </div>
   )
 }
+
 
 // ── PROCESS MAP ───────────────────────────────────────────────────────────────
 function ProcessMap() {
@@ -543,29 +1114,42 @@ function ProcessMap() {
   ]
   return (
     <div className="page">
-      <div style={{ marginBottom:28 }}>
-        <div style={{ fontSize:11, fontWeight:800, color:C.primary, letterSpacing:'.1em', textTransform:'uppercase', marginBottom:8 }}>Process Map</div>
-        <h1 style={{ fontSize:28, fontWeight:900, color:C.heading, letterSpacing:'-.02em', marginBottom:8 }}>500+ Government Processes</h1>
-        <p style={{ color:C.muted, fontSize:14 }}>Browse by category. Click any process to explore its step-by-step guide.</p>
+      <div className="ph fade-up">
+        <div className="pt">Process Map</div>
+        <h1>500+ Government Processes</h1>
+        <p>Browse all categories. Click any process to explore its step-by-step guide.</p>
       </div>
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(280px,1fr))', gap:14 }}>
-        {cats.map(c=>(
-          <div key={c.name} className="card" style={{ borderTop:`3px solid ${c.color}`, padding:18 }}>
-            <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:14 }}>
-              <div style={{ width:42, height:42, borderRadius:12, background:`${c.color}18`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:22 }}>{c.icon}</div>
+      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(300px,1fr))', gap:16 }}>
+        {cats.map((c,ci)=>(
+          <div key={c.name} className="card fade-up" style={{
+            borderTop:`3px solid ${c.color}`, padding:20,
+            animationDelay:`${ci*50}ms`,
+            background:`linear-gradient(160deg, ${C.card} 80%, ${c.color}08 100%)`,
+          }}>
+            {/* Header */}
+            <div style={{ display:'flex', alignItems:'center', gap:12, marginBottom:16 }}>
+              <div style={{ width:44, height:44, borderRadius:13, background:`${c.color}18`, border:`1px solid ${c.color}30`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:22, flexShrink:0 }}>{c.icon}</div>
               <div style={{ flex:1 }}>
-                <div style={{ fontWeight:800, color:C.heading, fontSize:15 }}>{c.name}</div>
-                <div style={{ color:C.muted, fontSize:12, marginTop:2 }}>{c.count} processes</div>
+                <div style={{ fontWeight:800, color:C.heading, fontSize:15, letterSpacing:'-.01em' }}>{c.name}</div>
+                <div style={{ color:C.muted, fontSize:12, marginTop:2, display:'flex', alignItems:'center', gap:6 }}>
+                  <span style={{ color:c.color, fontWeight:700, fontFamily:"'JetBrains Mono',monospace" }}>{c.count}</span>
+                  <span>processes</span>
+                </div>
               </div>
-              <div style={{ width:32, height:32, borderRadius:8, background:`${c.color}18`, display:'flex', alignItems:'center', justifyContent:'center' }}>
-                <div className="progress-bar-fill" style={{ width:Math.round((c.count/62)*100)+'%', height:3, background:c.color, borderRadius:2 }} />
+              {/* Mini bar */}
+              <div style={{ width:36, height:36, borderRadius:8, background:C.surface, border:`1px solid ${C.border}`, display:'flex', alignItems:'center', justifyContent:'center', overflow:'hidden' }}>
+                <svg width="20" height="20" viewBox="0 0 20 20">
+                  <circle cx="10" cy="10" r="8" fill="none" stroke={C.border} strokeWidth="2.5"/>
+                  <circle cx="10" cy="10" r="8" fill="none" stroke={c.color} strokeWidth="2.5"
+                    strokeDasharray={`${Math.round((c.count/62)*50)} 50`}
+                    strokeLinecap="round" transform="rotate(-90 10 10)"/>
+                </svg>
               </div>
             </div>
+            {/* Process pills */}
             <div style={{ display:'flex', flexWrap:'wrap', gap:6 }}>
               {c.items.map(item=>(
-                <span key={item} style={{ padding:'5px 11px', background:C.surface, borderRadius:20, fontSize:12, color:C.text, border:`1px solid ${C.border}`, cursor:'pointer', transition:'all .15s', display:'flex', alignItems:'center', gap:4 }}
-                  onMouseEnter={e=>{e.currentTarget.style.borderColor=c.color;e.currentTarget.style.color=c.color;e.currentTarget.style.background=`${c.color}12`}}
-                  onMouseLeave={e=>{e.currentTarget.style.borderColor=C.border;e.currentTarget.style.color=C.text;e.currentTarget.style.background=C.surface}}>
+                <span key={item} className="process-pill" style={{ '--cat-color': c.color }}>
                   {item}
                 </span>
               ))}
@@ -1978,22 +2562,22 @@ function Knowledge() {
     <div className="page">
       {showGlossary && <GlossaryModal onClose={()=>setShowGlossary(false)} />}
 
-      <div style={{ marginBottom:24 }}>
+      <div className="ph fade-up" style={{ marginBottom:24 }}>
         <div style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between', flexWrap:'wrap', gap:12 }}>
           <div>
-            <div style={{ fontSize:11, fontWeight:800, color:C.primary, letterSpacing:'.1em', textTransform:'uppercase', marginBottom:6 }}>Knowledge Base</div>
-            <h1 style={{ fontSize:28, fontWeight:900, color:C.heading, letterSpacing:'-.02em', marginBottom:6 }}>
+            <div className="pt">Government Navigation</div>
+            <h1 style={{ fontSize:28, fontWeight:900, color:C.heading, letterSpacing:'-.025em', marginBottom:6 }}>
               {KB_ARTICLES.length} Government Guides
             </h1>
-            <p style={{ color:C.muted, fontSize:14, maxWidth:480 }}>Benefits, healthcare, taxes, legal rights, housing, employment and more — in plain English.</p>
+            <p style={{ color:C.muted, fontSize:15, maxWidth:480, lineHeight:1.65 }}>Benefits, healthcare, taxes, legal rights, housing, and more — written in plain English for everyone.</p>
           </div>
-          <div style={{ display:'flex', gap:8, flexWrap:'wrap' }}>
+          <div style={{ display:'flex', gap:8, flexWrap:'wrap', paddingTop:4 }}>
             <button onClick={()=>setShowGlossary(true)} className="btn btn-ghost btn-sm">📖 Glossary</button>
             <button onClick={()=>{
               const r = KB_ARTICLES[Math.floor(Math.random()*KB_ARTICLES.length)]
               openArticle(r)
               showToast(`Opening: ${r.icon} ${r.t.slice(0,40)}…`, 'info')
-            }} className="btn btn-ghost btn-sm">🎲 Random Guide</button>
+            }} className="btn btn-ghost btn-sm">🎲 Random</button>
           </div>
         </div>
       </div>
@@ -2001,8 +2585,8 @@ function Knowledge() {
       {/* Stats Bar */}
       <div style={{ display:'flex', gap:10, marginBottom:24, flexWrap:'wrap' }}>
         {[[KB_ARTICLES.length+'','📚',C.primary,'Guides'],[Object.keys(CAT_META).length+'','🗂️',C.accent,'Categories'],[avgRating+'★','⭐',C.warn,'Avg Rating'],[(totalViews/1000).toFixed(0)+'K','👁️',C.success,'Monthly Views']].map(([v,i,color,l])=>(
-          <div key={l} style={{ display:'flex', alignItems:'center', gap:10, padding:'12px 16px', background:C.card, border:`1px solid ${C.border}`, borderRadius:12, flex:1, minWidth:100 }}>
-            <div style={{ width:36, height:36, borderRadius:10, background:`${color}18`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:18 }}>{i}</div>
+          <div key={l} className="stat-card" style={{ flex:1, minWidth:100, position:'relative', overflow:'hidden' }}>
+            <div style={{ width:36, height:36, borderRadius:10, background:`${color}18`, border:`1px solid ${color}22`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:18 }}>{i}</div>
             <div>
               <div style={{ fontSize:20, fontWeight:900, color:C.heading, letterSpacing:'-.01em' }}>{v}</div>
               <div style={{ fontSize:11, color:C.muted, fontWeight:500 }}>{l}</div>
@@ -3533,17 +4117,19 @@ function CaseTracker() {
 
   return (
     <div className="page">
-      <div style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between', marginBottom:24, flexWrap:'wrap', gap:12 }}>
+      <div className="fade-up" style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between', marginBottom:24, flexWrap:'wrap', gap:12 }}>
         <div>
-          <div style={{ fontSize:11, fontWeight:700, color:C.primary, letterSpacing:'.1em', textTransform:'uppercase', marginBottom:4 }}>Case Tracker</div>
-          <h1 style={{ color:C.heading, fontSize:28, fontWeight:800, marginBottom:4 }}>My Cases</h1>
-          <p style={{ color:C.muted, fontSize:14 }}>Track applications, deadlines, and next steps — all in one place.</p>
+          <div className="pt">Case Management</div>
+          <h1 style={{ color:C.heading, fontSize:28, fontWeight:900, marginBottom:4, letterSpacing:'-.025em' }}>My Cases</h1>
+          <p style={{ color:C.muted, fontSize:15, lineHeight:1.65 }}>Track applications, deadlines, and next steps — all in one place.</p>
         </div>
-        <button onClick={()=>setShowAdd(true)} className="btn btn-primary" style={{ flexShrink:0 }}>+ New Case</button>
+        <button onClick={()=>setShowAdd(true)} className="btn btn-primary" style={{ flexShrink:0 }}>
+          <span>+</span> New Case
+        </button>
       </div>
 
       {/* Stats row */}
-      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(160px,1fr))', gap:12, marginBottom:24 }}>
+      <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(150px,1fr))', gap:12, marginBottom:24 }}>
         {[
           { label:'Active Cases', val:statCounts.active, color:C.primary, icon:'📋' },
           { label:'Completed', val:statCounts.completed, color:C.success, icon:'✅' },

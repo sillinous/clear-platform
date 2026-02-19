@@ -2166,57 +2166,348 @@ function Knowledge() {
 
 
 // ── PHASE 21: AI ASSISTANT ────────────────────────────────────────────────────
-function AIAssistant() {
-  const [msgs, setMsgs] = useState([{ role:'ai', text:"Hi! I'm CLARA — your government process assistant. Ask me anything about benefits, permits, applications, healthcare, housing, or any government process. I'm here to help.", ts:new Date() }])
-  const [inp, setInp] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [inputFocused, setInputFocused] = useState(false)
-  const msgsEndRef = useState(null)
+// ── PHASE 21: CLARA AI ASSISTANT (Real OpenRouter integration) ───────────────
 
-  const Q = ['How do I apply for SNAP?','What benefits am I eligible for?','How to start an LLC in Illinois?','I need help with Medicare','What are my rights as a renter?','How do I appeal an unemployment denial?']
-  const R = {
-    snap:"To apply for SNAP:\n\n1. Check eligibility — gross income ≤130% federal poverty level\n2. Gather documents — ID, proof of income, residency\n3. Apply at benefits.gov or your state DHS portal\n4. Complete a phone interview within 30 days\n5. Receive EBT card if approved\n\nWant me to estimate your benefit amount?",
-    llc:"Starting an LLC in Illinois:\n\n1. Choose a unique name (search at ilsos.gov)\n2. File Articles of Organization — $150 fee\n3. Get EIN free at irs.gov (5 minutes online)\n4. Register for state taxes at mytax.illinois.gov\n5. File Annual Report each year — $75 fee\n\nTimeline: 1-2 weeks. Want a checklist?",
-    default:"I can help with that! Based on your question, here are the key steps:\n\n1. Verify your eligibility using our screener\n2. Gather required documents\n3. Submit through the official portal\n\nWould you like me to walk you through each step in detail? I can also help in Spanish, French, or 5 other languages."
-  }
+const INTAKE_QUESTIONS = [
+  {
+    id: 'situation',
+    q: "What best describes your current situation?",
+    opts: [
+      { v:'benefits', l:'🍎 Applying for benefits', d:'SNAP, Medicaid, SSI, TANF' },
+      { v:'housing',  l:'🏠 Housing issue',        d:'Eviction, rent help, Section 8' },
+      { v:'reentry',  l:'🔄 Returning from incarceration', d:'Benefits, ID, housing, employment' },
+      { v:'work',     l:'💼 Work / employment',    d:'Job rights, workers comp, unemployment' },
+      { v:'legal',    l:'⚖️ Legal issue',           d:'Court, rights, forms, immigration' },
+      { v:'business', l:'🏢 Starting a business',  d:'LLC, EIN, licenses, funding' },
+      { v:'other',    l:'❓ Something else',        d:'I will describe it' },
+    ]
+  },
+  {
+    id: 'urgency',
+    q: "How urgent is your situation?",
+    opts: [
+      { v:'crisis',   l:'🚨 Crisis — I need help today',  d:'Eviction notice, benefit cutoff, emergency' },
+      { v:'soon',     l:'⚡ Soon — within the next week', d:'Deadline coming up, in process' },
+      { v:'planning', l:'📋 Planning ahead',              d:'Not urgent, gathering info' },
+    ]
+  },
+]
 
-  function send(text) {
-    const msg = text||inp; if(!msg.trim()) return
-    setMsgs(m=>[...m,{role:'user',text:msg}]); setInp(''); setLoading(true)
-    setTimeout(()=>{
-      const l=msg.toLowerCase()
-      const resp = l.includes('snap')||l.includes('food')?R.snap:l.includes('llc')||l.includes('business')?R.llc:R.default
-      setMsgs(m=>[...m,{role:'ai',text:resp}]); setLoading(false)
-    }, 900)
+const STARTER_MSGS = {
+  benefits: "I can help you navigate benefits. To get started — which benefit are you trying to apply for or keep? (SNAP, Medicaid, SSI/SSDI, TANF, Medicare, or something else?)",
+  housing:  "Housing issues can be stressful. Are you dealing with an eviction notice, looking for rental assistance, applying for Section 8, or something else with your housing?",
+  reentry:  "Welcome back. Getting benefits, IDs, and housing set up after incarceration is complicated but very doable. What's most pressing right now — getting your ID, finding housing, applying for benefits, or finding a job?",
+  work:     "I can help with work and employment issues. Are you dealing with unpaid wages, a workplace injury, filing for unemployment, FMLA leave, or something else?",
+  legal:    "For legal issues, I can walk you through processes and help you understand your rights. What's the legal matter — immigration, eviction court, criminal record, small claims, or something else?",
+  business: "Great — let's get your business set up right. Are you starting from scratch (need an LLC and EIN), or are you further along and need licenses, taxes, or funding help?",
+  other:    "Tell me what's going on and I'll do my best to help navigate it.",
+}
+
+function TypingDots() {
+  return (
+    <div style={{ display:'flex', gap:4, padding:'14px 16px', background:C.surface, borderRadius:12, width:'fit-content', alignItems:'center' }}>
+      {[0,1,2].map(i => (
+        <div key={i} style={{ width:6, height:6, borderRadius:'50%', background:C.primary, animation:'pulse 1.2s ease infinite', animationDelay:`${i*0.2}s` }} />
+      ))}
+    </div>
+  )
+}
+
+function MessageBubble({ msg }) {
+  const isUser = msg.role === 'user'
+  const [copied, setCopied] = useState(false)
+
+  const copyText = () => {
+    navigator.clipboard.writeText(msg.text).catch(()=>{})
+    setCopied(true)
+    setTimeout(()=>setCopied(false), 1500)
   }
 
   return (
-    <div className="page">
-      <div className="ph"><div className="pt">Phase 21 — AI Assistant</div><h1>CLARA <span className="tn">NEW</span></h1><p>AI-powered assistant for any government process. Multilingual, 24/7.</p></div>
-      <div style={{ display:'grid', gridTemplateColumns:'1fr 260px', gap:20, alignItems:'start' }}>
-        <div className="card" style={{ display:'flex', flexDirection:'column', height:'62vh' }}>
-          <div style={{ flex:1, overflowY:'auto', display:'flex', flexDirection:'column', gap:14, marginBottom:14 }}>
-            {msgs.map((m,i)=>(
-              <div key={i} style={{ display:'flex', gap:10, justifyContent:m.role==='user'?'flex-end':'flex-start' }}>
-                {m.role==='ai'&&<div style={{ width:34,height:34,borderRadius:'50%',background:`${C.primary}33`,display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0,fontSize:16 }}>🤖</div>}
-                <div style={{ maxWidth:'75%', padding:'12px 16px', borderRadius:12, background:m.role==='user'?C.primary:C.surface, color:C.text, fontSize:14, lineHeight:1.6, whiteSpace:'pre-line' }}>{m.text}</div>
-              </div>
-            ))}
-            {loading&&<div style={{ display:'flex', gap:10 }}><div style={{ width:34,height:34,borderRadius:'50%',background:`${C.primary}33`,display:'flex',alignItems:'center',justifyContent:'center',fontSize:16 }}>🤖</div><div style={{ padding:'12px 16px', borderRadius:12, background:C.surface, color:C.muted, fontSize:14 }}>CLARA is thinking…</div></div>}
+    <div style={{ display:'flex', gap:10, justifyContent:isUser?'flex-end':'flex-start', animation:'fadeUp .25s ease', marginBottom:4 }}>
+      {!isUser && (
+        <div style={{ width:32, height:32, borderRadius:'50%', background:`linear-gradient(135deg, ${C.primary}, ${C.accent})`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, fontSize:14, fontWeight:800, color:'#fff' }}>C</div>
+      )}
+      <div style={{ maxWidth:'78%', display:'flex', flexDirection:'column', gap:4, alignItems:isUser?'flex-end':'flex-start' }}>
+        <div style={{
+          padding:'12px 16px', borderRadius:isUser?'16px 16px 4px 16px':'16px 16px 16px 4px',
+          background:isUser?`linear-gradient(135deg, ${C.primary}, #2563eb)`:C.surface,
+          color:C.text, fontSize:14, lineHeight:1.75, whiteSpace:'pre-line',
+          border:isUser?'none':`1px solid ${C.border}`,
+          boxShadow:isUser?'0 2px 12px rgba(59,130,246,.25)':'none',
+        }}>
+          {msg.text}
+        </div>
+        {msg.suggestedArticles?.length > 0 && (
+          <div style={{ display:'flex', flexWrap:'wrap', gap:6, marginTop:4 }}>
+            {msg.suggestedArticles.map(title => {
+              const art = KB_ARTICLES.find(a => a.t === title || a.t.toLowerCase().includes(title.toLowerCase().split(' ')[0]))
+              return art ? (
+                <a key={title} href="/knowledge" style={{ padding:'4px 10px', background:`${C.primary}15`, border:`1px solid ${C.primary}33`, borderRadius:20, fontSize:11, color:C.primary, fontWeight:600, cursor:'pointer', textDecoration:'none' }}>
+                  📄 {art.t.length > 30 ? art.t.slice(0,30)+'…' : art.t}
+                </a>
+              ) : null
+            })}
           </div>
-          <div style={{ display:'flex', gap:8 }}>
-            <input value={inp} onChange={e=>setInp(e.target.value)} onKeyDown={e=>e.key==='Enter'&&send()} placeholder="Ask about any government process…" />
-            <button className="btn btn-primary" onClick={()=>send()} style={{ flexShrink:0 }}>Send</button>
+        )}
+        <button onClick={copyText} style={{ background:'none', border:'none', color:C.muted, cursor:'pointer', fontSize:10, padding:'2px 4px', opacity:.6 }}>
+          {copied ? '✓ copied' : '⎘'}
+        </button>
+      </div>
+      {isUser && (
+        <div style={{ width:32, height:32, borderRadius:'50%', background:`${C.success}22`, border:`1px solid ${C.success}44`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, fontSize:13 }}>👤</div>
+      )}
+    </div>
+  )
+}
+
+function AIAssistant({ initialArticle = null }) {
+  const [phase, setPhase] = useState(initialArticle ? 'chat' : 'intake')
+  const [intakeStep, setIntakeStep] = useState(0)
+  const [intakeData, setIntakeData] = useState({})
+  const [msgs, setMsgs] = useState(() => {
+    if (initialArticle) {
+      return [{
+        role: 'ai',
+        text: `Hi! I'm CLARA. I see you're looking at "${initialArticle.t}" — what would you like to know about this? I can explain any step, check eligibility, or generate a personalized checklist.`,
+        ts: Date.now(),
+      }]
+    }
+    return []
+  })
+  const [inp, setInp] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [articleCtx, setArticleCtx] = useState(initialArticle)
+  const [sessionId] = useState(() => Math.random().toString(36).slice(2))
+  const bottomRef = useState(null)
+  const inputRef = useState(null)
+
+  const scrollBottom = () => {
+    setTimeout(() => {
+      document.getElementById('clara-msgs-end')?.scrollIntoView({ behavior:'smooth' })
+    }, 50)
+  }
+
+  const addMsg = (role, text, extra = {}) => {
+    setMsgs(m => [...m, { role, text, ts:Date.now(), ...extra }])
+    scrollBottom()
+  }
+
+  const sendToAPI = async (userText, history, ctx = null) => {
+    setLoading(true)
+    try {
+      const res = await fetch('/api/clara', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: [...history, { role:'user', text:userText }],
+          articleContext: ctx,
+          sessionId,
+        })
+      })
+      const data = await res.json()
+      addMsg('ai', data.reply || "I couldn't generate a response. Please try again.", { suggestedArticles: data.suggestedArticles })
+    } catch {
+      addMsg('ai', "Connection error. For immediate help call 211 or visit abe.illinois.gov.")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleIntakeAnswer = (questionId, value) => {
+    const newData = { ...intakeData, [questionId]: value }
+    setIntakeData(newData)
+
+    if (intakeStep < INTAKE_QUESTIONS.length - 1) {
+      setIntakeStep(s => s + 1)
+    } else {
+      // Intake complete — build opening message and go to chat
+      const situation = newData.situation || 'other'
+      const urgency = newData.urgency || 'planning'
+      const starterText = STARTER_MSGS[situation] || STARTER_MSGS.other
+      const urgencyNote = urgency === 'crisis' ? '\n\n⚠️ I see this is urgent. I will prioritize immediate action steps.' : urgency === 'soon' ? '\n\nI will make sure to highlight any deadlines.' : ''
+
+      setPhase('chat')
+      setMsgs([{ role:'ai', text: starterText + urgencyNote, ts:Date.now() }])
+      scrollBottom()
+    }
+  }
+
+  const send = (text) => {
+    const msg = text || inp
+    if (!msg.trim() || loading) return
+    setInp('')
+    addMsg('user', msg)
+    sendToAPI(msg, msgs, articleCtx)
+  }
+
+  const QUICK_PROMPTS = [
+    'Am I eligible for SNAP?',
+    'How do I appeal a benefits denial?',
+    'What documents do I need for Medicaid?',
+    'How do I start an LLC in Illinois?',
+    'What are my rights if I get evicted?',
+    'Help me find free legal aid',
+  ]
+
+  // ── INTAKE PHASE ────────────────────────────────────────────────────────────
+  if (phase === 'intake') {
+    const q = INTAKE_QUESTIONS[intakeStep]
+    return (
+      <div className="page">
+        <div style={{ maxWidth:600, margin:'0 auto' }}>
+          <div style={{ textAlign:'center', marginBottom:40 }}>
+            <div style={{ width:64, height:64, borderRadius:'50%', background:`linear-gradient(135deg, ${C.primary}, ${C.accent})`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:28, fontWeight:800, color:'#fff', margin:'0 auto 16px' }}>C</div>
+            <h1 style={{ color:C.heading, fontSize:28, fontWeight:800, marginBottom:8 }}>Hi, I'm CLARA</h1>
+            <p style={{ color:C.muted, fontSize:15, lineHeight:1.6 }}>Your civic guide. Let me ask a couple quick questions so I can give you the most relevant help.</p>
+          </div>
+
+          <div className="card fade-up" style={{ padding:32 }}>
+            <div style={{ display:'flex', gap:8, marginBottom:24 }}>
+              {INTAKE_QUESTIONS.map((_,i) => (
+                <div key={i} style={{ flex:1, height:3, borderRadius:2, background:i <= intakeStep ? C.primary : C.border, transition:'background .3s' }} />
+              ))}
+            </div>
+
+            <div style={{ fontSize:12, color:C.primary, fontWeight:700, letterSpacing:'.1em', textTransform:'uppercase', marginBottom:8 }}>
+              Question {intakeStep + 1} of {INTAKE_QUESTIONS.length}
+            </div>
+            <h2 style={{ color:C.heading, fontSize:20, fontWeight:700, marginBottom:24 }}>{q.q}</h2>
+
+            <div style={{ display:'flex', flexDirection:'column', gap:10 }}>
+              {q.opts.map(opt => (
+                <button key={opt.v} onClick={() => handleIntakeAnswer(q.id, opt.v)}
+                  style={{ display:'flex', alignItems:'center', gap:14, padding:'14px 18px', borderRadius:10, border:`1px solid ${C.border}`, background:C.surface, cursor:'pointer', textAlign:'left', transition:'all .15s' }}
+                  onMouseEnter={e=>{ e.currentTarget.style.borderColor=C.primary; e.currentTarget.style.background=`${C.primary}0a` }}
+                  onMouseLeave={e=>{ e.currentTarget.style.borderColor=C.border; e.currentTarget.style.background=C.surface }}>
+                  <span style={{ fontSize:20, flexShrink:0 }}>{opt.l.split(' ')[0]}</span>
+                  <div>
+                    <div style={{ fontWeight:600, color:C.heading, fontSize:14 }}>{opt.l.slice(opt.l.indexOf(' ')+1)}</div>
+                    <div style={{ fontSize:12, color:C.muted, marginTop:2 }}>{opt.d}</div>
+                  </div>
+                  <span style={{ marginLeft:'auto', color:C.muted }}>›</span>
+                </button>
+              ))}
+            </div>
+
+            <button onClick={() => { setPhase('chat'); setMsgs([{ role:'ai', text:"Hi! I'm CLARA — your guide to government processes and benefits. What can I help you with today?", ts:Date.now() }]) }}
+              style={{ background:'none', border:'none', color:C.muted, cursor:'pointer', fontSize:13, marginTop:16, display:'block', width:'100%', textAlign:'center' }}>
+              Skip — just take me to the chat →
+            </button>
           </div>
         </div>
-        <div>
-          <div className="card" style={{ marginBottom:14 }}>
-            <h3 style={{ color:C.heading, marginBottom:14, fontSize:15 }}>Quick Questions</h3>
-            {Q.map(q=><button key={q} onClick={()=>send(q)} style={{ display:'block', width:'100%', background:C.surface, border:`1px solid ${C.border}`, borderRadius:8, color:C.text, padding:'9px 12px', cursor:'pointer', textAlign:'left', fontSize:13, marginBottom:8 }}>{q}</button>)}
+      </div>
+    )
+  }
+
+  // ── CHAT PHASE ──────────────────────────────────────────────────────────────
+  return (
+    <div className="page" style={{ paddingBottom:0 }}>
+      <div style={{ display:'grid', gridTemplateColumns:'1fr 240px', gap:20, height:'calc(100vh - 100px)', alignItems:'start' }}>
+        {/* Main chat */}
+        <div className="card" style={{ display:'flex', flexDirection:'column', height:'100%', padding:0, overflow:'hidden' }}>
+          {/* Header */}
+          <div style={{ padding:'16px 20px', borderBottom:`1px solid ${C.border}`, display:'flex', alignItems:'center', gap:12 }}>
+            <div style={{ width:38, height:38, borderRadius:'50%', background:`linear-gradient(135deg, ${C.primary}, ${C.accent})`, display:'flex', alignItems:'center', justifyContent:'center', fontWeight:800, color:'#fff', fontSize:16 }}>C</div>
+            <div style={{ flex:1 }}>
+              <div style={{ fontWeight:800, color:C.heading, fontSize:15 }}>CLARA</div>
+              <div style={{ fontSize:12, color:C.success, display:'flex', alignItems:'center', gap:4 }}>
+                <div style={{ width:6, height:6, borderRadius:'50%', background:C.success }} />
+                Online · Free tier (OpenRouter)
+              </div>
+            </div>
+            {articleCtx && (
+              <div style={{ padding:'4px 10px', background:`${C.primary}15`, border:`1px solid ${C.primary}33`, borderRadius:8, fontSize:11, color:C.primary, display:'flex', alignItems:'center', gap:6 }}>
+                📄 {articleCtx.title?.slice(0,25)}…
+                <button onClick={()=>setArticleCtx(null)} style={{ background:'none', border:'none', color:C.muted, cursor:'pointer', fontSize:12 }}>✕</button>
+              </div>
+            )}
+            <button onClick={()=>{setPhase('intake');setIntakeStep(0);setIntakeData({});setMsgs([])}} style={{ background:'none', border:`1px solid ${C.border}`, borderRadius:6, color:C.muted, cursor:'pointer', fontSize:11, padding:'4px 8px' }}>New chat</button>
           </div>
-          <div className="card">
-            <h3 style={{ color:C.heading, marginBottom:10, fontSize:15 }}>CLARA Can Help With</h3>
-            {['Eligibility screening','Step-by-step guidance','Document checklists','Deadline reminders','8 languages supported'].map(i=><div key={i} style={{ display:'flex', alignItems:'center', gap:8, padding:'5px 0', fontSize:13, color:C.muted }}>✅ {i}</div>)}
+
+          {/* Messages */}
+          <div style={{ flex:1, overflowY:'auto', padding:'20px', display:'flex', flexDirection:'column', gap:12 }}>
+            {msgs.length === 0 && (
+              <div style={{ textAlign:'center', padding:'40px 20px', color:C.muted }}>
+                <div style={{ fontSize:40, marginBottom:12 }}>💬</div>
+                <div style={{ fontSize:14 }}>Ask me anything about benefits, housing, legal rights, or any government process.</div>
+              </div>
+            )}
+            {msgs.map((m, i) => <MessageBubble key={i} msg={m} />)}
+            {loading && (
+              <div style={{ display:'flex', gap:10, animation:'fadeUp .2s ease' }}>
+                <div style={{ width:32, height:32, borderRadius:'50%', background:`linear-gradient(135deg, ${C.primary}, ${C.accent})`, display:'flex', alignItems:'center', justifyContent:'center', fontWeight:800, color:'#fff', fontSize:14, flexShrink:0 }}>C</div>
+                <TypingDots />
+              </div>
+            )}
+            <div id="clara-msgs-end" />
+          </div>
+
+          {/* Input */}
+          <div style={{ padding:'16px 20px', borderTop:`1px solid ${C.border}`, background:C.card }}>
+            <div style={{ display:'flex', gap:10, alignItems:'flex-end' }}>
+              <textarea
+                value={inp}
+                onChange={e=>setInp(e.target.value)}
+                onKeyDown={e=>{ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); send() } }}
+                placeholder="Ask about benefits, housing, legal rights… (Enter to send)"
+                rows={2}
+                style={{ flex:1, resize:'none', padding:'10px 14px', fontSize:14, borderRadius:10, lineHeight:1.5 }}
+              />
+              <button onClick={()=>send()} disabled={!inp.trim()||loading} className="btn btn-primary"
+                style={{ flexShrink:0, padding:'10px 18px', opacity:(!inp.trim()||loading)?0.5:1, height:44 }}>
+                {loading ? '…' : '↑'}
+              </button>
+            </div>
+            <div style={{ fontSize:11, color:C.muted, marginTop:6, textAlign:'center' }}>
+              CLARA can make mistakes. Verify important info at official .gov sites or with a legal aid attorney.
+            </div>
+          </div>
+        </div>
+
+        {/* Sidebar */}
+        <div style={{ display:'flex', flexDirection:'column', gap:12, overflowY:'auto', maxHeight:'100%' }} className="hide-mobile">
+          <div className="card" style={{ padding:'16px' }}>
+            <div style={{ fontSize:11, fontWeight:700, color:C.muted, letterSpacing:'.08em', textTransform:'uppercase', marginBottom:12 }}>Quick Prompts</div>
+            <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
+              {QUICK_PROMPTS.map(q => (
+                <button key={q} onClick={()=>send(q)} style={{ display:'block', width:'100%', background:C.surface, border:`1px solid ${C.border}`, borderRadius:8, color:C.text, padding:'8px 12px', cursor:'pointer', textAlign:'left', fontSize:12, lineHeight:1.4, transition:'all .15s' }}
+                  onMouseEnter={e=>{ e.currentTarget.style.borderColor=C.primary; e.currentTarget.style.color=C.primary }}
+                  onMouseLeave={e=>{ e.currentTarget.style.borderColor=C.border; e.currentTarget.style.color=C.text }}>
+                  {q}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="card" style={{ padding:'16px' }}>
+            <div style={{ fontSize:11, fontWeight:700, color:C.muted, letterSpacing:'.08em', textTransform:'uppercase', marginBottom:12 }}>CLARA Can Help</div>
+            {[
+              ['✅','Check eligibility'],
+              ['📋','Generate checklists'],
+              ['📞','Find phone numbers'],
+              ['⚖️','Explain your rights'],
+              ['📄','Decode gov forms'],
+              ['🇪🇸','Responde en español'],
+            ].map(([icon, label]) => (
+              <div key={label} style={{ display:'flex', gap:8, alignItems:'center', padding:'5px 0', fontSize:12, color:C.muted }}>
+                <span>{icon}</span>{label}
+              </div>
+            ))}
+          </div>
+
+          <div className="card" style={{ padding:'16px', background:`${C.danger}08`, borderColor:`${C.danger}33` }}>
+            <div style={{ fontSize:11, fontWeight:700, color:C.danger, letterSpacing:'.08em', textTransform:'uppercase', marginBottom:10 }}>Crisis Resources</div>
+            {[
+              ['211','Local resources'],
+              ['988','Mental health crisis'],
+              ['1-800-843-6154','IDHS helpline'],
+            ].map(([num, label]) => (
+              <div key={num} style={{ marginBottom:8 }}>
+                <div style={{ fontSize:12, fontWeight:700, color:C.text }}>{num}</div>
+                <div style={{ fontSize:11, color:C.muted }}>{label}</div>
+              </div>
+            ))}
           </div>
         </div>
       </div>

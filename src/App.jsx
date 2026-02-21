@@ -427,6 +427,35 @@ const css = `
   .cat-glow-pink   { box-shadow:0 0 20px rgba(236,72,153,.12); }
 
   /* ── Responsive ── */
+
+  /* ── Ambient hero orbs ── */
+  @keyframes orb-float-a { 0%,100%{ transform:translate(0,0) scale(1) } 33%{ transform:translate(30px,-20px) scale(1.08) } 66%{ transform:translate(-15px,15px) scale(.95) } }
+  @keyframes orb-float-b { 0%,100%{ transform:translate(0,0) scale(1) } 33%{ transform:translate(-25px,18px) scale(1.05) } 66%{ transform:translate(20px,-12px) scale(.97) } }
+  @keyframes orb-float-c { 0%,100%{ transform:translate(0,0) scale(1) } 50%{ transform:translate(15px,-25px) scale(1.1) } }
+  .hero-orb { position:absolute; border-radius:50%; filter:blur(80px); pointer-events:none; }
+  .hero-orb-a { width:420px; height:420px; background:radial-gradient(circle, rgba(59,130,246,.28), transparent 70%); animation:orb-float-a 12s ease-in-out infinite; top:-80px; left:-60px; }
+  .hero-orb-b { width:320px; height:320px; background:radial-gradient(circle, rgba(34,211,238,.18), transparent 70%); animation:orb-float-b 16s ease-in-out infinite; top:20px; right:-40px; }
+  .hero-orb-c { width:240px; height:240px; background:radial-gradient(circle, rgba(139,92,246,.15), transparent 70%); animation:orb-float-c 10s ease-in-out infinite; bottom:-40px; left:40%; }
+
+  /* ── CLARA prompt grid ── */
+  .clara-prompt-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:16px; max-width:520px; margin-left:auto; margin-right:auto; }
+  .clara-prompt-btn { background:rgba(255,255,255,.03); border:1px solid rgba(255,255,255,.08); border-radius:12px; padding:14px 16px; cursor:pointer; text-align:left; transition:all .18s; display:flex; flex-direction:column; gap:4px; }
+  .clara-prompt-btn:hover { border-color:rgba(59,130,246,.45); background:rgba(59,130,246,.06); transform:translateY(-1px); box-shadow:0 4px 16px rgba(59,130,246,.1); }
+  .clara-prompt-icon { font-size:18px; margin-bottom:2px; }
+  .clara-prompt-label { font-size:12px; font-weight:700; color:#eef2f8; }
+  .clara-prompt-sub { font-size:11px; color:#4d6680; line-height:1.4; }
+
+  /* ── Chat input area ── */
+  .clara-textarea { width:100%; resize:none; padding:12px 16px; font-size:14px; border-radius:12px; line-height:1.55; font-family:inherit; background:#141e30; border:1px solid rgba(255,255,255,.08); color:#c8d6e8; transition:border-color .18s, box-shadow .18s; }
+  .clara-textarea:focus { border-color:rgba(59,130,246,.5); box-shadow:0 0 0 3px rgba(59,130,246,.1); outline:none; }
+  .clara-send-btn { width:42px; height:42px; border-radius:12px; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; font-size:18px; transition:all .18s; flex-shrink:0; background:linear-gradient(135deg,#3b82f6,#22d3ee); color:#fff; box-shadow:0 2px 8px rgba(59,130,246,.35); }
+  .clara-send-btn:disabled { opacity:.35; cursor:not-allowed; box-shadow:none; background:#1c2d45; }
+  .clara-send-btn:not(:disabled):hover { transform:scale(1.07); box-shadow:0 4px 16px rgba(59,130,246,.5); }
+
+  /* ── Step completion pop ── */
+  @keyframes step-pop { 0%{ transform:scale(1) } 45%{ transform:scale(1.35) } 100%{ transform:scale(1) } }
+  .step-done-anim { animation:step-pop .28s cubic-bezier(.34,1.56,.64,1) both; }
+
   @media(max-width:900px) {
     .page { padding:16px 14px; }
     .kb-layout { grid-template-columns:1fr !important; }
@@ -584,13 +613,15 @@ const css = `
 
   /* ── Article card on KB list ── */
   .article-card {
-    transition: all .18s cubic-bezier(.4,0,.2,1);
+    transition: all .2s cubic-bezier(.4,0,.2,1);
     cursor: pointer;
+    border-left-width: 3px !important;
   }
   .article-card:hover {
     border-color: ${C.borderBright};
     background: ${C.raised};
-    transform: translateX(2px);
+    transform: translateX(4px);
+    box-shadow: -2px 0 0 ${C.primary}, ${C.shadow1};
   }
 
   /* ── Process tag pill ── */
@@ -685,6 +716,143 @@ function ToastContainer() {
   )
 }
 
+
+// ── GLOBAL SEARCH (⌘K) ────────────────────────────────────────────────────────
+function GlobalSearch({ onOpenArticle }) {
+  const [open, setOpen] = useState(false)
+  const [q, setQ] = useState('')
+  const inputRef = useRef(null)
+
+  useEffect(() => {
+    const handler = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault()
+        setOpen(v => !v)
+      }
+      if (e.key === 'Escape') setOpen(false)
+    }
+    window.addEventListener('keydown', handler)
+    return () => window.removeEventListener('keydown', handler)
+  }, [])
+
+  useEffect(() => {
+    if (open) {
+      setQ('')
+      setTimeout(() => inputRef.current?.focus(), 60)
+    }
+  }, [open])
+
+  const results = q.trim().length < 2 ? [] : KB_ARTICLES.filter(a => {
+    const s = q.toLowerCase()
+    return a.t.toLowerCase().includes(s)
+      || a.c.toLowerCase().includes(s)
+      || a.summary?.toLowerCase().includes(s)
+      || a.tags?.some(t => t.includes(s))
+  }).slice(0, 8)
+
+  const popular = KB_ARTICLES.filter(a => a.v > 2000).sort((a,b) => b.v - a.v).slice(0, 6)
+
+  if (!open) return null
+
+  return (
+    <div className="modal-overlay" onClick={() => setOpen(false)} style={{ alignItems:'flex-start', paddingTop:'12vh' }}>
+      <div className="modal-content" style={{ width:'min(640px,95vw)', maxHeight:'75vh', borderRadius:16 }}
+        onClick={e => e.stopPropagation()}>
+
+        {/* Search input */}
+        <div style={{ padding:'14px 20px', borderBottom:`1px solid ${C.glassBorder}`, display:'flex', alignItems:'center', gap:12 }}>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke={C.muted} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+          <input
+            ref={inputRef}
+            value={q}
+            onChange={e => setQ(e.target.value)}
+            placeholder="Search 90 guides by topic, benefit, or keyword…"
+            style={{ flex:1, background:'none', border:'none', outline:'none', fontSize:16, color:C.heading, fontFamily:'inherit' }}
+          />
+          {q && <button onClick={() => setQ('')} style={{ background:'none', border:'none', color:C.muted, cursor:'pointer', fontSize:18, lineHeight:1 }}>×</button>}
+          <span className="kbd" style={{ flexShrink:0 }}>Esc</span>
+        </div>
+
+        {/* Results */}
+        <div style={{ overflowY:'auto', maxHeight:'60vh' }}>
+          {q.trim().length >= 2 ? (
+            results.length > 0 ? (
+              <div style={{ padding:'8px 0' }}>
+                <div style={{ padding:'6px 20px', fontSize:10, fontWeight:800, letterSpacing:'.1em', color:C.muted, textTransform:'uppercase' }}>
+                  {results.length} result{results.length !== 1 ? 's' : ''}
+                </div>
+                {results.map((a, i) => {
+                  const meta = CAT_META[a.c] || {}
+                  return (
+                    <button key={a.id} onClick={() => { onOpenArticle(a); setOpen(false) }}
+                      style={{ width:'100%', background:'none', border:'none', padding:'10px 20px', cursor:'pointer', display:'flex', gap:14, alignItems:'flex-start', textAlign:'left', transition:'background .1s' }}
+                      onMouseEnter={e => e.currentTarget.style.background = `${C.primary}0a`}
+                      onMouseLeave={e => e.currentTarget.style.background = 'none'}>
+                      <div style={{ width:36, height:36, borderRadius:10, background:`${meta.color||C.primary}18`, border:`1px solid ${meta.color||C.primary}22`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:18, flexShrink:0 }}>{a.icon}</div>
+                      <div style={{ flex:1, minWidth:0 }}>
+                        <div style={{ fontWeight:600, color:C.heading, fontSize:14, marginBottom:2 }}>
+                          {a.t.split(new RegExp(`(${q})`, 'gi')).map((part, i) =>
+                            part.toLowerCase() === q.toLowerCase()
+                              ? <mark key={i} style={{ background:`${C.primary}30`, color:C.primary, borderRadius:2, padding:'0 1px' }}>{part}</mark>
+                              : part
+                          )}
+                        </div>
+                        <div style={{ fontSize:12, color:C.muted, display:'flex', gap:10 }}>
+                          <span>{a.c}</span>
+                          <span>·</span>
+                          <span>{a.time} read</span>
+                          <span>·</span>
+                          <span style={{ color:`${meta.diff === 'Easy' ? C.success : meta.diff === 'Hard' ? C.danger : C.warn}` }}>{a.diff}</span>
+                        </div>
+                      </div>
+                      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={C.muted} strokeWidth="2" style={{ marginTop:4, flexShrink:0 }}><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </button>
+                  )
+                })}
+              </div>
+            ) : (
+              <div style={{ padding:'48px 20px', textAlign:'center', color:C.muted }}>
+                <div style={{ fontSize:32, marginBottom:12 }}>🔍</div>
+                <div style={{ fontWeight:600, color:C.text, marginBottom:6 }}>No guides found for "{q}"</div>
+                <div style={{ fontSize:13 }}>Try a different keyword, or <a href="/ai-assistant" style={{ color:C.primary }}>ask CLARA directly</a></div>
+              </div>
+            )
+          ) : (
+            <div style={{ padding:'8px 0' }}>
+              <div style={{ padding:'10px 20px 6px', fontSize:10, fontWeight:800, letterSpacing:'.1em', color:C.muted, textTransform:'uppercase' }}>Popular Guides</div>
+              {popular.map(a => {
+                const meta = CAT_META[a.c] || {}
+                return (
+                  <button key={a.id} onClick={() => { onOpenArticle(a); setOpen(false) }}
+                    style={{ width:'100%', background:'none', border:'none', padding:'9px 20px', cursor:'pointer', display:'flex', gap:12, alignItems:'center', textAlign:'left', transition:'background .1s' }}
+                    onMouseEnter={e => e.currentTarget.style.background = `${C.primary}0a`}
+                    onMouseLeave={e => e.currentTarget.style.background = 'none'}>
+                    <span style={{ fontSize:20, width:28, textAlign:'center', flexShrink:0 }}>{a.icon}</span>
+                    <div style={{ flex:1, minWidth:0 }}>
+                      <div style={{ fontWeight:500, color:C.text, fontSize:13, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{a.t}</div>
+                    </div>
+                    <span style={{ fontSize:11, color:C.muted, flexShrink:0 }}>{a.c}</span>
+                  </button>
+                )
+              })}
+            </div>
+          )}
+        </div>
+
+        {/* Footer */}
+        <div style={{ padding:'10px 20px', borderTop:`1px solid ${C.glassBorder}`, display:'flex', gap:16, fontSize:11, color:C.muted }}>
+          <span><span className="kbd">↑↓</span> navigate</span>
+          <span><span className="kbd">↵</span> open</span>
+          <span><span className="kbd">Esc</span> close</span>
+          <span style={{ marginLeft:'auto' }}>90 guides indexed</span>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // ── PAGE HEADER COMPONENT ───────────────────────────────────────────────────
 function PageHeader({ eyebrow, title, subtitle, action }) {
   return (
@@ -703,6 +871,7 @@ function PageHeader({ eyebrow, title, subtitle, action }) {
 
 function Layout({ children }) {
   const [open, setOpen] = useState(true)
+  const [searchOpen, setSearchOpen] = useState(false)
   const loc = useLocation()
   const { urgentCount } = useCaseStore()
   const mobileNavItems = [
@@ -715,12 +884,21 @@ function Layout({ children }) {
   return (
     <div style={{ display:'flex', minHeight:'100vh', flexDirection:'column' }}>
       <ToastContainer />
+      {searchOpen && (
+        <GlobalSearch
+          onOpenArticle={(article) => {
+            setSearchOpen(false)
+            window._openArticleFromSearch = article
+            if (loc.pathname !== '/knowledge') window.location.href = '/knowledge'
+          }}
+        />
+      )}
 
       {/* Topbar */}
       <div className="topbar" style={{ marginLeft: open ? 240 : 56, transition:'margin .22s cubic-bezier(.4,0,.2,1)' }}>
-        <div className="search-pill topbar-search" style={{ flex:1, maxWidth:400 }}>
+        <div className="search-pill topbar-search" style={{ flex:1, maxWidth:400 }} onClick={()=>setSearchOpen(true)}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke={C.muted} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-          <input placeholder="Search 90 guides…" onFocus={()=>{ if(loc.pathname!=='/knowledge') window.location.href='/knowledge' }} style={{ fontSize:13 }} readOnly />
+          <input placeholder="Search 90 guides…" onFocus={()=>{ setSearchOpen(true) }} style={{ fontSize:13 }} readOnly />
           <span className="kbd">⌘K</span>
         </div>
         <div style={{ flex:1 }} />
@@ -807,12 +985,15 @@ function Layout({ children }) {
               </div>
             ))}
           </nav>
-          {open && (
-            <div style={{ padding:'12px 14px', borderTop:`1px solid ${C.glassBorder}`, display:'flex', alignItems:'center', gap:8 }}>
-              <span style={{ width:6, height:6, borderRadius:'50%', background:C.success, flexShrink:0, boxShadow:`0 0 6px ${C.success}` }} />
-              <span style={{ fontSize:11, color:C.muted }}>All systems operational</span>
-            </div>
-          )}
+          <div style={{ padding:'12px 14px', borderTop:`1px solid ${C.glassBorder}`, display:'flex', alignItems:'center', gap:8, minHeight:40 }}>
+            <span style={{ width:7, height:7, borderRadius:'50%', background:C.success, flexShrink:0, animation:'status-glow 2.5s infinite' }} />
+            {open && (
+              <div>
+                <div style={{ fontSize:11, color:C.muted, fontWeight:600 }}>All systems operational</div>
+                <div style={{ fontSize:9, color:C.muted, opacity:.55, marginTop:1 }}>CLEAR Platform v3.0 · Illinois</div>
+              </div>
+            )}
+          </div>
         </aside>
 
         <main style={{ flex:1, overflowY:'auto', minWidth:0, paddingBottom:80 }}>{children}</main>
@@ -911,7 +1092,11 @@ function Home() {
     <div className="page" style={{ paddingTop:40 }}>
 
       {/* ── HERO ─────────────────────────────────────────────────── */}
-      <div style={{ position:'relative', marginBottom:48 }}>
+      <div style={{ position:'relative', marginBottom:48, overflow:'hidden' }}>
+        {/* Ambient orbs */}
+        <div className="hero-orb hero-orb-a" />
+        <div className="hero-orb hero-orb-b" />
+        <div className="hero-orb hero-orb-c" />
         {/* Status pill */}
         <div style={{ display:'inline-flex', alignItems:'center', gap:8, padding:'5px 14px', background:`${C.primary}12`, border:`1px solid ${C.primary}25`, borderRadius:20, marginBottom:22 }}>
           <span style={{ width:6, height:6, borderRadius:'50%', background:C.success, flexShrink:0, animation:'status-glow 2.5s infinite' }} />
@@ -1046,7 +1231,7 @@ function Home() {
               const prog = c.steps?.length > 0 ? Math.round(((c.completedSteps||[]).length / c.steps.length) * 100) : null
               return (
                 <Link to="/cases" key={c.id}>
-                  <div className="card card-hover article-card" style={{ padding:'14px 16px', borderLeft:`3px solid ${cat.color}` }}>
+                  <div className="card card-hover article-card" style={{ padding:'14px 16px', borderLeft:`3px solid ${cat.color}`, transition:'all .18s' }}>
                     <div style={{ display:'flex', gap:8, alignItems:'center', marginBottom:8 }}>
                       <span style={{ fontSize:18 }}>{cat.icon}</span>
                       <span style={{ fontWeight:700, color:C.heading, fontSize:13, flex:1, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{c.title}</span>
@@ -2986,9 +3171,9 @@ const STARTER_MSGS = {
 
 function TypingDots() {
   return (
-    <div style={{ display:'flex', gap:4, padding:'14px 16px', background:C.surface, borderRadius:12, width:'fit-content', alignItems:'center' }}>
+    <div style={{ display:'flex', gap:5, padding:'12px 18px', background:C.raised, border:`1px solid ${C.glassBorder}`, borderRadius:'16px 16px 16px 4px', width:'fit-content', alignItems:'center', boxShadow:C.shadow1 }}>
       {[0,1,2].map(i => (
-        <div key={i} style={{ width:6, height:6, borderRadius:'50%', background:C.primary, animation:'pulse 1.2s ease infinite', animationDelay:`${i*0.2}s` }} />
+        <div key={i} style={{ width:7, height:7, borderRadius:'50%', background:C.primary, animation:'dot-bounce 1.3s ease infinite', animationDelay:`${i*0.18}s` }} />
       ))}
     </div>
   )
@@ -3004,55 +3189,84 @@ function MessageBubble({ msg }) {
     setTimeout(()=>setCopied(false), 1500)
   }
 
+  const timestamp = new Date(msg.ts).toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' })
+
   return (
-    <div style={{ display:'flex', gap:10, justifyContent:isUser?'flex-end':'flex-start', animation:'fadeUp .25s ease', marginBottom:4 }}>
+    <div className="msg-bubble" style={{ display:'flex', gap:10, justifyContent:isUser?'flex-end':'flex-start', marginBottom:2 }}>
       {!isUser && (
-        <div style={{ width:32, height:32, borderRadius:'50%', background:`linear-gradient(135deg, ${C.primary}, ${C.accent})`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, fontSize:14, fontWeight:800, color:'#fff' }}>C</div>
-      )}
-      <div style={{ maxWidth:'78%', display:'flex', flexDirection:'column', gap:4, alignItems:isUser?'flex-end':'flex-start' }}>
         <div style={{
-          padding:'12px 16px', borderRadius:isUser?'16px 16px 4px 16px':'16px 16px 16px 4px',
-          background:isUser?`linear-gradient(135deg, ${C.primary}, #2563eb)`:C.surface,
-          color:C.text, fontSize:14, lineHeight:1.75, whiteSpace:'pre-line',
-          border:isUser?'none':`1px solid ${C.border}`,
-          boxShadow:isUser?'0 2px 12px rgba(59,130,246,.25)':'none',
+          width:32, height:32, borderRadius:10, background:C.grad1,
+          display:'flex', alignItems:'center', justifyContent:'center',
+          flexShrink:0, fontSize:13, fontWeight:900, color:'#fff',
+          boxShadow:`0 2px 8px ${C.primary}40`, marginTop:2,
+        }}>✦</div>
+      )}
+      <div style={{ maxWidth:'78%', display:'flex', flexDirection:'column', gap:5, alignItems:isUser?'flex-end':'flex-start' }}>
+        <div style={{
+          padding:'12px 16px',
+          borderRadius: isUser ? '16px 16px 4px 16px' : '4px 16px 16px 16px',
+          background: isUser ? `linear-gradient(135deg, ${C.primary}, #2563eb)` : C.raised,
+          color: isUser ? '#fff' : C.text,
+          fontSize: 14, lineHeight: 1.75, whiteSpace: 'pre-line',
+          border: isUser ? 'none' : `1px solid ${C.glassBorder}`,
+          boxShadow: isUser ? `0 3px 16px rgba(59,130,246,.3)` : C.shadow1,
         }}>
           {msg.text}
         </div>
+
+        {/* Suggested article chips */}
         {msg.suggestedArticles?.length > 0 && (
-          <div style={{ display:'flex', flexWrap:'wrap', gap:6, marginTop:4 }}>
+          <div style={{ display:'flex', flexWrap:'wrap', gap:6, marginTop:2 }}>
             {msg.suggestedArticles.map(title => {
               const art = KB_ARTICLES.find(a => a.t === title || a.t.toLowerCase().includes(title.toLowerCase().split(' ')[0]))
               return art ? (
-                <a key={title} href="/knowledge" style={{ padding:'4px 10px', background:`${C.primary}15`, border:`1px solid ${C.primary}33`, borderRadius:20, fontSize:11, color:C.primary, fontWeight:600, cursor:'pointer', textDecoration:'none' }}>
-                  📄 {art.t.length > 30 ? art.t.slice(0,30)+'…' : art.t}
+                <a key={title} href="/knowledge" style={{
+                  padding:'5px 12px', background:`${C.primary}12`, border:`1px solid ${C.primary}30`,
+                  borderRadius:20, fontSize:11, color:C.primary, fontWeight:600,
+                  cursor:'pointer', textDecoration:'none', display:'flex', alignItems:'center', gap:5,
+                  transition:'all .15s',
+                }}>
+                  📄 {art.t.length > 32 ? art.t.slice(0,32)+'…' : art.t}
                 </a>
               ) : null
             })}
           </div>
         )}
-        <div style={{ display:'flex', gap:6, alignItems:'center' }}>
-          <button onClick={copyText} style={{ background:'none', border:'none', color:C.muted, cursor:'pointer', fontSize:10, padding:'2px 4px', opacity:.6 }}>
-            {copied ? '✓ copied' : '⎘'}
+
+        {/* Actions row */}
+        <div style={{ display:'flex', gap:8, alignItems:'center' }}>
+          <span style={{ fontSize:10, color:C.muted }}>{timestamp}</span>
+          <button onClick={copyText} title="Copy" style={{
+            background:'none', border:`1px solid ${C.glassBorder}`, borderRadius:4,
+            color: copied ? C.success : C.muted,
+            cursor:'pointer', fontSize:10, padding:'2px 7px', transition:'all .12s',
+          }}>
+            {copied ? '✓' : '⎘'}
           </button>
           {!isUser && msg.text?.length > 80 && (
             <button onClick={()=>{
               addCaseGlobal({
                 title: msg.text.slice(0,60).replace(/[\n\r]+/g,' ').trim() + '…',
-                category: 'other',
-                status:'active',
+                category: 'other', status:'active',
                 notes: msg.text.slice(0,500),
                 steps: msg.text.split('\n').filter(l=>/^\d+\./.test(l.trim())).map(l=>({ text:l.replace(/^\d+\.\s*/,'').trim(), done:false })),
               })
               showToast('Added to My Cases','success')
-            }} style={{ background:'none', border:`1px solid ${C.primary}44`, borderRadius:4, color:C.primary, cursor:'pointer', fontSize:10, padding:'2px 7px', opacity:.8 }}>
+            }} style={{
+              background:`${C.primary}10`, border:`1px solid ${C.primary}30`,
+              borderRadius:4, color:C.primary, cursor:'pointer', fontSize:10, padding:'2px 8px', fontWeight:600,
+            }}>
               + Track
             </button>
           )}
         </div>
       </div>
       {isUser && (
-        <div style={{ width:32, height:32, borderRadius:'50%', background:`${C.success}22`, border:`1px solid ${C.success}44`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, fontSize:13 }}>👤</div>
+        <div style={{
+          width:32, height:32, borderRadius:10, background:`${C.primary}20`,
+          border:`1px solid ${C.primary}30`,
+          display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, fontSize:14, marginTop:2,
+        }}>👤</div>
       )}
     </div>
   )
@@ -3204,13 +3418,13 @@ function AIAssistant({ initialArticle = null }) {
         {/* Main chat */}
         <div className="card" style={{ display:'flex', flexDirection:'column', height:'100%', padding:0, overflow:'hidden' }}>
           {/* Header */}
-          <div style={{ padding:'16px 20px', borderBottom:`1px solid ${C.border}`, display:'flex', alignItems:'center', gap:12 }}>
-            <div style={{ width:38, height:38, borderRadius:'50%', background:`linear-gradient(135deg, ${C.primary}, ${C.accent})`, display:'flex', alignItems:'center', justifyContent:'center', fontWeight:800, color:'#fff', fontSize:16 }}>C</div>
+          <div style={{ padding:'14px 20px', borderBottom:`1px solid ${C.glassBorder}`, display:'flex', alignItems:'center', gap:12, background:`linear-gradient(135deg, ${C.card}, ${C.primary}06)` }}>
+            <div style={{ width:38, height:38, borderRadius:12, background:C.grad1, display:'flex', alignItems:'center', justifyContent:'center', fontWeight:900, color:'#fff', fontSize:16, boxShadow:`0 2px 10px ${C.primary}40`, flexShrink:0 }}>✦</div>
             <div style={{ flex:1 }}>
-              <div style={{ fontWeight:800, color:C.heading, fontSize:15 }}>CLARA</div>
-              <div style={{ fontSize:12, color:C.success, display:'flex', alignItems:'center', gap:4 }}>
-                <div style={{ width:6, height:6, borderRadius:'50%', background:C.success }} />
-                Online · Free tier (OpenRouter)
+              <div style={{ fontWeight:800, color:C.heading, fontSize:15, letterSpacing:'-.01em' }}>CLARA</div>
+              <div style={{ fontSize:11, color:C.success, display:'flex', alignItems:'center', gap:5 }}>
+                <div style={{ width:6, height:6, borderRadius:'50%', background:C.success, animation:'status-glow 2.5s infinite' }} />
+                Online · Illinois Navigator · Español disponible
               </div>
             </div>
             {articleCtx && (
@@ -3225,9 +3439,29 @@ function AIAssistant({ initialArticle = null }) {
           {/* Messages */}
           <div style={{ flex:1, overflowY:'auto', padding:'20px', display:'flex', flexDirection:'column', gap:12 }}>
             {msgs.length === 0 && (
-              <div style={{ textAlign:'center', padding:'40px 20px', color:C.muted }}>
-                <div style={{ fontSize:40, marginBottom:12 }}>💬</div>
-                <div style={{ fontSize:14 }}>Ask me anything about benefits, housing, legal rights, or any government process.</div>
+              <div style={{ padding:'32px 16px', display:'flex', flexDirection:'column', alignItems:'center' }}>
+                {/* CLARA avatar */}
+                <div style={{ width:56, height:56, borderRadius:18, background:C.grad1, display:'flex', alignItems:'center', justifyContent:'center', fontSize:24, fontWeight:900, color:'#fff', marginBottom:16, boxShadow:`0 6px 24px ${C.primary}40` }}>✦</div>
+                <div style={{ fontSize:18, fontWeight:800, color:C.heading, marginBottom:6, letterSpacing:'-.01em' }}>How can I help you today?</div>
+                <div style={{ fontSize:13, color:C.muted, textAlign:'center', maxWidth:320, lineHeight:1.6, marginBottom:4 }}>
+                  Ask me anything about benefits, housing, legal rights, or government processes in Illinois.
+                </div>
+                <div className="clara-prompt-grid" style={{ width:'100%', maxWidth:460 }}>
+                  {[
+                    { icon:'🍎', label:'Check SNAP eligibility', sub:'Income limits, household size, how to apply', q:'Am I eligible for SNAP benefits? What are the income limits for a family of 3?' },
+                    { icon:'🏠', label:'Housing & eviction rights', sub:'Tenant protections, rental assistance, appeals', q:'What are my rights if my landlord is trying to evict me in Illinois?' },
+                    { icon:'💊', label:'Medicaid & healthcare', sub:'Enrollment, coverage, and what is included', q:'How do I apply for Medicaid in Illinois and what does it cover?' },
+                    { icon:'⚖️', label:'Free legal help', sub:'Legal aid resources, how to find an attorney', q:'How can I find free legal aid in Illinois for a civil matter?' },
+                    { icon:'💼', label:'File for unemployment', sub:'Eligibility, weekly certification, appeals', q:'How do I apply for unemployment insurance in Illinois after being laid off?' },
+                    { icon:'🏢', label:'Start a business', sub:'LLC, EIN, licenses, Illinois requirements', q:'What steps do I need to start an LLC in Illinois? What licenses do I need?' },
+                  ].map(p => (
+                    <button key={p.label} className="clara-prompt-btn" onClick={() => send(p.q)}>
+                      <span className="clara-prompt-icon">{p.icon}</span>
+                      <span className="clara-prompt-label">{p.label}</span>
+                      <span className="clara-prompt-sub">{p.sub}</span>
+                    </button>
+                  ))}
+                </div>
               </div>
             )}
             {msgs.map((m, i) => <MessageBubble key={i} msg={m} />)}
@@ -3241,23 +3475,26 @@ function AIAssistant({ initialArticle = null }) {
           </div>
 
           {/* Input */}
-          <div style={{ padding:'16px 20px', borderTop:`1px solid ${C.border}`, background:C.card }}>
+          <div style={{ padding:'14px 18px 16px', borderTop:`1px solid ${C.glassBorder}`, background:`linear-gradient(to top, ${C.card}, ${C.card}dd)` }}>
             <div style={{ display:'flex', gap:10, alignItems:'flex-end' }}>
               <textarea
                 value={inp}
                 onChange={e=>setInp(e.target.value)}
                 onKeyDown={e=>{ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); send() } }}
                 placeholder="Ask about benefits, housing, legal rights… (Enter to send)"
-                rows={2}
-                style={{ flex:1, resize:'none', padding:'10px 14px', fontSize:14, borderRadius:10, lineHeight:1.5 }}
+                rows={inp.split('\n').length > 2 ? 3 : 2}
+                className="clara-textarea"
               />
-              <button onClick={()=>send()} disabled={!inp.trim()||loading} className="btn btn-primary"
-                style={{ flexShrink:0, padding:'10px 18px', opacity:(!inp.trim()||loading)?0.5:1, height:44 }}>
-                {loading ? '…' : '↑'}
+              <button onClick={()=>send()} disabled={!inp.trim()||loading} className="clara-send-btn">
+                {loading
+                  ? <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/></svg>
+                  : <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+                }
               </button>
             </div>
-            <div style={{ fontSize:11, color:C.muted, marginTop:6, textAlign:'center' }}>
-              CLARA can make mistakes. Verify important info at official .gov sites or with a legal aid attorney.
+            <div style={{ fontSize:10, color:C.muted, marginTop:8, display:'flex', alignItems:'center', justifyContent:'center', gap:6 }}>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
+              CLARA can make mistakes — verify important info at official .gov sites or with a legal aid attorney.
             </div>
           </div>
         </div>
@@ -3966,9 +4203,21 @@ function CaseCard({ c, deadlines, onUpdate, onDelete, onToggleStep }) {
               </span>
             )}
           </div>
-          <div style={{ display:'flex', gap:12, fontSize:12, color:C.muted, flexWrap:'wrap' }}>
+          <div style={{ display:'flex', gap:12, fontSize:12, color:C.muted, flexWrap:'wrap', alignItems:'center' }}>
             <span>{cat.label}</span>
-            {progress !== null && <span style={{ color:progress===100?C.success:C.primary }}>{'▓'.repeat(Math.round(progress/10))}{'░'.repeat(10-Math.round(progress/10))} {progress}%</span>}
+            {progress !== null && (
+              <span style={{ display:'flex', alignItems:'center', gap:5, color:progress===100?C.success:C.primary, fontWeight:600 }}>
+                <svg width="28" height="28" viewBox="0 0 36 36">
+                  <circle className="ring-track" cx="18" cy="18" r="14" strokeWidth="3"/>
+                  <circle className="ring-fill" cx="18" cy="18" r="14" strokeWidth="3"
+                    stroke={progress===100?C.success:progress>60?C.primary:C.warn}
+                    strokeDasharray="88"
+                    strokeDashoffset={88 - (88 * progress / 100)}
+                    transform="rotate(-90 18 18)"/>
+                </svg>
+                {progress}%
+              </span>
+            )}
             <span>Updated {new Date(c.updatedAt).toLocaleDateString()}</span>
           </div>
         </div>
@@ -3994,8 +4243,8 @@ function CaseCard({ c, deadlines, onUpdate, onDelete, onToggleStep }) {
                 const done = (c.completedSteps||[]).includes(i)
                 return (
                   <div key={i} onClick={()=>onToggleStep(c.id, i)} style={{ display:'flex', gap:10, alignItems:'flex-start', padding:'8px 10px', borderRadius:6, marginBottom:4, background:done?`${C.success}08`:C.surface, border:`1px solid ${done?C.success+'33':C.border}`, cursor:'pointer', transition:'all .15s' }}>
-                    <div style={{ width:18, height:18, borderRadius:'50%', border:`2px solid ${done?C.success:C.border}`, background:done?C.success:'transparent', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, marginTop:1, transition:'all .2s' }}>
-                      {done && <span style={{ color:'#fff', fontSize:9 }}>✓</span>}
+                    <div className={done ? 'step-done-anim' : ''} style={{ width:20, height:20, borderRadius:6, border:`2px solid ${done?C.success:C.border}`, background:done?C.success:'transparent', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0, marginTop:1, transition:'all .22s cubic-bezier(.34,1.56,.64,1)' }}>
+                      {done && <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>}
                     </div>
                     <span style={{ fontSize:13, color:done?C.muted:C.text, textDecoration:done?'line-through':'none', lineHeight:1.5 }}>{step.text}</span>
                   </div>
@@ -4155,9 +4404,23 @@ function CaseTracker() {
               <span style={{ position:'absolute', left:12, top:'50%', transform:'translateY(-50%)', color:C.muted, fontSize:14 }}>🔍</span>
               <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="Search cases…" style={{ paddingLeft:36 }} />
             </div>
-            <div style={{ display:'flex', gap:4 }}>
-              {[['active','Active'],['completed','Done'],['all','All']].map(([v,l])=>(
-                <button key={v} onClick={()=>setFilter(v)} style={{ padding:'6px 12px', borderRadius:6, border:`1px solid ${filter===v?C.primary:C.border}`, background:filter===v?`${C.primary}20`:C.surface, color:filter===v?C.primary:C.muted, cursor:'pointer', fontSize:12, fontWeight:700 }}>{l}</button>
+            <div style={{ display:'flex', gap:4, flexWrap:'wrap' }}>
+              {[
+                { v:'all',       l:'All',       count:cases.length },
+                { v:'active',    l:'Active',    count:cases.filter(c=>c.status==='active').length },
+                { v:'urgent',    l:'🚨 Urgent', count:cases.filter(c=>c.status==='urgent').length },
+                { v:'completed', l:'Done',      count:cases.filter(c=>c.status==='completed').length },
+              ].filter(t => t.v === 'all' || t.count > 0).map(({v,l,count})=>(
+                <button key={v} onClick={()=>setFilter(v)} style={{
+                  padding:'6px 12px', borderRadius:20, fontSize:12, fontWeight:700, cursor:'pointer',
+                  border:`1px solid ${filter===v ? C.primary+'55' : C.border}`,
+                  background:filter===v ? `${C.primary}15` : C.surface,
+                  color:filter===v ? C.primary : C.muted, transition:'all .15s',
+                  display:'flex', alignItems:'center', gap:5,
+                }}>
+                  {l}
+                  {count > 0 && <span style={{ fontSize:10, background:filter===v?`${C.primary}20`:C.card, borderRadius:10, padding:'1px 5px' }}>{count}</span>}
+                </button>
               ))}
             </div>
             <select value={catFilter} onChange={e=>setCatFilter(e.target.value)} style={{ padding:'6px 10px', borderRadius:6, fontSize:12, width:'auto' }}>
@@ -4168,15 +4431,18 @@ function CaseTracker() {
 
           {/* Empty state */}
           {cases.length === 0 && (
-            <div className="card fade-in" style={{ textAlign:'center', padding:48 }}>
-              <div style={{ fontSize:56, marginBottom:16 }}>📋</div>
-              <h2 style={{ color:C.heading, fontSize:20, fontWeight:800, marginBottom:8 }}>No cases yet</h2>
-              <p style={{ color:C.muted, marginBottom:24, lineHeight:1.6, maxWidth:360, margin:'0 auto 24px' }}>
+            <div className="card fade-in" style={{ textAlign:'center', padding:'56px 40px', background:`linear-gradient(135deg, ${C.card}, ${C.primary}05)` }}>
+              <div style={{ width:72, height:72, borderRadius:20, background:`${C.primary}12`, border:`1px solid ${C.primary}25`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:36, margin:'0 auto 20px' }}>📋</div>
+              <h2 style={{ color:C.heading, fontSize:22, fontWeight:800, marginBottom:8, letterSpacing:'-.015em' }}>No cases yet</h2>
+              <p style={{ color:C.muted, lineHeight:1.65, maxWidth:380, margin:'0 auto 28px', fontSize:14 }}>
                 Create a case to track any government process — benefits applications, legal matters, business filings, and more.
               </p>
               <div style={{ display:'flex', gap:10, justifyContent:'center', flexWrap:'wrap' }}>
-                <button onClick={()=>setShowAdd(true)} className="btn btn-primary">+ Create First Case</button>
-                <button onClick={addSampleCase} className="btn" style={{ background:C.surface, border:`1px solid ${C.border}`, color:C.text }}>Try Sample Case</button>
+                <button onClick={()=>setShowAdd(true)} className="btn btn-primary" style={{ padding:'10px 22px' }}>+ Create First Case</button>
+                <button onClick={addSampleCase} className="btn" style={{ background:C.surface, border:`1px solid ${C.border}`, color:C.text, padding:'10px 22px' }}>Try Sample Case</button>
+              </div>
+              <div style={{ marginTop:20, fontSize:12, color:C.muted }}>
+                Or <a href="/ai-assistant" style={{ color:C.primary, fontWeight:600 }}>ask CLARA</a> — she can create a tracking case automatically from your conversation.
               </div>
             </div>
           )}
@@ -4200,6 +4466,17 @@ function CaseTracker() {
             <DeadlineCalendar deadlines={deadlines} cases={cases} />
           </div>
 
+          {cases.filter(c => c.status === 'urgent').length > 0 && (
+            <div className="card fade-up" style={{ padding:'14px 16px', background:`${C.danger}08`, borderColor:`${C.danger}30` }}>
+              <div style={{ fontSize:11, fontWeight:800, letterSpacing:'.08em', color:C.danger, textTransform:'uppercase', marginBottom:8 }}>🚨 Needs Attention</div>
+              {cases.filter(c => c.status === 'urgent').slice(0,3).map(c => (
+                <div key={c.id} style={{ fontSize:12, color:C.text, padding:'5px 0', borderBottom:`1px solid ${C.border}`, display:'flex', gap:6, alignItems:'center' }}>
+                  <span>{CASE_CATEGORIES[c.category]?.icon || '📋'}</span>
+                  <span style={{ flex:1, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{c.title}</span>
+                </div>
+              ))}
+            </div>
+          )}
           <div className="card" style={{ padding:'16px', background:`${C.primary}06` }}>
             <div style={{ fontSize:13, fontWeight:700, color:C.heading, marginBottom:8 }}>💡 Quick Add</div>
             <p style={{ fontSize:12, color:C.muted, marginBottom:12, lineHeight:1.6 }}>CLARA can create cases automatically after a conversation. Visit <strong>Ask CLARA</strong> and describe your situation.</p>
